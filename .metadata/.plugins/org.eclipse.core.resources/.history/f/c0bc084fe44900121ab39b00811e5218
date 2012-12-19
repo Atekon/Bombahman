@@ -1,0 +1,17 @@
+package pt.cagojati.bombahman;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import org.andengine.ui.activity.SimpleBaseGame;
+
+
+public class GameActivity extends SimpleBaseGameActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_game);
+	}
+
+}

@@ -1,0 +1,5 @@
+package org.andengine.ui.activity;
+
+public class SimpleBaseGameActivity {
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;mLast&apos; in &apos;org.andengine.examples.CrossParticleEmitter&apos; to &apos;mLastOrientation&apos;&#x0D;&#x0A;- Original project: &apos;ExampleLauncher&apos;&#x0D;&#x0A;- Original element: &apos;org.andengine.examples.CrossParticleEmitter.mLast&apos;&#x0D;&#x0A;- Renamed element: &apos;org.andengine.examples.CrossParticleEmitter.mLastOrientation&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;mLast&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;org.andengine.examples{CrossParticleEmitter.java[CrossParticleEmitter^mLast" name="mLastOrientation" references="true" setter="false" stamp="1355782905978" textual="false" version="1.0"/>
+</session>
