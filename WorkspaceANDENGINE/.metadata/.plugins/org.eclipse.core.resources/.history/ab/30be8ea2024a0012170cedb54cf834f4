@@ -1,0 +1,5 @@
+package pt.cagojati.bombahman.multiplayer.messages;
+
+public class MessageFlags {
+	
+}

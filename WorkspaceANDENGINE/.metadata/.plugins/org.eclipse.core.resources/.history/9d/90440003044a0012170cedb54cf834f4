@@ -1,0 +1,11 @@
+package pt.cagojati.bombahman.multiplayer;
+
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+
+public class WiFiServer implements IMultiplayerServer {
+
+	public WiFiServer() {
+		MessageFlags.initMessagePool();
+	}
+	
+}

@@ -1,0 +1,14 @@
+package pt.cagojati.bombahman.multiplayer.messages;
+
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+
+public class MessageFlags {
+	
+	private static final short FLAG_MESSAGE_SERVER_ADD_FACE = 1;
+	private static final short FLAG_MESSAGE_SERVER_MOVE_FACE = 2;
+	
+	public static void initMessagePool(MessagePool messagePool) {
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class);
+	}
+}

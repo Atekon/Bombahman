@@ -1,0 +1,7 @@
+package pt.cagojati.bombahman.multiplayer;
+
+public interface IMultiplayerServer {
+
+	public Server getServerSocket();
+	
+}

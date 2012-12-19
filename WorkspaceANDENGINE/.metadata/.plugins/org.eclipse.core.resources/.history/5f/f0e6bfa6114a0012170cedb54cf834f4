@@ -1,0 +1,24 @@
+package pt.cagojati.bombahman.multiplayer;
+
+import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
+import org.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
+import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+
+public class WiFiConnector implements IMultiplayerConnector {
+	private static final int SERVER_PORT = 4444;
+	
+	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
+	private ServerConnector<SocketConnection> mServerConnector;
+	
+	public WiFiConnector() {
+		MessageFlags.initMessagePool(mMessagePool);
+	}
+	
+	public void initClient()
+	{
+		
+	}
+}

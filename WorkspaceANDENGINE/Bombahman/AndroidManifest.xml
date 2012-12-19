@@ -3,6 +3,12 @@
     package="pt.cagojati.bombahman"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+   	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -15,7 +21,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="pt.cagojati.bombahman.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

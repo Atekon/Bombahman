@@ -1,0 +1,9 @@
+package pt.cagojati.bombahman.multiplayer;
+
+public class WiFiServer implements IMultiplayerServer {
+
+	public WiFiServer() {
+		//this.initMessagePool();
+	}
+	
+}

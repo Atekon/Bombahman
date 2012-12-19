@@ -1,0 +1,8 @@
+package pt.cagojati.bombahman.multiplayer;
+
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+
+public interface IMultiplayerConnector {
+	
+	public MessagePool<IMessage> getMessagePool();
+}
