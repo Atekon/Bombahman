@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				//Creates Server and then proceeds to join it
 				
-				IMultiplayerServer server = new WiFiServer();
+				IMultiplayerServer server = WiFiServer.getSingletonObject();
 				server.initServer();
 				MainActivity.this.runOnUiThread(new Runnable() {
 					@Override
@@ -73,7 +73,6 @@ public class MainActivity extends Activity {
 						try {
 							Toast.makeText(MainActivity.this, WifiUtils.getWifiIPv4Address(MainActivity.this), Toast.LENGTH_SHORT).show();
 						} catch (UnknownHostException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}

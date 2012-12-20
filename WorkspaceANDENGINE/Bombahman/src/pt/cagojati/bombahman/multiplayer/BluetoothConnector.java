@@ -32,4 +32,10 @@ public class BluetoothConnector implements IMultiplayerConnector {
 		
 	}
 
+	@Override
+	public void terminate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

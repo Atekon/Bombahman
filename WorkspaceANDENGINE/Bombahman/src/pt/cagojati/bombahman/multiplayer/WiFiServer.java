@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
+import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.andengine.extension.multiplayer.protocol.server.IClientMessageHandler;
 import org.andengine.extension.multiplayer.protocol.server.Server;
 import org.andengine.extension.multiplayer.protocol.server.SocketServer;
@@ -26,9 +27,23 @@ public class WiFiServer implements IMultiplayerServer {
 	
 	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
+	private static WiFiServer instance = null;
 
-	public WiFiServer() {
+	private WiFiServer() {
 		MessageFlags.initMessagePool(mMessagePool);
+	}
+	
+	public static synchronized WiFiServer getSingletonObject() {
+		if (instance == null) {
+			instance = new WiFiServer();
+		}
+		return instance;
+	}
+	
+	public static boolean isInitialized(){
+		if(instance==null)
+			return false;
+		return true;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -89,9 +104,18 @@ public class WiFiServer implements IMultiplayerServer {
 		@Override
 		public void onException(final SocketServer<SocketConnectionClientConnector> pSocketServer, final Throwable pThrowable) {
 			Log.d("oteste","servidor crashou" + pThrowable.getMessage());
-
 		}
 
+	}
+
+	@Override
+	public void terminate() {
+		this.mSocketServer.terminate();
+	}
+
+	@Override
+	public void sendBroadcastServerMessage(IServerMessage msg) throws IOException {
+		this.mSocketServer.sendBroadcastServerMessage(msg);
 	}
 	
 }

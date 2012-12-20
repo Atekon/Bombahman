@@ -93,4 +93,11 @@ public class WiFiConnector implements IMultiplayerConnector  {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void terminate() {
+		if(this.mServerConnector!=null){
+			this.mServerConnector.terminate();
+		}
+	}
 }
