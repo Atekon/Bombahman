@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="16" version="2.0">
+<workbench progressCount="21" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="1024" x="26" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -18,7 +18,7 @@
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="107" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="61" y="22"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.debug.ui.launch.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.debug.ui.main.toolbar" itemType="typeToolBarContribution" x="38" y="22"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
@@ -46,19 +46,19 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameActivity.java" partName="GameActivity.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/GameActivity.java" title="GameActivity.java" tooltip="Bombahman/src/pt/cagojati/bombahman/GameActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/GameActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2830" selectionTopPixel="917"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2898" selectionTopPixel="633"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainActivity.java" partName="MainActivity.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/MainActivity.java" title="MainActivity.java" tooltip="Bombahman/src/pt/cagojati/bombahman/MainActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/MainActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2397" selectionTopPixel="1019"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2705" selectionTopPixel="747"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiConnector.java" partName="WiFiConnector.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" title="WiFiConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiConnector.java" partName="WiFiConnector.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" title="WiFiConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1315" selectionTopPixel="134"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3005" selectionTopPixel="589"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiServer.java" partName="WiFiServer.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" title="WiFiServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiServer.java" partName="WiFiServer.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" title="WiFiServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3106" selectionTopPixel="767"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3670" selectionTopPixel="893"/>
 </editor>
 </editors>
 <views>
@@ -91,9 +91,9 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
+<category IMemento.internal.id="Warnings (32 items)"/>
 <category IMemento.internal.id="Warnings"/>
 <category IMemento.internal.id="Errors"/>
-<category IMemento.internal.id="Warnings (21 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -394,20 +394,29 @@
 <view id="org.eclipse.debug.ui.BreakpointView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
-<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<layout>
+<mainWindow>
+<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7491961" ratioLeft="466" ratioRight="156" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7491961" ratioLeft="466" ratioRight="156" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.cdt.debug.ui.executablesView" label="Executables"/>
@@ -416,7 +425,8 @@
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -424,22 +434,28 @@
 </presentation>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.44849786" ratioLeft="209" ratioRight="257" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info part="org.eclipse.ui.editorss" ratio="0.45434782" ratioLeft="209" ratioRight="251" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.gdb.ui.tracecontrol.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="679" ratioRight="679" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="679" ratioRight="679" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.SignalsView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
@@ -451,163 +467,165 @@
 <workingSets/>
 <navigationHistory>
 <editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/Program Files\/Android\/Android-SDK\/platforms\/android-17\/android.jar&lt;java.lang(Thread.class"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/MainActivity.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/GameActivity.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerServer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerConnector.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/MainActivity.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.manifest.ManifestEditor" path="/Bombahman/AndroidManifest.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerServer.java"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/Program Files\/Android\/Android-SDK\/platforms\/android-17\/android.jar&lt;java.lang(Thread.class"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerConnector.java"/>
 </editors>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1889" y="0"/>
-</item>
-<item historyLabel="WiFiConnector.java" index="1">
-<position info="not_deleted" x="1686" y="42"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="2">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="BluetoothConnector.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="BluetoothConnector.java" index="3">
-<position info="not_deleted" x="341" y="18"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="2">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="2467" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="2870" y="0"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="2">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="2467" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1681" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position/>
-</item>
-<item historyLabel="WiFiConnector.java" index="1">
-<position info="not_deleted" x="3753" y="31"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="2">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="2870" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1825" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="2870" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1694" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1825" y="0"/>
-</item>
-<item historyLabel="WiFiConnector.java" index="1">
-<position info="not_deleted" x="3753" y="31"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="2">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1825" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="2845" y="0"/>
-</item>
-<item historyLabel="Bombahman Manifest" index="5"/>
-<item historyLabel="MainActivity.java" index="4">
-<position/>
-</item>
-<item historyLabel="WiFiConnector.java" index="1">
-<position info="not_deleted" x="1315" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="3077" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1887" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="3058" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1816" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="3013" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1821" y="58"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1685" y="107"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1876" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1685" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="1876" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="0">
-<position info="not_deleted" x="2830" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="1685" y="0"/>
-</item>
-<item historyLabel="WiFiServer.java" index="6">
+<item historyLabel="WiFiServer.java" index="0">
 <position info="not_deleted" x="1328" y="0"/>
 </item>
-<item historyLabel="IMultiplayerServer.java" index="7">
-<position info="not_deleted" x="292" y="18"/>
-</item>
-<item historyLabel="WiFiServer.java" index="6">
-<position info="not_deleted" x="1328" y="0"/>
-</item>
-<item historyLabel="MainActivity.java" index="4">
-<position info="not_deleted" x="2397" y="0"/>
-</item>
-<item historyLabel="WiFiServer.java" index="6">
-<position info="not_deleted" x="1328" y="0"/>
-</item>
-<item historyLabel="WiFiServer.java" index="6">
+<item historyLabel="WiFiServer.java" index="0">
 <position info="not_deleted" x="3708" y="0"/>
 </item>
-<item historyLabel="WiFiServer.java" index="6">
+<item historyLabel="WiFiServer.java" index="0">
 <position info="not_deleted" x="3710" y="0"/>
 </item>
-<item historyLabel="WiFiServer.java" index="6">
+<item historyLabel="WiFiServer.java" index="0">
 <position info="not_deleted" x="3132" y="0"/>
 </item>
-<item historyLabel="Thread.class" index="8">
+<item historyLabel="Thread.class" index="1">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="WiFiServer.java" index="6">
-<position info="not_deleted" x="3132" y="0"/>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="3106" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="2">
+<position info="not_deleted" x="2423" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="2830" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="1311" y="0"/>
+</item>
+<item historyLabel="IMultiplayerServer.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="6">
+<position info="not_deleted" x="554" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="1311" y="0"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="6">
+<position info="not_deleted" x="554" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="1879" y="0"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="6">
+<position info="not_deleted" x="554" y="0"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="6">
+<position info="not_deleted" x="549" y="0"/>
+</item>
+<item historyLabel="BluetoothConnector.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="BluetoothConnector.java" index="7">
+<position info="not_deleted" x="341" y="18"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="6">
+<position info="not_deleted" x="549" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="1879" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="1694" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="2">
+<position info="not_deleted" x="2705" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="1607" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="2">
+<position info="not_deleted" x="2705" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="1536" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="3477" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="2882" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="3709" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="3766" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="3106" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="0">
+<position info="not_deleted" x="3670" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="3709" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="2931" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="2943" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3330" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="2898" y="0"/>
+</item>
+<item historyLabel="IMultiplayerConnector.java" index="8">
+<position info="not_deleted" x="536" y="10"/>
+</item>
+<item historyLabel="GameActivity.java" index="3">
+<position info="not_deleted" x="2898" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3330" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="1891" y="9"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="1621" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="1791" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="2938" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3007" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3054" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3003" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3005" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="2973" y="3"/>
+</item>
+<item active="true" historyLabel="WiFiConnector.java" index="4">
+<position info="not_deleted" x="3005" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -621,6 +639,10 @@
 <trimArea IMemento.internal.id="131072">
 <trimItem IMemento.internal.id="org.eclipse.ui.editorss"/>
 <trimItem IMemento.internal.id="right"/>
+<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
+<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.ToolsFolderView"/>
+<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.OutlineFolderView"/>
+<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.ConsoleFolderView"/>
 </trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
@@ -634,17 +656,23 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Thread.class" tooltip="java.lang.Thread">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/Program Files\/Android\/Android-SDK\/platforms\/android-17\/android.jar&lt;java.lang(Thread.class"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IMultiplayerConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerConnector.java">
+<persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerConnector.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java">
+<persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BluetoothConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java">
+<persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IMultiplayerServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerServer.java">
 <persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerServer.java"/>
 </file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Thread.class" tooltip="java.lang.Thread">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/Program Files\/Android\/Android-SDK\/platforms\/android-17\/android.jar&lt;java.lang(Thread.class"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.manifest.ManifestEditor" name="AndroidManifest.xml" tooltip="Bombahman/AndroidManifest.xml">
 <persistable path="/Bombahman/AndroidManifest.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BluetoothConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java">
-<persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AddFaceServerMessage.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/messages/AddFaceServerMessage.java">
 <persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/messages/AddFaceServerMessage.java"/>
@@ -654,9 +682,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MessageFlags.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/messages/MessageFlags.java">
 <persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/messages/MessageFlags.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java">
-<persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java">
 <persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java"/>
@@ -675,9 +700,6 @@
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="SocketServer.class" tooltip="org.andengine.extension.multiplayer.protocol.server.SocketServer">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/GitHub\/Bombahman\/WorkspaceANDENGINE\/AndEngineMultiplayerExtension-GLES2\/bin\/andenginemultiplayerextension-gles2.jar&lt;org.andengine.extension.multiplayer.protocol.server(SocketServer.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="SocketConnection.class" tooltip="org.andengine.extension.multiplayer.protocol.shared.SocketConnection">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/GitHub\/Bombahman\/WorkspaceANDENGINE\/AndEngineMultiplayerExtension-GLES2\/bin\/andenginemultiplayerextension-gles2.jar&lt;org.andengine.extension.multiplayer.protocol.shared(SocketConnection.class"/>
 </file>
 </mruList>
 </workbench>

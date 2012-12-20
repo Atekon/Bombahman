@@ -69,6 +69,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		this.mConnector.setActivity(this);
+		this.mConnector.initClient();
+		startTouchEvents(scene);
 	
 		return scene;
 	}
@@ -82,8 +84,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		scene.attachChild(face);
 	}
 	
-	public void startTouchEvents(){
-		Scene scene = this.mEngine.getScene();
+	public void startTouchEvents(Scene scene){
 		
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

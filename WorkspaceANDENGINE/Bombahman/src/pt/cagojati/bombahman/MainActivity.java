@@ -66,6 +66,7 @@ public class MainActivity extends Activity {
 				//Creates Server and then proceeds to join it
 				
 				IMultiplayerServer server = new WiFiServer();
+				server.initServer();
 				MainActivity.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

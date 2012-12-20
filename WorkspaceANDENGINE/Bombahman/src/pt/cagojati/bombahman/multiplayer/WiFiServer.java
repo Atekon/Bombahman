@@ -67,6 +67,7 @@ public class WiFiServer implements IMultiplayerServer {
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
+			Log.d("oteste",pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
@@ -87,7 +88,7 @@ public class WiFiServer implements IMultiplayerServer {
 
 		@Override
 		public void onException(final SocketServer<SocketConnectionClientConnector> pSocketServer, final Throwable pThrowable) {
-			Log.d("oteste","servidor crashou");
+			Log.d("oteste","servidor crashou" + pThrowable.getMessage());
 
 		}
 

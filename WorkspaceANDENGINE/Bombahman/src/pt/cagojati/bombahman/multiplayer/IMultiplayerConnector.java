@@ -12,4 +12,5 @@ public interface IMultiplayerConnector {
 
 	public void sendClientMessage(IClientMessage msg);
 	public void setActivity(GameActivity game);
+	public void initClient();
 }

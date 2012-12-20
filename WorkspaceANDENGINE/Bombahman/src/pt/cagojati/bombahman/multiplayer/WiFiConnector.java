@@ -1,7 +1,6 @@
 package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.Socket;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
@@ -19,13 +18,14 @@ import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddFaceServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import android.util.Log;
 
 public class WiFiConnector implements IMultiplayerConnector  {
 	private static final int SERVER_PORT = 4444;
 	
 	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 	private ServerConnector<SocketConnection> mServerConnector;
-	private static String mServerIP;
+	private String mServerIP;
 	private GameActivity mGameActivity;
 	
 	public WiFiConnector(String ip) {
@@ -56,11 +56,13 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					mGameActivity.addFace(addFaceServerMessage.getX(), addFaceServerMessage.getY());
 				}
 			});
-	
+
 	
 			this.mServerConnector.getConnection().start();
 		}catch (final Throwable t) {
+			Log.d("oteste", t.getMessage());
 			Debug.e(t);
+			mGameActivity.finish();
 		}
 	}
 	
