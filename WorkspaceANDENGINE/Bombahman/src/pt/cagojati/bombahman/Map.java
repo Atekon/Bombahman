@@ -24,6 +24,11 @@ public class Map{
 	private TMXTiledMap mTMXTiledMap;
 	protected int mCactusCount;
 	
+	public Map()
+	{
+		
+	}
+	
 	public void loadMap(final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(assetManager, engine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, vertexBufferManager, new ITMXTilePropertiesListener() {
