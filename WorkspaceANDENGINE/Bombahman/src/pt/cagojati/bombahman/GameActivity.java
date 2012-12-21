@@ -33,7 +33,7 @@ import android.os.Bundle;
 
 public class GameActivity extends SimpleBaseGameActivity {
 	
-	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_WIDTH = 800;
 	private static final int CAMERA_HEIGHT = 480;
 	
 	private BitmapTextureAtlas mBitmapTextureAtlas;

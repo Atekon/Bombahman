@@ -35,13 +35,13 @@ public class Map{
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					/* We are going to count the tiles that have the property "cactus=true" set. */
-					if(pTMXTileProperties.containsTMXProperty("cactus", "true")) {
-						Map.this.mCactusCount++;
-						//create cactus
-					}
+//					if(pTMXTileProperties.containsTMXProperty("cactus", "true")) {
+//						Map.this.mCactusCount++;
+//						//create cactus
+//					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert2.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/map3.tmx");
 
 		} catch (final TMXLoadException e) {
 			Debug.e(e);
