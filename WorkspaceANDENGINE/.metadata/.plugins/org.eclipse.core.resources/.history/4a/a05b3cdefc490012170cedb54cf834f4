@@ -1,5 +1,0 @@
-package pt.cagojati.bombahman;
-
-public class BluetoothServer implements IMultiplayerConnector {
-
-}

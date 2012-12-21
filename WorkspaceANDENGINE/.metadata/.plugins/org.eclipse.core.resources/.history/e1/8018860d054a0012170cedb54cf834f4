@@ -1,9 +1,0 @@
-package pt.cagojati.bombahman.multiplayer;
-
-import org.andengine.extension.multiplayer.protocol.server.Server;
-
-public interface IMultiplayerServer {
-
-	public Server getServerSocket();
-	
-}
