@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="21" version="2.0">
+<workbench progressCount="18" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="1024" x="26" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -37,33 +37,13 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameActivity.java" partName="GameActivity.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/GameActivity.java" title="GameActivity.java" tooltip="Bombahman/src/pt/cagojati/bombahman/GameActivity.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/GameActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2494" selectionTopPixel="1050"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainActivity.java" partName="MainActivity.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/MainActivity.java" title="MainActivity.java" tooltip="Bombahman/src/pt/cagojati/bombahman/MainActivity.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/MainActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2409" selectionTopPixel="739"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiConnector.java" partName="WiFiConnector.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" title="WiFiConnector.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3993" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WiFiServer.java" partName="WiFiServer.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" title="WiFiServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4565" selectionTopPixel="1331"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BluetoothServer.java" partName="BluetoothServer.java" path="C:/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java" title="BluetoothServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="15" selectionOffset="217" selectionTopPixel="39"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Jacinto/Documents/GitHub/Bombahman/WorkspaceANDENGINE/Bombahman/src/pt/cagojati/bombahman/Map.java" title="Map.java" tooltip="Bombahman/src/pt/cagojati/bombahman/Map.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Bombahman/src/pt/cagojati/bombahman/Map.java"/>
+<editorState selectionHorizontalPixel="110" selectionLength="0" selectionOffset="6034" selectionTopPixel="1581"/>
 </editor>
 </editors>
 <views>
@@ -95,11 +75,6 @@
 <view id="com.android.ide.eclipse.ddms.views.NetworkStatsView" partName="Network Statistics"/>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (29 items)"/>
-<category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Errors"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -107,6 +82,9 @@
 <visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
 </viewState>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
@@ -134,9 +112,6 @@
 </xmlDefinedFilters>
 </customFilters>
 </viewState>
-</view>
-<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
-<viewState/>
 </view>
 <view id="com.android.ide.eclipse.ddms.views.EmulatorControlView" partName="Emulator Control"/>
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration">
@@ -313,7 +288,7 @@
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.18302584" ratioLeft="248" ratioRight="1107" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.75282717" ratioLeft="466" ratioRight="153" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
@@ -399,29 +374,20 @@
 <view id="org.eclipse.debug.ui.BreakpointView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7491961" ratioLeft="466" ratioRight="156" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7491961" ratioLeft="466" ratioRight="156" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.cdt.debug.ui.executablesView" label="Executables"/>
@@ -430,8 +396,7 @@
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -440,27 +405,21 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.45434782" ratioLeft="209" ratioRight="251" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.7496318" ratioLeft="1018" ratioRight="340" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.gdb.ui.tracecontrol.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="679" ratioRight="679" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="679" ratioRight="679" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.SignalsView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
@@ -476,50 +435,13 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/GameActivity.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerServer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/IMultiplayerConnector.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothConnector.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/MainActivity.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/GameActivity.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiConnector.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/WiFiServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Bombahman/src/pt/cagojati/bombahman/Map.java"/>
 </editors>
-<item historyLabel="BluetoothConnector.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="BluetoothConnector.java" index="5">
-<position info="not_deleted" x="341" y="18"/>
-</item>
-<item historyLabel="BluetoothConnector.java" index="5">
-<position info="not_deleted" x="431" y="0"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="4">
-<position info="not_deleted" x="579" y="0"/>
-</item>
-<item historyLabel="WiFiConnector.java" index="0">
-<position info="not_deleted" x="3993" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="1">
-<position info="not_deleted" x="2022" y="0"/>
-</item>
-<item historyLabel="IMultiplayerConnector.java" index="4">
-<position info="not_deleted" x="579" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="1">
-<position/>
-</item>
-<item historyLabel="IMultiplayerServer.java" index="3">
-<position info="not_deleted" x="500" y="0"/>
-</item>
-<item historyLabel="WiFiServer.java" index="2">
-<position info="not_deleted" x="1480" y="0"/>
-</item>
-<item historyLabel="WiFiServer.java" index="2">
-<position info="not_deleted" x="1896" y="0"/>
-</item>
-<item historyLabel="GameActivity.java" index="1">
-<position/>
-</item>
-<item historyLabel="WiFiServer.java" index="2">
-<position info="not_deleted" x="1414" y="0"/>
-</item>
 <item historyLabel="IMultiplayerServer.java" index="3">
 <position info="not_deleted" x="411" y="18"/>
 </item>
@@ -532,13 +454,13 @@
 <item historyLabel="WiFiServer.java" index="2">
 <position info="not_deleted" x="1414" y="0"/>
 </item>
-<item historyLabel="BluetoothServer.java" index="6">
+<item historyLabel="BluetoothServer.java" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="BluetoothServer.java" index="6">
+<item historyLabel="BluetoothServer.java" index="4">
 <position info="not_deleted" x="674" y="0"/>
 </item>
-<item historyLabel="BluetoothServer.java" index="6">
+<item historyLabel="BluetoothServer.java" index="4">
 <position info="not_deleted" x="217" y="15"/>
 </item>
 <item historyLabel="WiFiServer.java" index="2">
@@ -556,7 +478,7 @@
 <item historyLabel="GameActivity.java" index="1">
 <position/>
 </item>
-<item historyLabel="BluetoothServer.java" index="6">
+<item historyLabel="BluetoothServer.java" index="4">
 <position info="not_deleted" x="217" y="15"/>
 </item>
 <item historyLabel="WiFiServer.java" index="2">
@@ -565,7 +487,7 @@
 <item historyLabel="IMultiplayerServer.java" index="3">
 <position info="not_deleted" x="621" y="0"/>
 </item>
-<item historyLabel="BluetoothServer.java" index="6">
+<item historyLabel="BluetoothServer.java" index="4">
 <position info="not_deleted" x="217" y="15"/>
 </item>
 <item historyLabel="WiFiServer.java" index="2">
@@ -628,8 +550,47 @@
 <item historyLabel="GameActivity.java" index="1">
 <position info="not_deleted" x="2494" y="0"/>
 </item>
-<item active="true" historyLabel="MainActivity.java" index="7">
-<position info="not_deleted" x="2865" y="0"/>
+<item historyLabel="MainActivity.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="GameActivity.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="WiFiConnector.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="WiFiServer.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="4517" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="4455" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="3030" y="14"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="2961" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="2974" y="18"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="4452" y="0"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="3154" y="12"/>
+</item>
+<item historyLabel="Map.java" index="9">
+<position info="not_deleted" x="4517" y="0"/>
+</item>
+<item active="true" historyLabel="Map.java" index="9">
+<position info="not_deleted" x="5428" y="28"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -637,13 +598,6 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
-<trimArea IMemento.internal.id="16384">
-<trimItem IMemento.internal.id="left"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="org.eclipse.ui.editorss"/>
-<trimItem IMemento.internal.id="right"/>
-</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -652,11 +606,13 @@
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.HeapStatus"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
-<trimItem IMemento.internal.id="bottom"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" tooltip="Bombahman/src/pt/cagojati/bombahman/Map.java">
+<persistable path="/Bombahman/src/pt/cagojati/bombahman/Map.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BluetoothServer.java" tooltip="Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java">
 <persistable path="/Bombahman/src/pt/cagojati/bombahman/multiplayer/BluetoothServer.java"/>
 </file>
@@ -698,9 +654,6 @@
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="ClientConnector.class" tooltip="org.andengine.extension.multiplayer.protocol.server.connector.ClientConnector">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/GitHub\/Bombahman\/WorkspaceANDENGINE\/AndEngineMultiplayerExtension-GLES2\/bin\/andenginemultiplayerextension-gles2.jar&lt;org.andengine.extension.multiplayer.protocol.server.connector(ClientConnector.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="SocketServer.class" tooltip="org.andengine.extension.multiplayer.protocol.server.SocketServer">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Bombahman/C:\/GitHub\/Bombahman\/WorkspaceANDENGINE\/AndEngineMultiplayerExtension-GLES2\/bin\/andenginemultiplayerextension-gles2.jar&lt;org.andengine.extension.multiplayer.protocol.server(SocketServer.class"/>
 </file>
 </mruList>
 </workbench>

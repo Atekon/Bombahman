@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.andengine.entity.particle.emitter.RectangleParticleEmitter"/>
-<fullyQualifiedTypeName name="org.andengine.examples.launcher.CrossParticleEmitter"/>
-<fullyQualifiedTypeName name="org.andengine.engine.handler.timer.TimerHandler"/>
-<fullyQualifiedTypeName name="org.andengine.engine.handler.timer.ITimerCallback"/>
-<fullyQualifiedTypeName name="org.andengine.input.sensor.acceleration.AccelerationData"/>
-<fullyQualifiedTypeName name="org.andengine.entity.particle.initializer.AccelerationParticleInitializer"/>
-<fullyQualifiedTypeName name="org.andengine.entity.sprite.Sprite"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="org.andengine.opengl.texture.region.ITextureRegion"/>
 <fullyQualifiedTypeName name="org.andengine.opengl.vbo.VertexBufferObjectManager"/>
 <fullyQualifiedTypeName name="org.andengine.examples.ExplosionParticleSystemPool"/>
 <fullyQualifiedTypeName name="android.util.Pair"/>
@@ -26,8 +18,6 @@
 <fullyQualifiedTypeName name="org.andengine.util.math.MathUtils"/>
 <fullyQualifiedTypeName name="org.andengine.engine.handler.IUpdateHandler"/>
 <fullyQualifiedTypeName name="org.andengine.examples.CrossParticleEmitter"/>
-<fullyQualifiedTypeName name="org.andengine.extension.physics.box2d.PhysicsWorld"/>
-<fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.physics.box2d.FixtureDef"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.physics.box2d.Body"/>
 <fullyQualifiedTypeName name="org.andengine.extension.physics.box2d.PhysicsConnector"/>
@@ -60,4 +50,14 @@
 <fullyQualifiedTypeName name="org.andengine.util.debug.Debug"/>
 <fullyQualifiedTypeName name="org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage"/>
 <fullyQualifiedTypeName name="pt.cagojati.bombahman.multiplayer.WiFiServer"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.region.ITextureRegion"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.TextureOptions"/>
+<fullyQualifiedTypeName name="org.andengine.entity.util.FPSLogger"/>
+<fullyQualifiedTypeName name="org.andengine.extension.physics.box2d.PhysicsWorld"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
+<fullyQualifiedTypeName name="org.andengine.entity.scene.Scene"/>
+<fullyQualifiedTypeName name="org.andengine.extension.tmx.TMXLoader"/>
+<fullyQualifiedTypeName name="org.andengine.engine.Engine"/>
 </qualifiedTypeNameHistroy>

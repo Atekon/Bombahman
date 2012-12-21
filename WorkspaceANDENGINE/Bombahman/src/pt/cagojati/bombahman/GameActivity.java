@@ -2,6 +2,7 @@ package pt.cagojati.bombahman;
 
 import java.io.IOException;
 
+import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -20,6 +21,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
+import pt.cagojati.bombahman.Map;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
@@ -37,6 +39,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private ITextureRegion mFaceTextureRegion;
 	private IMultiplayerConnector mConnector;
+	private Map mMap;
 	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -67,15 +70,20 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
 		this.mBitmapTextureAtlas.load();
+		
+		//this.mBitmapTextureAtlas.load(loadMap(mEngine));
+		
 	}
 
 	@Override
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		
 		this.mConnector.setActivity(this);
 		this.mConnector.initClient();
 		startTouchEvents(scene);
+		mMap.loadMap(GameActivity.this.onCreateScene(), mEngine);
 	
 		return scene;
 	}
