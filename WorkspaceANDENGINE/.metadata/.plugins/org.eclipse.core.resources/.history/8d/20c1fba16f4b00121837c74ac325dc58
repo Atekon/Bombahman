@@ -69,19 +69,21 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mBitmapTextureAtlas.load();		
+		this.mBitmapTextureAtlas.load();
+		
+		//this.mBitmapTextureAtlas.load(loadMap(mEngine));
+		
 	}
 
 	@Override
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
-		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		mMap.loadMap(GameActivity.this.onCreateScene(), mEngine, this.getAssets(), this.getVertexBufferObjectManager());
-
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		
 		this.mConnector.setActivity(this);
 		this.mConnector.initClient();
 		startTouchEvents(scene);
+		mMap.loadMap(GameActivity.this.onCreateScene(), mEngine);
 	
 		return scene;
 	}

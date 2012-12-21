@@ -76,7 +76,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
 		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		mMap.loadMap(GameActivity.this.onCreateScene(), mEngine, this.getAssets(), this.getVertexBufferObjectManager());
+		mMap.loadMap(GameActivity.this.onCreateScene(), mEngine, this.getAssets());
 
 		
 		this.mConnector.setActivity(this);
