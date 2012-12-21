@@ -2,26 +2,28 @@ package pt.cagojati.bombahman;
 
 import java.io.IOException;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+import org.andengine.extension.svg.opengl.texture.atlas.bitmap.SVGBitmapTextureAtlasTextureRegionFactory;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
-import pt.cagojati.bombahman.Map;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
@@ -37,9 +39,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private static final int CAMERA_HEIGHT = 480;
 	
 	private BitmapTextureAtlas mBitmapTextureAtlas;
+
 	private ITextureRegion mFaceTextureRegion;
 	private IMultiplayerConnector mConnector;
 	private Map mMap;
+	private Player[] mPlayers = new Player[4];
 	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -51,6 +55,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 			mConnector = new WiFiConnector(bundle.getString("ip"));
 	    }
 
+	    this.mPlayers[0] = new Player();
 	}
 
 	@Override
@@ -66,6 +71,15 @@ public class GameActivity extends SimpleBaseGameActivity {
 	protected void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
+		BitmapTextureAtlas playerBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 318, 546, TextureOptions.BILINEAR);
+		playerBitmapTextureAtlas.addEmptyTextureAtlasSource(0, 0, 318, 546);
+		this.mPlayers[0].loadResources(playerBitmapTextureAtlas, this);
+		
+		playerBitmapTextureAtlas.load();
+		
+		//for testing purposes
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
@@ -79,6 +93,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		mMap.loadMap(scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
+		
+		this.mPlayers[0].createSprite(GameActivity.CAMERA_WIDTH/2, GameActivity.CAMERA_HEIGHT/2+20, scene, this.getVertexBufferObjectManager());
 
 		this.mConnector.setActivity(this);
 		this.mConnector.initClient();
@@ -88,12 +104,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 	
 	public void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
-		
-		scene.attachChild(face);
+//		final Scene scene = this.mEngine.getScene();
+//		/* Create the face and add it to the scene. */
+//		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+//		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
+//		
+//		scene.attachChild(face);
+		this.mPlayers[0].getSprite().setPosition(pX, pY);
 	}
 	
 	public void startTouchEvents(Scene scene){

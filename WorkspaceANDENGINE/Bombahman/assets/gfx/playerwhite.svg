@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X6 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="32.766mm" height="45.8892mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 3277 4589"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:20}
+    .str2 {stroke:#2B2A29;stroke-width:20;stroke-linejoin:round}
+    .str4 {stroke:#2B2A29;stroke-width:20;stroke-linejoin:bevel}
+    .str3 {stroke:#2B2A29;stroke-width:50}
+    .str1 {stroke:#E31E24;stroke-width:50}
+    .fil20 {fill:none}
+    .fil1 {fill:#2B2A29}
+    .fil6 {fill:#252424}
+    .fil2 {fill:#364493}
+    .fil8 {fill:#D12484}
+    .fil0 {fill:#EBECEC}
+    .fil5 {fill:#FBD9CA}
+    .fil4 {fill:#FFED00}
+    .fil3 {fill:#252423}
+    .fil9 {fill:#D02584}
+    .fil12 {fill:#F2F2F2}
+    .fil11 {fill:url(#id0)}
+    .fil14 {fill:url(#id1)}
+    .fil15 {fill:url(#id2)}
+    .fil17 {fill:url(#id3)}
+    .fil16 {fill:url(#id4)}
+    .fil18 {fill:url(#id5)}
+    .fil7 {fill:url(#id6)}
+    .fil10 {fill:url(#id7)}
+    .fil13 {fill:url(#id8)}
+    .fil19 {fill:url(#id9)}
+   ]]>
+  </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="1632.94" y1="4138.48" x2="1680.53" y2="4138.48">
+   <stop offset="0" style="stop-color:#EBECEC"/>
+   <stop offset="1" style="stop-color:#FEFEFE"/>
+  </linearGradient>
+  <linearGradient id="id1" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="1589.06" y1="1844.97" x2="1636.65" y2="1844.97">
+  </linearGradient>
+  <linearGradient id="id2" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="2600.86" y1="4124.52" x2="2625.72" y2="4080.04">
+  </linearGradient>
+  <linearGradient id="id3" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="675.74" y1="1827.72" x2="650.86" y2="1783.22">
+  </linearGradient>
+  <linearGradient id="id4" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="691.87" y1="4083.55" x2="716.59" y2="4125.11">
+  </linearGradient>
+  <linearGradient id="id5" gradientUnits="userSpaceOnUse" xlink:href="#id0" x1="2584.72" y1="1786.73" x2="2560" y2="1828.29">
+  </linearGradient>
+  <radialGradient id="id6" gradientUnits="userSpaceOnUse" cx="1577.14" cy="3248.89" r="210.53" fx="1577.14" fy="3248.89">
+   <stop offset="0" style="stop-color:#FEFEFE"/>
+   <stop offset="0.219608" style="stop-color:#E791C1"/>
+   <stop offset="1" style="stop-color:#D12484"/>
+  </radialGradient>
+  <radialGradient id="id7" gradientUnits="userSpaceOnUse" cx="1711.85" cy="3637.43" r="1750" fx="1711.85" fy="3637.43">
+   <stop offset="0" style="stop-color:white"/>
+   <stop offset="0.560784" style="stop-color:whitesmoke"/>
+   <stop offset="1" style="stop-color:#EBECEC"/>
+  </radialGradient>
+  <radialGradient id="id8" gradientUnits="userSpaceOnUse" xlink:href="#id7" cx="1711.85" cy="1341.44" r="1750" fx="1711.85" fy="1341.44">
+  </radialGradient>
+  <radialGradient id="id9" gradientUnits="userSpaceOnUse" xlink:href="#id6" cx="700.39" cy="915.08" r="210.53" fx="700.39" fy="915.08">
+  </radialGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_662733696">
+   <ellipse class="fil0 str0" transform="matrix(-0.10321 0.0774065 -0.036655 -0.0889347 1826.37 2983.85)" rx="193" ry="1023"/>
+   <ellipse class="fil0 str0" transform="matrix(-0.126256 -0.0265231 0.0426712 -0.0862098 1437.62 2974.2)" rx="193" ry="1023"/>
+   <ellipse class="fil1 str0" cx="1633" cy="3231" rx="202" ry="165"/>
+   <rect class="fil0 str0" x="1471" y="3058" width="125" height="236"/>
+   <rect class="fil0 str0" x="1677" y="3058" width="125" height="236"/>
+   <ellipse class="fil2 str0" cx="1636" cy="2984" rx="182" ry="194"/>
+   <ellipse class="fil0 str0" cx="1642" cy="2681" rx="275" ry="251"/>
+   <rect class="fil3 str0" x="1453" y="3013" width="358" height="48" rx="24" ry="24"/>
+   <rect class="fil4 str0" x="1556" y="3028" width="158" height="22"/>
+   <ellipse class="fil5 str1" cx="1644" cy="2740" rx="214" ry="174"/>
+   <ellipse class="fil6 str0" cx="1717" cy="2740" rx="36" ry="84"/>
+   <ellipse class="fil6 str0" cx="1555" cy="2743" rx="36" ry="84"/>
+   <rect class="fil7 str0" x="1471" y="3207" width="125" height="88"/>
+   <rect class="fil7 str0" x="1677" y="3207" width="125" height="88"/>
+   <circle class="fil8 str0" cx="1391" cy="3080" r="31"/>
+   <circle class="fil8 str0" cx="1860" cy="3080" r="31"/>
+   <path class="fil9 str0" d="M1613 2370c34,-15 74,2 90,38 15,33 3,71 -26,89 -23,-2 -46,-3 -69,-2 -12,-7 -21,-19 -27,-32 -16,-36 -1,-77 32,-92z"/>
+  </g>
+  <g id="_662793536">
+   <ellipse class="fil1 str0" cx="1639" cy="4365" rx="202" ry="165"/>
+   <rect class="fil9 str0" x="1539" y="4285" width="163" height="62"/>
+   <ellipse class="fil2 str0" cx="1655" cy="4137" rx="167" ry="168"/>
+   <ellipse class="fil10 str0" cx="1635" cy="3778" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M1850 3587c24,12 33,43 21,69 -12,24 -39,35 -62,27 -9,-14 -20,-28 -31,-40 -1,-10 1,-21 6,-31 13,-26 43,-37 67,-25z"/>
+   <rect class="fil5 str1" x="1365" y="3659" width="194" height="243" rx="67" ry="67"/>
+   <ellipse class="fil1 str0" cx="1462" cy="3781" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="1492" y="4137" width="330" height="37"/>
+   <ellipse class="fil11 str0" cx="1657" cy="4138" rx="24" ry="111"/>
+   <ellipse class="fil9 str0" cx="1654" cy="4232" rx="42" ry="39"/>
+   <rect class="fil9 str0" x="1535" y="4365" width="168" height="62"/>
+   <rect class="fil12 str0" x="1614" y="4306" width="73" height="59"/>
+   <rect class="fil4 str0" x="1491" y="4137" width="27" height="37"/>
+  </g>
+  <g id="_662787456">
+   <ellipse class="fil1 str0" cx="1630" cy="936" rx="202" ry="173"/>
+   <rect class="fil0 str0" x="1468" y="754" width="125" height="248"/>
+   <rect class="fil0 str0" x="1674" y="754" width="125" height="248"/>
+   <ellipse class="fil2 str0" cx="1633" cy="677" rx="182" ry="203"/>
+   <ellipse class="fil0 str0" cx="1639" cy="359" rx="275" ry="264"/>
+   <rect class="fil3 str0" x="1450" y="707" width="358" height="51" rx="25" ry="25"/>
+   <rect class="fil7 str0" x="1468" y="910" width="125" height="92"/>
+   <rect class="fil7 str0" x="1674" y="910" width="125" height="92"/>
+   <ellipse class="fil0 str0" transform="matrix(-0.126256 -0.0278562 0.0426712 -0.0905427 1436.98 681.776)" rx="193" ry="1023"/>
+   <ellipse class="fil8 str0" cx="1393" cy="772" rx="31" ry="33"/>
+   <ellipse class="fil0 str0" transform="matrix(-0.10321 0.0812969 -0.036655 -0.0934045 1820.78 686.719)" rx="193" ry="1023"/>
+   <ellipse class="fil8 str0" cx="1857" cy="777" rx="31" ry="33"/>
+   <path class="fil9 str2" d="M1610 295c34,-16 74,2 88,40 13,35 1,75 -29,93 -34,-5 -53,-5 -69,-2 -11,-8 -21,-19 -26,-34 -14,-38 2,-81 36,-97z"/>
+  </g>
+  <g id="_662783136">
+   <ellipse class="fil1 str0" cx="1626" cy="2069" rx="202" ry="165"/>
+   <rect class="fil9 str0" x="1568" y="1989" width="163" height="62"/>
+   <ellipse class="fil2 str0" cx="1615" cy="1841" rx="167" ry="168"/>
+   <ellipse class="fil13 str0" cx="1635" cy="1482" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M1419 1291c-24,12 -33,43 -21,69 12,24 39,35 62,27 9,-14 20,-28 31,-40 1,-10 -1,-21 -6,-31 -13,-26 -43,-37 -67,-25z"/>
+   <rect class="fil5 str1" x="1711" y="1363" width="194" height="243" rx="67" ry="67"/>
+   <ellipse class="fil1 str0" cx="1808" cy="1485" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="1448" y="1841" width="330" height="37"/>
+   <ellipse class="fil14 str0" cx="1613" cy="1845" rx="24" ry="111"/>
+   <ellipse class="fil9 str0" cx="1616" cy="1936" rx="42" ry="39"/>
+   <rect class="fil9 str0" x="1567" y="2069" width="168" height="62"/>
+   <rect class="fil12 str0" x="1582" y="2010" width="73" height="59"/>
+   <rect class="fil4 str0" x="1752" y="1841" width="27" height="37"/>
+  </g>
+  <g id="_662775360">
+   <ellipse class="fil0 str0" transform="matrix(-0.116442 0.0555462 -0.0184077 -0.0944146 2685.2 2982.02)" rx="193" ry="1023"/>
+   <circle class="fil8 str0" transform="matrix(0.0998814 -0.0762722 0.0762722 0.0998814 2702.11 3076.89)" r="250"/>
+   <ellipse class="fil1 str0" cx="2509" cy="3232" rx="202" ry="165"/>
+   <rect class="fil0 str0" x="2348" y="3057" width="125" height="204"/>
+   <rect class="fil0 str0" x="2554" y="3057" width="125" height="236"/>
+   <ellipse class="fil2 str0" cx="2512" cy="2983" rx="182" ry="194"/>
+   <ellipse class="fil0 str0" cx="2519" cy="2680" rx="275" ry="251"/>
+   <rect class="fil3 str0" x="2330" y="3012" width="358" height="48" rx="24" ry="24"/>
+   <rect class="fil4 str0" x="2433" y="3026" width="158" height="22"/>
+   <ellipse class="fil5 str1" cx="2521" cy="2738" rx="214" ry="174"/>
+   <ellipse class="fil6 str3" cx="2560" cy="2739" rx="36" ry="84"/>
+   <ellipse class="fil6 str0" cx="2397" cy="2741" rx="36" ry="84"/>
+   <rect class="fil7 str0" x="2348" y="3173" width="125" height="88"/>
+   <rect class="fil7 str0" x="2554" y="3242" width="125" height="88"/>
+   <path class="fil9 str0" d="M2490 2368c34,-15 74,2 90,38 15,33 3,71 -26,89 -23,-2 -46,-3 -69,-2 -12,-7 -21,-19 -27,-32 -16,-36 -1,-77 32,-92z"/>
+   <ellipse class="fil0 str0" transform="matrix(-0.0876665 0.0946503 -0.0520002 -0.0809255 2402.52 2973.7)" rx="193" ry="1023"/>
+   <circle class="fil8 str0" transform="matrix(0.122548 -0.0278525 0.0278525 0.122548 2462.81 3064.17)" r="250"/>
+  </g>
+  <g id="_662768864">
+   <ellipse class="fil0 str0" transform="matrix(-0.128032 0.0158751 0.0123924 -0.0953907 575.618 2985.89)" rx="193" ry="1023"/>
+   <circle class="fil8 str0" transform="matrix(0.122548 -0.0278525 0.0278525 0.122548 559.903 3093.59)" r="250"/>
+   <ellipse class="fil1 str0" cx="749" cy="3232" rx="202" ry="165"/>
+   <rect class="fil0 str0" x="587" y="3057" width="125" height="204"/>
+   <rect class="fil0 str0" x="793" y="3029" width="125" height="236"/>
+   <ellipse class="fil2 str0" cx="752" cy="2983" rx="182" ry="194"/>
+   <ellipse class="fil0 str0" cx="758" cy="2680" rx="275" ry="251"/>
+   <rect class="fil3 str0" x="569" y="3012" width="358" height="48" rx="24" ry="24"/>
+   <rect class="fil4 str0" x="673" y="3026" width="158" height="22"/>
+   <ellipse class="fil5 str1" cx="760" cy="2738" rx="214" ry="174"/>
+   <ellipse class="fil6 str0" cx="878" cy="2739" rx="36" ry="84"/>
+   <ellipse class="fil6 str3" cx="716" cy="2741" rx="36" ry="84"/>
+   <rect class="fil7 str0" x="587" y="3255" width="125" height="88"/>
+   <rect class="fil7 str0" x="793" y="3180" width="125" height="88"/>
+   <path class="fil9 str0" d="M729 2368c34,-15 74,2 90,38 15,33 3,71 -26,89 -23,-2 -46,-3 -69,-2 -12,-7 -21,-19 -27,-32 -16,-36 -1,-77 32,-92z"/>
+   <ellipse class="fil0 str0" transform="matrix(-0.121614 -0.0430598 0.053745 -0.0797774 856.89 2976.48)" rx="193" ry="1023"/>
+   <circle class="fil8 str0" transform="matrix(0.0998814 -0.0762722 0.0762722 0.0998814 793.472 3071.37)" r="250"/>
+  </g>
+  <g id="_662762816">
+   <ellipse class="fil1 str0" cx="2522" cy="4365" rx="202" ry="165"/>
+   <rect class="fil12 str0" transform="matrix(0.207602 0.101854 -0.0797211 0.250559 2451.17 4246.55)" width="295" height="473"/>
+   <rect class="fil12 str0" transform="matrix(-0.184749 0.101193 -0.136405 -0.252802 2678.46 4337.39)" width="295" height="473"/>
+   <ellipse class="fil9 str0" cx="2384" cy="4074" rx="42" ry="39"/>
+   <rect class="fil9 str4" transform="matrix(0.186725 0.0607479 -0.0765955 0.235437 2342.3 4341)" width="857" height="251" rx="31" ry="31"/>
+   <ellipse class="fil2 str0" cx="2538" cy="4137" rx="167" ry="168"/>
+   <ellipse class="fil10 str0" cx="2519" cy="3778" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M2734 3587c24,12 33,43 21,69 -12,24 -39,35 -62,27 -9,-14 -20,-28 -31,-40 -1,-10 1,-21 6,-31 13,-26 43,-37 67,-25z"/>
+   <rect class="fil5 str1" x="2249" y="3659" width="152" height="243" rx="52" ry="52"/>
+   <ellipse class="fil1 str0" cx="2301" cy="3781" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="2375" y="4137" width="330" height="37"/>
+   <path class="fil15 str0" d="M2517 4048c6,-11 55,3 108,33 53,30 91,63 85,75 -6,11 -55,-3 -108,-33 -53,-30 -91,-63 -85,-75z"/>
+   <ellipse class="fil9 str0" transform="matrix(0.0702169 0.0215072 -0.0235166 0.0767773 2709.91 4156.29)" rx="569" ry="488"/>
+   <rect class="fil4 str0" x="2375" y="4137" width="27" height="37"/>
+   <rect class="fil9 str4" transform="matrix(-0.193678 0.0323329 -0.0407677 -0.244203 2712.78 4390.94)" width="857" height="251" rx="31" ry="31"/>
+  </g>
+  <g id="_662755584">
+   <rect class="fil12 str0" transform="matrix(0.198858 0.0641398 -0.0885465 0.274528 701.794 4264.92)" width="295" height="473"/>
+   <ellipse class="fil1 str0" cx="740" cy="4365" rx="224" ry="165"/>
+   <rect class="fil12 str0" transform="matrix(0.195717 0.0640576 -0.0871478 0.274176 701.928 4265.02)" width="295" height="473"/>
+   <rect class="fil12 str0" transform="matrix(0.202579 -0.0594606 0.082862 0.277049 797.683 4269.55)" width="295" height="473"/>
+   <ellipse class="fil9 str0" cx="930" cy="4067" rx="42" ry="39"/>
+   <ellipse class="fil2 str0" cx="778" cy="4137" rx="167" ry="168"/>
+   <ellipse class="fil10 str0" cx="758" cy="3778" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M973 3587c24,12 33,43 21,69 -12,24 -39,35 -62,27 -9,-14 -20,-28 -31,-40 -1,-10 1,-21 6,-31 13,-26 43,-37 67,-25z"/>
+   <rect class="fil5 str1" x="488" y="3659" width="194" height="243" rx="67" ry="67"/>
+   <ellipse class="fil1 str0" cx="615" cy="3781" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="615" y="4137" width="330" height="37"/>
+   <path class="fil16 str0" d="M799 4048c7,11 -30,46 -83,77 -53,31 -101,47 -107,36 -7,-11 30,-46 83,-77 53,-31 101,-47 107,-36z"/>
+   <rect class="fil4 str0" x="615" y="4137" width="27" height="37"/>
+   <ellipse class="fil1 str0" cx="521" cy="3781" rx="18" ry="102"/>
+   <rect class="fil9 str4" transform="matrix(0.186725 0.0607479 -0.0765955 0.235437 582.917 4313.12)" width="857" height="251" rx="31" ry="31"/>
+   <rect class="fil9 str4" transform="matrix(0.184356 -0.0675971 0.0852314 0.23245 763.366 4423.01)" width="857" height="251" rx="31" ry="31"/>
+   <rect class="fil9 str4" transform="matrix(0.186725 0.0607479 -0.0765955 0.235437 582.917 4313.12)" width="857" height="251" rx="31" ry="31"/>
+   <ellipse class="fil9 str0" transform="matrix(0.070024 -0.0221273 0.0241946 0.0765663 605.146 4168.12)" rx="569" ry="488"/>
+  </g>
+  <g id="_662748960">
+   <ellipse class="fil1 str0" cx="754" cy="2068" rx="202" ry="165"/>
+   <rect class="fil12 str0" transform="matrix(-0.207602 0.101854 0.0797211 0.250559 825.416 1949.73)" width="295" height="473"/>
+   <rect class="fil12 str0" transform="matrix(0.184749 0.101193 0.136405 -0.252802 598.125 2040.57)" width="295" height="473"/>
+   <ellipse class="fil9 str0" cx="893" cy="1777" rx="42" ry="39"/>
+   <rect class="fil9 str4" transform="matrix(-0.186725 0.0607479 0.0765955 0.235437 934.288 2044.18)" width="857" height="251" rx="31" ry="31"/>
+   <ellipse class="fil2 str0" cx="738" cy="1840" rx="167" ry="168"/>
+   <ellipse class="fil13 str0" cx="758" cy="1481" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M543 1290c-24,12 -33,43 -21,69 12,24 39,35 62,27 9,-14 20,-28 31,-40 1,-10 -1,-21 -6,-31 -13,-26 -43,-37 -67,-25z"/>
+   <rect class="fil5 str1" x="876" y="1362" width="152" height="243" rx="52" ry="52"/>
+   <ellipse class="fil1 str0" cx="975" cy="1484" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="571" y="1840" width="330" height="37"/>
+   <path class="fil17 str0" d="M760 1751c-6,-11 -55,3 -108,33 -53,30 -91,63 -85,75 6,11 55,-3 108,-33 53,-30 91,-63 85,-75z"/>
+   <ellipse class="fil9 str0" transform="matrix(-0.0702169 0.0215072 0.0235166 0.0767773 566.677 1859.47)" rx="569" ry="488"/>
+   <rect class="fil4 str0" x="875" y="1840" width="27" height="37"/>
+   <rect class="fil9 str4" transform="matrix(0.193678 0.0323329 0.0407677 -0.244203 563.814 2094.12)" width="857" height="251" rx="31" ry="31"/>
+  </g>
+  <g id="_662739328">
+   <rect class="fil12 str0" transform="matrix(-0.198858 0.0641398 0.0885465 0.274528 2574.8 1968.1)" width="295" height="473"/>
+   <ellipse class="fil1 str0" cx="2536" cy="2068" rx="224" ry="165"/>
+   <rect class="fil12 str0" transform="matrix(-0.195717 0.0640576 0.0871478 0.274176 2574.66 1968.2)" width="295" height="473"/>
+   <rect class="fil12 str0" transform="matrix(-0.202579 -0.0594606 -0.082862 0.277049 2478.91 1972.73)" width="295" height="473"/>
+   <ellipse class="fil9 str0" cx="2347" cy="1770" rx="42" ry="39"/>
+   <ellipse class="fil2 str0" cx="2499" cy="1840" rx="167" ry="168"/>
+   <ellipse class="fil13 str0" cx="2519" cy="1481" rx="275" ry="251"/>
+   <path class="fil9 str0" d="M2303 1290c-24,12 -33,43 -21,69 12,24 39,35 62,27 9,-14 20,-28 31,-40 1,-10 -1,-21 -6,-31 -13,-26 -43,-37 -67,-25z"/>
+   <rect class="fil5 str1" x="2594" y="1362" width="194" height="243" rx="67" ry="67"/>
+   <ellipse class="fil1 str0" cx="2662" cy="1484" rx="18" ry="102"/>
+   <rect class="fil1 str0" x="2332" y="1840" width="330" height="37"/>
+   <path class="fil18 str0" d="M2477 1751c-7,11 30,46 83,77 53,31 101,47 107,36 7,-11 -30,-46 -83,-77 -53,-31 -101,-47 -107,-36z"/>
+   <rect class="fil4 str0" x="2635" y="1840" width="27" height="37"/>
+   <ellipse class="fil1 str0" cx="2756" cy="1484" rx="18" ry="102"/>
+   <rect class="fil9 str4" transform="matrix(-0.186725 0.0607479 0.0765955 0.235437 2693.67 2016.3)" width="857" height="251" rx="31" ry="31"/>
+   <rect class="fil9 str4" transform="matrix(-0.184356 -0.0675971 -0.0852314 0.23245 2513.22 2126.19)" width="857" height="251" rx="31" ry="31"/>
+   <rect class="fil9 str4" transform="matrix(-0.186725 0.0607479 0.0765955 0.235437 2693.67 2016.3)" width="857" height="251" rx="31" ry="31"/>
+   <ellipse class="fil9 str0" transform="matrix(-0.070024 -0.0221273 -0.0241946 0.0765663 2671.44 1871.3)" rx="569" ry="488"/>
+  </g>
+  <ellipse class="fil1 str4" transform="matrix(0.10983 -0 0.000560631 0.141522 2506.34 897.956)" rx="1839" ry="1500"/>
+  <circle class="fil8 str0" transform="matrix(0.0910405 -0.0910156 0.0866076 0.0956741 2308.69 575.009)" r="250"/>
+  <ellipse class="fil0 str0" transform="matrix(0.106633 -0.0762805 0.0325372 0.0951143 2335.63 659.665)" rx="193" ry="1023"/>
+  <ellipse class="fil0 str0" transform="matrix(-0.103196 0.0813346 -0.0366498 -0.0934478 2694.8 686.352)" rx="193" ry="1023"/>
+  <ellipse class="fil9 str0" cx="2731" cy="782" rx="31" ry="33"/>
+  <rect class="fil0 str0" x="2342" y="754" width="125" height="248"/>
+  <rect class="fil0 str0" x="2548" y="633" width="125" height="248"/>
+  <rect class="fil7 str0" x="2548" y="866" width="125" height="92"/>
+  <ellipse class="fil2 str0" cx="2507" cy="677" rx="182" ry="203"/>
+  <ellipse class="fil0 str0" cx="2513" cy="358" rx="275" ry="264"/>
+  <rect class="fil3 str0" x="2324" y="707" width="358" height="51" rx="25" ry="25"/>
+  <rect class="fil7 str0" x="2342" y="910" width="125" height="92"/>
+  <path class="fil9 str2" d="M2634 294c34,-16 74,2 88,40 13,35 1,75 -29,93 -34,-5 -53,-5 -69,-2 -11,-8 -21,-19 -26,-34 -14,-38 2,-81 36,-97z"/>
+  <ellipse class="fil1 str4" transform="matrix(-0.10983 -0 -0.000560631 0.141522 761.021 897.726)" rx="1839" ry="1500"/>
+  <circle class="fil8 str0" transform="matrix(-0.0910405 -0.0910156 -0.0866076 0.0956741 958.669 574.779)" r="250"/>
+  <ellipse class="fil0 str0" transform="matrix(-0.106633 -0.0762805 -0.0325372 0.0951143 931.724 659.435)" rx="193" ry="1023"/>
+  <ellipse class="fil0 str0" transform="matrix(0.103196 0.0813346 0.0366498 -0.0934478 572.557 686.122)" rx="193" ry="1023"/>
+  <ellipse class="fil9 str0" cx="537" cy="781" rx="31" ry="33"/>
+  <rect class="fil0 str0" x="801" y="754" width="125" height="248"/>
+  <rect class="fil0 str0" x="594" y="629" width="125" height="248"/>
+  <rect class="fil19 str0" x="594" y="871" width="125" height="92"/>
+  <ellipse class="fil2 str0" cx="761" cy="676" rx="182" ry="203"/>
+  <ellipse class="fil0 str0" cx="755" cy="358" rx="275" ry="264"/>
+  <rect class="fil3 str0" x="586" y="707" width="358" height="51" rx="25" ry="25"/>
+  <rect class="fil19 str0" x="801" y="910" width="125" height="92"/>
+  <path class="fil9 str2" d="M633 294c-34,-16 -74,2 -88,40 -14,35 -1,75 29,93 34,-5 53,-5 69,-2 11,-8 21,-19 26,-34 14,-38 -2,-81 -36,-97z"/>
+  <rect class="fil20" x="309" width="2659" height="4589"/>
+ </g>
+</svg>
