@@ -12,6 +12,8 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import com.badlogic.gdx.physics.box2d.CircleShape;
+
 import android.content.Context;
 import android.opengl.GLES20;
 
@@ -63,6 +65,8 @@ public class OnScreenControls {
 		this.mAnalogOnScreenControl.refreshControlKnobPosition();
 		
 		scene.setChildScene(this.mAnalogOnScreenControl);
+
+		
 	}
 	
 	public float getJoystickHeight(){
