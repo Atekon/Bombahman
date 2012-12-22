@@ -32,8 +32,15 @@ public class Player {
 	
 	public void createSprite(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
-		this.mSprite.setPosition(posX, posY);
+		this.mSprite.setCurrentTileIndex(7);
+		this.mSprite.setScale(0.35f);
+		this.setPosition(posX, posY);
 		scene.attachChild(this.mSprite);
+	}
+	
+	public void setPosition(float posX, float posY){
+		this.mSprite.setPosition(posX-this.mSprite.getWidth()/2, posY-3*this.mSprite.getWidth()/4);
+
 	}
 	
 	public AnimatedSprite getSprite() {

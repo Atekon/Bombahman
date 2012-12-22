@@ -94,7 +94,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		mMap.loadMap(scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
 		
-		this.mPlayers[0].createSprite(GameActivity.CAMERA_WIDTH/2, GameActivity.CAMERA_HEIGHT/2+20, scene, this.getVertexBufferObjectManager());
+		float[] firstTilePosition = new float[2];
+		firstTilePosition[0] = mMap.getTileWidth()*1.5f;
+		firstTilePosition[1] = mMap.getTileHeight()*1.5f;
+		this.mPlayers[0].createSprite(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
 
 		this.mConnector.setActivity(this);
 		this.mConnector.initClient();
@@ -110,7 +113,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 //		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
 //		
 //		scene.attachChild(face);
-		this.mPlayers[0].getSprite().setPosition(pX, pY);
+		//this.mPlayers[0].setPosition(pX, pY);
 	}
 	
 	public void startTouchEvents(Scene scene){

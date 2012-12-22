@@ -51,5 +51,13 @@ public class Map{
 		
 		scene.attachChild(tmxLayer);
 	}
+	
+	public int getTileWidth(){
+		return this.mTMXTiledMap.getTileWidth();
+	}
+	
+	public int getTileHeight(){
+		return this.mTMXTiledMap.getTileHeight();
+	}
 
 }
