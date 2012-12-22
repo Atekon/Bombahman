@@ -1,7 +1,12 @@
 package pt.cagojati.bombahman;
 
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.extension.physics.box2d.PhysicsConnector;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
@@ -10,12 +15,18 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
 
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+
 public class Player {
 
-	
+	Body mBody;
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
 
+	public static final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, CATEGORY_BIT_PLAYER,MASK_BIT_PLAYER, (short)0);
+	
 	public Player(){
 		
 	}
@@ -24,22 +35,29 @@ public class Player {
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "playerwhite.png",3,4);
 	}
 	
-	public void loadResources(BitmapTextureAtlas textureAtlas, Context context)
+	public ITexture[] loadResources(BitmapTextureAtlas textureAtlas,int offsetX, int offsetY, Context context)
 	{
-		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "playerwhite.png", 0, 0, 3, 4);
-
+		ITexture[] vec = new ITexture[1];
+		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "playerwhite.png", offsetX, offsetY, 3, 4);
+		vec[0] = this.mPlayerTextureRegion.getTexture();
+		return vec;
 	}
 	
-	public void createSprite(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
+	public void createSprite(PhysicsWorld physicsWorld,float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);
-		this.setPosition(posX, posY);
-		scene.attachChild(this.mSprite);
-	}
-	
-	public void setPosition(float posX, float posY){
-		this.mSprite.setPosition(posX-this.mSprite.getWidth()/2, posY-3*this.mSprite.getWidth()/4);
+		this.mSprite.setPosition(0-this.mSprite.getWidth()/2+7, 0-3*this.mSprite.getWidth()/4+7);
+		//this.setPosition(posX, posY);
+		
+		final Rectangle boundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
+		boundBox.setAlpha(0);
+		this.mBody = PhysicsFactory.createBoxBody(physicsWorld, boundBox, BodyType.DynamicBody, Player.PLAYER_FIXTURE_DEF);
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
+		
+		this.mBody.setUserData(this);
+		boundBox.attachChild(this.mSprite);
+		scene.attachChild(boundBox);
 
 	}
 	
@@ -51,4 +69,31 @@ public class Player {
 		this.mSprite = mSprite;
 	}
 	
+	public void animate(float pValueX, float pValueY){
+		this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
+		
+		if(Math.abs(pValueX)>Math.abs(pValueY)){
+			if(pValueX>0){
+				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<3 || this.mSprite.getCurrentTileIndex()>5)))
+					this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{3,4,5,4}, true);	
+			}else{
+				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<9 || this.mSprite.getCurrentTileIndex()>11)))
+					this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{9,10,11,10}, true);
+			}
+
+		}else if(Math.abs(pValueY)>Math.abs(pValueX)){
+			if(pValueY>0){
+				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<6 || this.mSprite.getCurrentTileIndex()>8)))
+					this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{6,7,8,7}, true);	
+			}else{
+				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()>2)))
+					this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{0,1,2,1}, true);
+			}
+		}
+
+		if(pValueX ==0 && pValueY==0){
+			this.mSprite.stopAnimation();
+		}
+
+	}
 }

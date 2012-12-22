@@ -1,7 +1,10 @@
 package pt.cagojati.bombahman;
 
 import org.andengine.engine.Engine;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
 import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
@@ -15,6 +18,11 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
 import android.content.res.AssetManager;
+import android.util.Log;
+
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class Map{
 
 	// ===========================================================
@@ -22,26 +30,27 @@ public class Map{
 	// ===========================================================
 
 	private TMXTiledMap mTMXTiledMap;
-	protected int mCactusCount;
 	
 	public Map()
 	{
 		
 	}
 	
-	public void loadMap(final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
+	public void loadMap(final PhysicsWorld physicsWorld, final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(assetManager, engine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, vertexBufferManager, new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
-					/* We are going to count the tiles that have the property "cactus=true" set. */
-//					if(pTMXTileProperties.containsTMXProperty("cactus", "true")) {
-//						Map.this.mCactusCount++;
-//						//create cactus
-//					}
+					if(pTMXTileProperties.containsTMXProperty("brick", "true")) {
+						Brick brick = new Brick();
+						brick.createBody(pTMXTile, physicsWorld, scene, vertexBufferManager);
+					}else if(pTMXTileProperties.containsTMXProperty("wall","true")){
+						Wall wall = new Wall();
+						wall.createBody(pTMXTile, physicsWorld, scene, vertexBufferManager);
+					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/map3.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/map.tmx");
 
 		} catch (final TMXLoadException e) {
 			Debug.e(e);
