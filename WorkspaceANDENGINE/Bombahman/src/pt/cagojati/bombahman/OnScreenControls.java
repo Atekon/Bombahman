@@ -19,6 +19,7 @@ public class OnScreenControls {
 	
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
+	private AnalogOnScreenControl mAnalogOnScreenControl;
 
 	public OnScreenControls(){
 		
@@ -41,7 +42,7 @@ public class OnScreenControls {
 	
 	public void createAnalogControls(float posX, float posY, Camera camera, final Player player,Scene scene, VertexBufferObjectManager vertexBufferManager)
 	{
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(posX, posY, camera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, 200, vertexBufferManager, new IAnalogOnScreenControlListener() {
+		this.mAnalogOnScreenControl = new AnalogOnScreenControl(posX, posY, camera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, 200, vertexBufferManager, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				player.animate(pValueX, pValueY);
@@ -53,17 +54,19 @@ public class OnScreenControls {
 			}
 		});
 
-		analogOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		analogOnScreenControl.getControlBase().setAlpha(0.5f);
-		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
+		this.mAnalogOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		this.mAnalogOnScreenControl.getControlBase().setAlpha(0.25f);
+		this.mAnalogOnScreenControl.getControlKnob().setAlpha(0.5f);
+		this.mAnalogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		//analogOnScreenControl.getControlBase().setScale(1.25f);
 		//analogOnScreenControl.getControlKnob().setScale(1.25f);
-		analogOnScreenControl.refreshControlKnobPosition();
+		this.mAnalogOnScreenControl.refreshControlKnobPosition();
 		
-		scene.setChildScene(analogOnScreenControl);
+		scene.setChildScene(this.mAnalogOnScreenControl);
 	}
 	
 	public float getJoystickHeight(){
 		return this.mOnScreenControlBaseTextureRegion.getHeight();
 	}
+
 }

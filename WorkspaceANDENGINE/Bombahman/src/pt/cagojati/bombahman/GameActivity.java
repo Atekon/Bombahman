@@ -12,12 +12,14 @@ import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.bitmap.BitmapTextureFormat;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
@@ -34,8 +36,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameActivity extends SimpleBaseGameActivity {
 
-	private static final int CAMERA_WIDTH = 800;
-	private static final int CAMERA_HEIGHT = 480;
+	static final int CAMERA_WIDTH = 800;
+	static final int CAMERA_HEIGHT = 480;
 
 	//	private ITextureRegion mFaceTextureRegion;
 	private IMultiplayerConnector mConnector;
@@ -72,7 +74,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048);
+		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048,TextureOptions.BILINEAR);
 		
 		this.mPlayers[0].loadResources(textureAtlas, this);
 		this.mControls.loadResources(textureAtlas, this);
@@ -106,11 +108,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 		firstTilePosition[1] = mMap.getTileHeight()*1.5f;
 		this.mPlayers[0].createSprite(this.mPhysicsWorld,firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
 
-		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight(), this.mEngine.getCamera(), this.mPlayers[0], scene, this.getVertexBufferObjectManager());
+		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), this.mPlayers[0], scene, this.getVertexBufferObjectManager());
 		
 		this.mConnector.setActivity(this);
 		this.mConnector.initClient();
-		//startTouchEvents(scene);
+		startTouchEvents(scene);
 		
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -132,13 +134,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.isActionDown()) {
-					MessagePool<IMessage> messagePool = GameActivity.this.mConnector.getMessagePool();
-					final AddFaceClientMessage addFaceClientMessage = (AddFaceClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_ADD_FACE);
-					addFaceClientMessage.set(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-					GameActivity.this.mConnector.sendClientMessage(addFaceClientMessage);
-
-					messagePool.recycleMessage(addFaceClientMessage);
+				if(pSceneTouchEvent.isActionDown()) {					
+					//test
+//					MessagePool<IMessage> messagePool = GameActivity.this.mConnector.getMessagePool();
+//					final AddFaceClientMessage addFaceClientMessage = (AddFaceClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_ADD_FACE);
+//					addFaceClientMessage.set(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+//					GameActivity.this.mConnector.sendClientMessage(addFaceClientMessage);
+//
+//					messagePool.recycleMessage(addFaceClientMessage);
 					return true;
 				} else {
 					return true;
