@@ -5,14 +5,13 @@ import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-
-import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import android.content.Context;
 import android.opengl.GLES20;
@@ -21,7 +20,9 @@ public class OnScreenControls {
 	
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
+	private ITextureRegion mOnScreenBombButtonTextureRegion;
 	private AnalogOnScreenControl mAnalogOnScreenControl;
+	private Sprite mOnScreenBombButton;
 
 	public OnScreenControls(){
 		
@@ -31,8 +32,10 @@ public class OnScreenControls {
 	{
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(textureAtlas, context, "onscreen_control_base.png");
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(textureAtlas, context, "onscreen_control_knob.png");
+		this.mOnScreenBombButtonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(textureAtlas, context, "bombButton.png");
 	}
 	
+	//deprecated
 	public ITexture[] loadResources(BitmapTextureAtlas textureAtlas, int offsetX, int offsetY, Context context){
 		ITexture[] vec = new ITexture[2];
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(textureAtlas, context, "onscreen_control_base.png", offsetX, offsetY);
@@ -64,9 +67,15 @@ public class OnScreenControls {
 		//analogOnScreenControl.getControlKnob().setScale(1.25f);
 		this.mAnalogOnScreenControl.refreshControlKnobPosition();
 		
-		scene.setChildScene(this.mAnalogOnScreenControl);
-
+		//Create Bomb Button Sprite
+		this.mOnScreenBombButton = new Sprite(0, 0, this.mOnScreenBombButtonTextureRegion, vertexBufferManager);
+		this.mOnScreenBombButton.setAlpha(0.5f);
+		this.mOnScreenBombButton.setScale(0.5f);
+		this.mOnScreenBombButton.setPosition(GameActivity.CAMERA_WIDTH-this.mOnScreenBombButton.getWidthScaled()*1.5f-posX,posY-this.mOnScreenBombButton.getHeightScaled()/2);
+		this.mAnalogOnScreenControl.attachChild(this.mOnScreenBombButton);
 		
+		
+		scene.setChildScene(this.mAnalogOnScreenControl);
 	}
 	
 	public float getJoystickHeight(){
