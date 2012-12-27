@@ -41,10 +41,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	//	private ITextureRegion mFaceTextureRegion;
 	private IMultiplayerConnector mConnector;
-	private Map mMap;
+	private static Map mMap;
 	private Player[] mPlayers = new Player[4];
 	private OnScreenControls mControls;
 	private PhysicsWorld mPhysicsWorld;
+	private BombPool mBombPool;
 	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -70,7 +71,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	protected void onCreateResources() {
 		this.mPlayers[0] = new Player();
 		this.mControls = new OnScreenControls();
-		this.mMap = new Map();
+		GameActivity.setMap(new Map());
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
@@ -78,6 +79,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		
 		this.mPlayers[0].loadResources(textureAtlas, this);
 		this.mControls.loadResources(textureAtlas, this);
+		Bomb.loadResources(0, textureAtlas, this);
 
 		try {
 			textureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 1));
@@ -85,28 +87,21 @@ public class GameActivity extends SimpleBaseGameActivity {
 		} catch (TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
-				
-		//		playerBitmapTextureAtlas.load();
-
-		//for testing purposes
-		//		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		//		
-		//		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		//		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		//
-		//		this.mBitmapTextureAtlas.load();	
+		
+		mBombPool = new BombPool(textureAtlas, this, this.getVertexBufferObjectManager());
 	}
 
 	@Override
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
 		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		mMap.loadMap(this.mPhysicsWorld, scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
-
+		this.mBombPool.setScene(scene);
+		this.getMap().loadMap(this.mPhysicsWorld, scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
+		
 		float[] firstTilePosition = new float[2];
-		firstTilePosition[0] = mMap.getTileWidth()*1.5f;
-		firstTilePosition[1] = mMap.getTileHeight()*1.5f;
-		this.mPlayers[0].createSprite(this.mPhysicsWorld,firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
+		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
+		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+		this.mPlayers[0].initialize(this.mPhysicsWorld,firstTilePosition[0],firstTilePosition[1], scene,this.mBombPool, this.getVertexBufferObjectManager());
 
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), this.mPlayers[0], scene, this.getVertexBufferObjectManager());
 		
@@ -170,6 +165,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 		}
 
 		super.onDestroy();
+	}
+
+	public static Map getMap() {
+		return mMap;
+	}
+
+	private static void setMap(Map mMap) {
+		GameActivity.mMap = mMap;
 	}
 
 }

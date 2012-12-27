@@ -4,8 +4,11 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
+import org.andengine.entity.scene.IOnAreaTouchListener;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -73,7 +76,21 @@ public class OnScreenControls {
 		this.mOnScreenBombButton.setScale(0.5f);
 		this.mOnScreenBombButton.setPosition(GameActivity.CAMERA_WIDTH-this.mOnScreenBombButton.getWidthScaled()*1.5f-posX,posY-this.mOnScreenBombButton.getHeightScaled()/2);
 		this.mAnalogOnScreenControl.attachChild(this.mOnScreenBombButton);
+		this.mAnalogOnScreenControl.registerTouchArea(this.mOnScreenBombButton);
 		
+		//register touch events
+		this.mAnalogOnScreenControl.setOnAreaTouchListener(new IOnAreaTouchListener() {
+			
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
+					ITouchArea pTouchArea, float pTouchAreaLocalX,
+					float pTouchAreaLocalY) {
+				if(pSceneTouchEvent.isActionDown()){
+					player.dropBomb();
+				}
+				return true;
+			}
+		});
 		
 		scene.setChildScene(this.mAnalogOnScreenControl);
 	}

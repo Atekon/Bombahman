@@ -6,12 +6,14 @@ import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.Constants;
 
 import android.content.Context;
 
@@ -24,6 +26,7 @@ public class Player {
 	Body mBody;
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
+	BombPool mBombPool;
 
 	public static final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, CATEGORY_BIT_PLAYER,MASK_BIT_PLAYER, (short)0);
 	
@@ -43,7 +46,7 @@ public class Player {
 		return vec;
 	}
 	
-	public void createSprite(PhysicsWorld physicsWorld,float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
+	public void initialize(PhysicsWorld physicsWorld,float posX, float posY, Scene scene, BombPool bombPool, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);
@@ -59,6 +62,7 @@ public class Player {
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
 
+		mBombPool = bombPool;
 	}
 	
 	public AnimatedSprite getSprite() {
@@ -95,5 +99,17 @@ public class Player {
 			this.mSprite.stopAnimation();
 		}
 
+	}
+
+	public void dropBomb() {
+		//get Current Tile Position
+		final float[] playerFootCordinates = this.getSprite().convertLocalToSceneCoordinates(this.getSprite().getWidthScaled()/2+32, this.getSprite().getHeightScaled()+50);
+
+		/* Get the tile the feet of the player are currently waking on. */
+		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
+		if(tmxTile != null) {
+			Bomb bomb = mBombPool.obtainPoolItem();
+			bomb.setPosition(tmxTile.getTileX(),tmxTile.getTileY());
+		}
 	}
 }

@@ -69,4 +69,8 @@ public class Map{
 		return this.mTMXTiledMap.getTileHeight();
 	}
 
+	public TMXTile getTMXTileAt(float pX, float pY) {
+		return this.mTMXTiledMap.getTMXLayers().get(0).getTMXTileAt(pX, pY);
+	}
+
 }
