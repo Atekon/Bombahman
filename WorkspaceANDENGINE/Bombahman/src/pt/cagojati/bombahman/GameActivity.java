@@ -35,6 +35,10 @@ import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 
 public class GameActivity extends SimpleBaseGameActivity {
@@ -112,6 +116,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mConnector.initClient();
 		startTouchEvents(scene);
 		
+		createContactListeners();
+		
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
 		return scene;
@@ -148,6 +154,43 @@ public class GameActivity extends SimpleBaseGameActivity {
 		});
 
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
+	}
+	
+	private void createContactListeners(){
+		mPhysicsWorld.setContactListener(new ContactListener() {
+			
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void endContact(Contact contact) {
+				//happens when a new bomb is placed and adds the collision to the bomb
+				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
+				{
+					contact.getFixtureB().setSensor(false);
+					Player player = (Player) contact.getFixtureA().getBody().getUserData();
+					player.setOverBomb(false);
+				}
+			}
+			
+			@Override
+			public void beginContact(Contact contact) {
+				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
+				{
+					Player player = (Player) contact.getFixtureA().getBody().getUserData();
+					player.setOverBomb(true);
+				}
+			}
+		});
 	}
 
 	@Override

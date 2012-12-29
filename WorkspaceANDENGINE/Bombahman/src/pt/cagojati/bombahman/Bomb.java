@@ -70,6 +70,7 @@ public class Bomb {
 		
 		this.mBody.setUserData(this);
 		
+		this.mBody.getFixtureList().get(0).setSensor(true);
 	}
 
 }

@@ -86,7 +86,9 @@ public class OnScreenControls {
 					ITouchArea pTouchArea, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()){
-					player.dropBomb();
+					if(!player.isOverBomb()){
+						player.dropBomb();
+					}					
 				}
 				return true;
 			}

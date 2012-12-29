@@ -19,6 +19,7 @@ import android.content.Context;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Player {
@@ -27,9 +28,10 @@ public class Player {
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
 	BombPool mBombPool;
+	private boolean isOverBomb = false;
 
 	public static final short CATEGORYBIT = 4;
-	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
+	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
 	
 	public Player(){
@@ -116,5 +118,13 @@ public class Player {
 			int posY = tmxTile.getTileY();
 			bomb.definePosition(posX,posY);
 		}
+	}
+
+	public boolean isOverBomb() {
+		return isOverBomb;
+	}
+
+	public void setOverBomb(boolean isOverBomb) {
+		this.isOverBomb = isOverBomb;
 	}
 }
