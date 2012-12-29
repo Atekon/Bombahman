@@ -11,16 +11,10 @@ import android.content.Context;
 public class BombPool extends GenericPool<Bomb> {
 
 	private Scene mScene;
-	private BuildableBitmapTextureAtlas mTextureAtlas;
-	private Context mContext;
-	private PhysicsWorld mPhysicsWorld;
 	private VertexBufferObjectManager mVertexBufferManager;
 
-	public BombPool(BuildableBitmapTextureAtlas textureAtlas, PhysicsWorld physicsWorld, Context context, VertexBufferObjectManager vertexBufferManager){
-		this.mTextureAtlas = textureAtlas;
-		this.mContext = context;
+	public BombPool(VertexBufferObjectManager vertexBufferManager){
 		mVertexBufferManager = vertexBufferManager;
-		mPhysicsWorld = physicsWorld;
 	}
 
 	@Override

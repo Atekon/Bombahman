@@ -52,7 +52,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private Player[] mPlayers = new Player[4];
 	private OnScreenControls mControls;
 	private static final PhysicsWorld mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
-	private BombPool mBombPool;
+	private static BombPool mBombPool;
 	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -95,20 +95,20 @@ public class GameActivity extends SimpleBaseGameActivity {
 			Debug.e(e);
 		}
 		
-		mBombPool = new BombPool(textureAtlas,this.mPhysicsWorld, this, this.getVertexBufferObjectManager());
+		setBombPool(new BombPool(this.getVertexBufferObjectManager()));
 	}
 
 	@Override
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
 		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		this.mBombPool.setScene(scene);
+		GameActivity.getBombPool().setScene(scene);
 		GameActivity.getMap().loadMap(scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
 		
 		float[] firstTilePosition = new float[2];
 		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
 		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
-		this.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene,this.mBombPool, this.getVertexBufferObjectManager());
+		this.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
 
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), this.mPlayers[0], scene, this.getVertexBufferObjectManager());
 		
@@ -232,6 +232,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 	
 	public static PhysicsWorld getPhysicsWorld(){
 		return mPhysicsWorld;
+	}
+
+	public static BombPool getBombPool() {
+		return mBombPool;
+	}
+
+	private static void setBombPool(BombPool mBombPool) {
+		GameActivity.mBombPool = mBombPool;
 	}
 
 }

@@ -1,5 +1,7 @@
 package pt.cagojati.bombahman;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Bomb {
+	
 	Body mBody;
 	static ITextureRegion mBombTextureRegion;
 	Sprite mSprite;
@@ -26,6 +29,7 @@ public class Bomb {
 
 	private static final String[] BOMB_TEXTURES = {"bomb_white.png", "bomb_black.png", "bomb_blue.png","bomb_red.png"};
 	
+	private static final short TIMEOUT = 3;
 	public static final short CATEGORYBIT = 8;
 	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef BOMB_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Bomb.CATEGORYBIT, this.MASKBITS, (short)0);
@@ -71,6 +75,22 @@ public class Bomb {
 		this.mBody.setUserData(this);
 		
 		this.mBody.getFixtureList().get(0).setSensor(true);
+		
+		this.mSprite.registerUpdateHandler(new TimerHandler(TIMEOUT, new ITimerCallback() {
+			
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				Bomb.this.explode();
+				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
+			}
+		}));
+	}
+	
+	public void explode(){
+		GameActivity.getPhysicsWorld().destroyBody(mBody);
+		GameActivity.getBombPool().recyclePoolItem(this);
+		
+		//create Explosion
 	}
 
 }

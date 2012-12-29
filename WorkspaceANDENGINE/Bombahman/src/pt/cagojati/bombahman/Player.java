@@ -27,7 +27,6 @@ public class Player {
 	Body mBody;
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
-	BombPool mBombPool;
 	private boolean isOverBomb = false;
 
 	public static final short CATEGORYBIT = 4;
@@ -50,7 +49,7 @@ public class Player {
 		return vec;
 	}
 	
-	public void initialize(float posX, float posY, Scene scene, BombPool bombPool, VertexBufferObjectManager vertexBufferManager){
+	public void initialize(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);
@@ -67,7 +66,6 @@ public class Player {
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
 
-		mBombPool = bombPool;
 	}
 	
 	public AnimatedSprite getSprite() {
@@ -113,7 +111,7 @@ public class Player {
 		/* Get the tile the feet of the player are currently waking on. */
 		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 		if(tmxTile != null) {
-			Bomb bomb = mBombPool.obtainPoolItem();
+			Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
 			int posX = tmxTile.getTileX();
 			int posY = tmxTile.getTileY();
 			bomb.definePosition(posX,posY);
