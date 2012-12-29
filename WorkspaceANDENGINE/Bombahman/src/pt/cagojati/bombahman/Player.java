@@ -28,7 +28,9 @@ public class Player {
 	AnimatedSprite mSprite;
 	BombPool mBombPool;
 
-	public static final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, CATEGORY_BIT_PLAYER,MASK_BIT_PLAYER, (short)0);
+	public static final short CATEGORYBIT = 4;
+	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
+	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
 	
 	public Player(){
 		
@@ -46,7 +48,7 @@ public class Player {
 		return vec;
 	}
 	
-	public void initialize(PhysicsWorld physicsWorld,float posX, float posY, Scene scene, BombPool bombPool, VertexBufferObjectManager vertexBufferManager){
+	public void initialize(float posX, float posY, Scene scene, BombPool bombPool, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);
@@ -54,9 +56,10 @@ public class Player {
 		//this.setPosition(posX, posY);
 		
 		final Rectangle boundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
-		boundBox.setAlpha(0);
-		this.mBody = PhysicsFactory.createBoxBody(physicsWorld, boundBox, BodyType.DynamicBody, Player.PLAYER_FIXTURE_DEF);
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
+		boundBox.setColor(1, 0, 0, 0);
+		//boundBox.setAlpha(0);
+		this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.DynamicBody, this.PLAYER_FIXTURE_DEF);
+		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
 		
 		this.mBody.setUserData(this);
 		boundBox.attachChild(this.mSprite);
@@ -109,7 +112,9 @@ public class Player {
 		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 		if(tmxTile != null) {
 			Bomb bomb = mBombPool.obtainPoolItem();
-			bomb.setPosition(tmxTile.getTileX(),tmxTile.getTileY());
+			int posX = tmxTile.getTileX();
+			int posY = tmxTile.getTileY();
+			bomb.definePosition(posX,posY);
 		}
 	}
 }

@@ -12,7 +12,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class Wall {
-	final FixtureDef WALL_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, CATEGORY_BIT_CACTUS,MASK_BIT_CACTUS, (short)0);
+	public static final short CATEGORYBIT = 1;
+	public static final short MASKBITS = Wall.CATEGORYBIT + Player.CATEGORYBIT + Brick.CATEGORYBIT;
+
+	final FixtureDef WALL_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Wall.CATEGORYBIT, Wall.MASKBITS, (short)0);
 
 	private Body mBody;
 	

@@ -16,17 +16,18 @@ public class BombPool extends GenericPool<Bomb> {
 	private PhysicsWorld mPhysicsWorld;
 	private VertexBufferObjectManager mVertexBufferManager;
 
-	public BombPool(BuildableBitmapTextureAtlas textureAtlas, Context context, VertexBufferObjectManager vertexBufferManager){
+	public BombPool(BuildableBitmapTextureAtlas textureAtlas, PhysicsWorld physicsWorld, Context context, VertexBufferObjectManager vertexBufferManager){
 		this.mTextureAtlas = textureAtlas;
 		this.mContext = context;
 		mVertexBufferManager = vertexBufferManager;
+		mPhysicsWorld = physicsWorld;
 	}
 
 	@Override
 	protected Bomb onAllocatePoolItem() {
 		if(getScene()!=null){
 			Bomb bomb = new Bomb();
-			bomb.createSprite(mPhysicsWorld, 0, 0, getScene(), mVertexBufferManager);
+			bomb.createSprite(0, 0, getScene(), mVertexBufferManager);
 			return bomb;
 		}else{
 			return null;

@@ -36,17 +36,17 @@ public class Map{
 		
 	}
 	
-	public void loadMap(final PhysicsWorld physicsWorld, final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
+	public void loadMap(final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(assetManager, engine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, vertexBufferManager, new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					if(pTMXTileProperties.containsTMXProperty("brick", "true")) {
 						Brick brick = new Brick();
-						brick.createBody(pTMXTile, physicsWorld, scene, vertexBufferManager);
+						brick.createBody(pTMXTile, GameActivity.getPhysicsWorld(), scene, vertexBufferManager);
 					}else if(pTMXTileProperties.containsTMXProperty("wall","true")){
 						Wall wall = new Wall();
-						wall.createBody(pTMXTile, physicsWorld, scene, vertexBufferManager);
+						wall.createBody(pTMXTile, GameActivity.getPhysicsWorld(), scene, vertexBufferManager);
 					}
 				}
 			});
