@@ -94,7 +94,7 @@ public class Explosion {
 						continue directionloop;
 					}
 					if(property.containsTMXProperty("brick", "true")){
-						tile.setGlobalTileID(GameActivity.getMap().getTMXTiledMap(), 2);
+						tile.setGlobalTileID(GameActivity.getMap().getTMXTiledMap(), 2, 0);
 						tile.setTextureRegion(GameActivity.getMap().getTMXTiledMap().getTMXTileSets().get(0).getTextureRegionFromGlobalTileID(2));
 						Brick brick = (Brick) tile.getUserData();
 						brick.explode();

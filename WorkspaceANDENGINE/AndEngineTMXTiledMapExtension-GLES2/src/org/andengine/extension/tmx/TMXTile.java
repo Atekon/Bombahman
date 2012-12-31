@@ -76,6 +76,7 @@ public class TMXTile {
 	}
 
 	/**
+	 * @deprecated
 	 * Note this will also set the {@link ITextureRegion} with the associated pGlobalTileID of the {@link TMXTiledMap}.
 	 * @param pTMXTiledMap
 	 * @param pGlobalTileID
@@ -83,6 +84,19 @@ public class TMXTile {
 	public void setGlobalTileID(final TMXTiledMap pTMXTiledMap, final int pGlobalTileID) {
 		this.mGlobalTileID = pGlobalTileID;
 		this.mTextureRegion = pTMXTiledMap.getTextureRegionFromGlobalTileID(pGlobalTileID);
+	}
+	
+	/**
+	 * Note this will also set the {@link ITextureRegion} with the associated pGlobalTileID of the {@link TMXTiledMap}.
+	 * @param pTMXTiledMap
+	 * @param pGlobalTileID
+	 * @param pLayer
+	 */
+	public void setGlobalTileID(final TMXTiledMap pTMXTiledMap, final int pGlobalTileID, final int pLayer) {
+		this.mGlobalTileID = pGlobalTileID;
+		this.mTextureRegion = pTMXTiledMap.getTextureRegionFromGlobalTileID(pGlobalTileID);
+		pTMXTiledMap.getTMXLayers().get(pLayer).updateTileTexture(this.mTileColumn,this.mTileRow);
+
 	}
 
 	/**

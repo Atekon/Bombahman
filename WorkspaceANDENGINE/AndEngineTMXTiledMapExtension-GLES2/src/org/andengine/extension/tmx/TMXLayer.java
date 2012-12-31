@@ -314,6 +314,18 @@ public class TMXLayer extends SpriteBatch implements TMXConstants {
 
 		return lowestByte | secondLowestByte <<  8 |secondHighestByte << 16 | highestByte << 24;
 	}
+	
+	void updateTileTexture(final int pTileColumn, final int pTileRow)
+	{
+        TMXTile tmxTile = mTMXTiles[pTileRow][pTileColumn];
+               
+        final int tileHeight = this.mTMXTiledMap.getTileHeight();
+        final int tileWidth = this.mTMXTiledMap.getTileWidth();
+               
+        this.setIndex(this.getSpriteBatchIndex(pTileColumn, pTileRow));
+        this.drawWithoutChecks(tmxTile.getTextureRegion(), tmxTile.getTileX(), tmxTile.getTileY(), tileWidth, tileHeight, Color.WHITE_ABGR_PACKED_FLOAT);
+        this.submit(); // TODO Doesn't need to be called here, but should rather be called in a "init" step, when parsing the XML is complete.
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
