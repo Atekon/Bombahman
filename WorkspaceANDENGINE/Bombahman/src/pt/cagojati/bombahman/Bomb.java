@@ -26,6 +26,7 @@ public class Bomb {
 	static ITextureRegion mBombTextureRegion;
 	Sprite mSprite;
 	Rectangle mBoundBox;
+	Player mPlayer;
 
 	private static final String[] BOMB_TEXTURES = {"bomb_white.png", "bomb_black.png", "bomb_blue.png","bomb_red.png"};
 	
@@ -61,6 +62,14 @@ public class Bomb {
 	public void setSprite(Sprite mSprite) {
 		this.mSprite = mSprite;
 	}
+	
+	public Player getPlayer(){
+		return mPlayer;
+	}
+	
+	public void setPlayer(Player player){
+		this.mPlayer = player;
+	}
 
 	public void definePosition(int pX, int pY) {
 		this.mSprite.setPosition(pX, pY-12);
@@ -91,6 +100,8 @@ public class Bomb {
 		GameActivity.getBombPool().recyclePoolItem(this);
 		
 		//create Explosion
+		Explosion explosion = new Explosion(this.mPlayer.getPower());
+		explosion.createSpriteGroup(this.mBoundBox.getX(), this.mBoundBox.getY(), (Scene)this.mSprite.getParent(), this.mSprite.getVertexBufferObjectManager());
 	}
 
 }

@@ -28,6 +28,7 @@ public class Player {
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
 	private boolean isOverBomb = false;
+	private int mPower=1;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
@@ -76,6 +77,22 @@ public class Player {
 		this.mSprite = mSprite;
 	}
 	
+	public boolean isOverBomb() {
+		return isOverBomb;
+	}
+
+	public void setOverBomb(boolean isOverBomb) {
+		this.isOverBomb = isOverBomb;
+	}
+	
+	public int getPower(){
+		return this.mPower;
+	}
+	
+	public void setPower(int power){
+		this.mPower = power;
+	}
+	
 	public void animate(float pValueX, float pValueY){
 		this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
 		
@@ -112,17 +129,10 @@ public class Player {
 		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 		if(tmxTile != null) {
 			Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
+			bomb.setPlayer(this);
 			int posX = tmxTile.getTileX();
 			int posY = tmxTile.getTileY();
 			bomb.definePosition(posX,posY);
 		}
-	}
-
-	public boolean isOverBomb() {
-		return isOverBomb;
-	}
-
-	public void setOverBomb(boolean isOverBomb) {
-		this.isOverBomb = isOverBomb;
 	}
 }
