@@ -1,12 +1,16 @@
 package pt.cagojati.bombahman;
 
+import java.util.ArrayList;
+
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.batch.SpriteGroup;
+import org.andengine.extension.physics.box2d.PhysicsConnector;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.tmx.TMXProperties;
-import org.andengine.extension.tmx.TMXProperty;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTileProperty;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -15,24 +19,29 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
-
 import android.content.Context;
+
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Explosion {
 
 	private static final float TIMEOUT = 1f;
 
+	public static final short CATEGORYBIT = 16;
+	private final short MASKBITS = Player.CATEGORYBIT;
+	private final FixtureDef EXPLOSION_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, Explosion.CATEGORYBIT, this.MASKBITS, (short)0);
+	
 	static ITiledTextureRegion mExplosionTextureRegion;
 
+	ArrayList<Body> mSensorList;
 	SpriteGroup mSpriteGroup;
 	int mPower;
 
 	public Explosion(int power){
 		this.mPower = power;
+		mSensorList = new ArrayList<Body>();
 	}
 
 	public static void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
@@ -40,6 +49,16 @@ public class Explosion {
 	}
 	
 	private void createSprite(float posX, float posY, float angle,ITextureRegion texture, VertexBufferObjectManager vertexBufferManager){
+		//add Sensor
+		Rectangle boundBox = new Rectangle(posX+this.mSpriteGroup.getX(),posY+this.mSpriteGroup.getY(),32,32,vertexBufferManager);
+		
+		Body body = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.StaticBody, EXPLOSION_FIXTURE_DEF);
+		body.setUserData(this);
+		
+		body.getFixtureList().get(0).setSensor(true);
+		this.mSensorList.add(body);
+		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, body, true, false));
+		
 		Sprite spriteConnector = new Sprite(posX, posY, texture, vertexBufferManager);
 		spriteConnector.setRotationCenter(16, 16);
 		spriteConnector.setRotation(angle);
@@ -103,13 +122,16 @@ public class Explosion {
 						continue directionloop;
 					}
 				}
-				createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(1), vertexBufferManager);
+
+				if(j<mPower-1)
+					createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(1), vertexBufferManager);
+				else{
+					//for the tip
+					createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(2), vertexBufferManager);
+				}
 			}
-			//for the tip
-			createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(2), vertexBufferManager);
-			
 			angle +=90;
-		}				
+		}
 		//this.mSprite.attachChild(mBoundBox);
 		scene.attachChild(this.mSpriteGroup);
 		
@@ -120,6 +142,9 @@ public class Explosion {
 				Explosion.this.mSpriteGroup.unregisterUpdateHandler(pTimerHandler);
 				Explosion.this.mSpriteGroup.detachSelf();
 				Explosion.this.mSpriteGroup.dispose();
+				for (Body element : Explosion.this.mSensorList) {
+					GameActivity.getPhysicsWorld().destroyBody(element);
+				}
 			}
 		}));
 	}

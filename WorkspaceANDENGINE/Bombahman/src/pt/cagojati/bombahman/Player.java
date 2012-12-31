@@ -1,5 +1,7 @@
 package pt.cagojati.bombahman;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -33,15 +35,15 @@ public class Player {
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
-	
+
 	public Player(){
-		
+
 	}
-	
+
 	public void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "playerwhite.png",3,4);
 	}
-	
+
 	public ITexture[] loadResources(BitmapTextureAtlas textureAtlas,int offsetX, int offsetY, Context context)
 	{
 		ITexture[] vec = new ITexture[1];
@@ -49,26 +51,26 @@ public class Player {
 		vec[0] = this.mPlayerTextureRegion.getTexture();
 		return vec;
 	}
-	
+
 	public void initialize(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);
 		this.mSprite.setPosition(0-this.mSprite.getWidth()/2+7, 0-3*this.mSprite.getWidth()/4+7);
 		//this.setPosition(posX, posY);
-		
+
 		final Rectangle boundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
 		boundBox.setColor(1, 0, 0, 0);
 		//boundBox.setAlpha(0);
 		this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.DynamicBody, this.PLAYER_FIXTURE_DEF);
 		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
-		
+
 		this.mBody.setUserData(this);
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
 
 	}
-	
+
 	public AnimatedSprite getSprite() {
 		return mSprite;
 	}
@@ -76,7 +78,7 @@ public class Player {
 	public void setSprite(AnimatedSprite mSprite) {
 		this.mSprite = mSprite;
 	}
-	
+
 	public boolean isOverBomb() {
 		return isOverBomb;
 	}
@@ -84,41 +86,42 @@ public class Player {
 	public void setOverBomb(boolean isOverBomb) {
 		this.isOverBomb = isOverBomb;
 	}
-	
+
 	public int getPower(){
 		return this.mPower;
 	}
-	
+
 	public void setPower(int power){
 		this.mPower = power;
 	}
-	
+
 	public void animate(float pValueX, float pValueY){
-		this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
-		
-		if(Math.abs(pValueX)>Math.abs(pValueY)){
-			if(pValueX>0){
-				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<3 || this.mSprite.getCurrentTileIndex()>5)))
-					this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{3,4,5,4}, true);	
-			}else{
-				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<9 || this.mSprite.getCurrentTileIndex()>11)))
-					this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{9,10,11,10}, true);
+		if(this.mBody!=null){
+			this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
+
+			if(Math.abs(pValueX)>Math.abs(pValueY)){
+				if(pValueX>0){
+					if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<3 || this.mSprite.getCurrentTileIndex()>5)))
+						this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{3,4,5,4}, true);	
+				}else{
+					if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<9 || this.mSprite.getCurrentTileIndex()>11)))
+						this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{9,10,11,10}, true);
+				}
+
+			}else if(Math.abs(pValueY)>Math.abs(pValueX)){
+				if(pValueY>0){
+					if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<6 || this.mSprite.getCurrentTileIndex()>8)))
+						this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{6,7,8,7}, true);	
+				}else{
+					if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()>2)))
+						this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{0,1,2,1}, true);
+				}
 			}
 
-		}else if(Math.abs(pValueY)>Math.abs(pValueX)){
-			if(pValueY>0){
-				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()<6 || this.mSprite.getCurrentTileIndex()>8)))
-					this.mSprite.animate(new long[]{200, 200, 200, 200}, new int[]{6,7,8,7}, true);	
-			}else{
-				if(!this.mSprite.isAnimationRunning() || (this.mSprite.isAnimationRunning() && (this.mSprite.getCurrentTileIndex()>2)))
-					this.mSprite.animate(new long[]{200, 200, 200, 200},new int[]{0,1,2,1}, true);
+			if(pValueX ==0 && pValueY==0){
+				this.mSprite.stopAnimation();
 			}
 		}
-
-		if(pValueX ==0 && pValueY==0){
-			this.mSprite.stopAnimation();
-		}
-
 	}
 
 	public void dropBomb() {
@@ -134,5 +137,15 @@ public class Player {
 			int posY = tmxTile.getTileY();
 			bomb.definePosition(posX,posY);
 		}
+	}
+
+	/**
+	 * must be runned inside updatethread
+	 */
+	public void kill() {
+		// TODO Animation
+		this.mSprite.detachSelf();
+		GameActivity.getPhysicsWorld().destroyBody(mBody);
+
 	}
 }

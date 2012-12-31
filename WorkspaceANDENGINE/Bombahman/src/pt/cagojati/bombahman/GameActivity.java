@@ -184,11 +184,21 @@ public class GameActivity extends SimpleBaseGameActivity {
 			}
 			
 			@Override
-			public void beginContact(Contact contact) {
+			public void beginContact(final Contact contact) {
 				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
 				{
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					player.setOverBomb(true);
+				}else if(contact.getFixtureA().getBody().getUserData().getClass()==Explosion.class){
+					GameActivity.this.runOnUpdateThread(new Runnable() {	
+						@Override
+						public void run() {
+							GameActivity.this.mControls.disable();
+							GameActivity.this.mEngine.getScene().clearChildScene();
+							Player player = (Player) contact.getFixtureB().getBody().getUserData();
+							player.kill();
+						}
+					});
 				}
 			}
 		});

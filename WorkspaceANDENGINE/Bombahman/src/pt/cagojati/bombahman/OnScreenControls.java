@@ -100,5 +100,10 @@ public class OnScreenControls {
 	public float getJoystickHeight(){
 		return this.mOnScreenControlBaseTextureRegion.getHeight();
 	}
+	
+	public void disable(){
+		this.mAnalogOnScreenControl.setIgnoreUpdate(true);
+		this.mAnalogOnScreenControl.detachSelf();
+	}
 
 }
