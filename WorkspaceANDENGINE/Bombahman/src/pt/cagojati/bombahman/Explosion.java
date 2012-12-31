@@ -68,8 +68,7 @@ public class Explosion {
 	public void createSpriteGroup(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
 		this.mSpriteGroup = new SpriteGroup(posX,posY,Explosion.mExplosionTextureRegion.getTexture(), (4*mPower +1), vertexBufferManager);
 		//create center
-		Sprite spriteCenter = new Sprite(0, 0, mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
-		this.mSpriteGroup.attachChild(spriteCenter);
+		createSprite(0, 0, 0,Explosion.mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
 
 		int angle = 0;
 		int deltaX = 0;
