@@ -24,6 +24,7 @@ public class TMXTile {
 	private final int mTileWidth;
 	private final int mTileHeight;
 	ITextureRegion mTextureRegion;
+	Object mUserData;
 
 	// ===========================================================
 	// Constructors
@@ -107,4 +108,13 @@ public class TMXTile {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	public Object getUserData()
+	{
+		return this.mUserData;
+	}
+	
+	public void setUserData(Object userData){
+		this.mUserData = userData;
+	}
 }

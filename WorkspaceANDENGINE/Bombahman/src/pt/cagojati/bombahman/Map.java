@@ -44,13 +44,14 @@ public class Map{
 					if(pTMXTileProperties.containsTMXProperty("brick", "true")) {
 						Brick brick = new Brick();
 						brick.createBody(pTMXTile, GameActivity.getPhysicsWorld(), scene, vertexBufferManager);
+						pTMXTile.setUserData(brick);
 					}else if(pTMXTileProperties.containsTMXProperty("wall","true")){
 						Wall wall = new Wall();
 						wall.createBody(pTMXTile, GameActivity.getPhysicsWorld(), scene, vertexBufferManager);
 					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/map.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/mapLayered.tmx");
 
 		} catch (final TMXLoadException e) {
 			Debug.e(e);
@@ -59,6 +60,10 @@ public class Map{
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
 		
 		scene.attachChild(tmxLayer);
+		
+		final TMXLayer tmxLayer1 = this.mTMXTiledMap.getTMXLayers().get(1);
+		
+		scene.attachChild(tmxLayer1);
 	}
 	
 	public int getTileWidth(){
@@ -70,7 +75,11 @@ public class Map{
 	}
 
 	public TMXTile getTMXTileAt(float pX, float pY) {
-		return this.mTMXTiledMap.getTMXLayers().get(0).getTMXTileAt(pX, pY);
+		return this.mTMXTiledMap.getTMXLayers().get(1).getTMXTileAt(pX, pY);
+	}
+	
+	public TMXTiledMap getTMXTiledMap(){
+		return this.mTMXTiledMap;
 	}
 
 }

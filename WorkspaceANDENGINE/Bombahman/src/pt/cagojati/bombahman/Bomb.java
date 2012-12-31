@@ -101,7 +101,7 @@ public class Bomb {
 		
 		//create Explosion
 		Explosion explosion = new Explosion(this.mPlayer.getPower());
-		explosion.createSpriteGroup(this.mBoundBox.getX(), this.mBoundBox.getY(), (Scene)this.mSprite.getParent(), this.mSprite.getVertexBufferObjectManager());
+		explosion.createSpriteGroup(this.mSprite.getX(), this.mSprite.getY()+12, (Scene)this.mSprite.getParent(), this.mSprite.getVertexBufferObjectManager());
 	}
 
 }

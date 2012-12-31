@@ -28,7 +28,7 @@ public class Player {
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
 	private boolean isOverBomb = false;
-	private int mPower=1;
+	private int mPower=3;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;

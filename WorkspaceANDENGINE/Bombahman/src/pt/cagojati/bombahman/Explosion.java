@@ -5,11 +5,20 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.batch.SpriteGroup;
+import org.andengine.extension.tmx.TMXProperties;
+import org.andengine.extension.tmx.TMXProperty;
+import org.andengine.extension.tmx.TMXTile;
+import org.andengine.extension.tmx.TMXTileProperty;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 
 import android.content.Context;
 
@@ -49,6 +58,7 @@ public class Explosion {
 		int currentX =0;
 		int currentY = 0;
 		//four directions
+		directionloop:
 		for(int i=0;i<4;i++){
 			switch(i){
 				case 0:
@@ -71,14 +81,31 @@ public class Explosion {
 			currentX = 0;
 			currentY = 0;
 			//for all the connectors
-			for(int j=0;j<this.mPower-1;j++){
+			for(int j=0;j<this.mPower;j++){
 				currentX += deltaX;
 				currentY += deltaY;
+				//checks if there is a wall or brick in the way
+				TMXTile tile = GameActivity.getMap().getTMXTileAt(currentX+this.mSpriteGroup.getX(), currentY+this.mSpriteGroup.getY());
+				TMXProperties<TMXTileProperty> property = tile.getTMXTileProperties(GameActivity.getMap().getTMXTiledMap());
+				if(property!=null){
+					if(property.containsTMXProperty("wall", "true"))
+					{
+						angle+=90;
+						continue directionloop;
+					}
+					if(property.containsTMXProperty("brick", "true")){
+						tile.setGlobalTileID(GameActivity.getMap().getTMXTiledMap(), 2);
+						tile.setTextureRegion(GameActivity.getMap().getTMXTiledMap().getTMXTileSets().get(0).getTextureRegionFromGlobalTileID(2));
+						Brick brick = (Brick) tile.getUserData();
+						brick.explode();
+						
+						angle+=90;
+						continue directionloop;
+					}
+				}
 				createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(1), vertexBufferManager);
 			}
 			//for the tip
-			currentX += deltaX;
-			currentY += deltaY;
 			createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(2), vertexBufferManager);
 			
 			angle +=90;
@@ -91,6 +118,8 @@ public class Explosion {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				Explosion.this.mSpriteGroup.unregisterUpdateHandler(pTimerHandler);
+				Explosion.this.mSpriteGroup.detachSelf();
+				Explosion.this.mSpriteGroup.dispose();
 			}
 		}));
 	}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="map_tiled" tilewidth="32" tileheight="32">
+  <image source="gfx/map_tiled.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="wall" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="brick" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Grass" width="25" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYBrFo3gUj+JRPKwwAKF0Au8=
+  </data>
+ </layer>
+ <layer name="Camada de Tiles 1" width="25" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQDZoJiZipimJnIdjBC5ahJI9tBTfejY0Yc9lObHvXHqD+Gsj/okc/pUV7RGgMAiZMDPg==
+  </data>
+ </layer>
+</map>

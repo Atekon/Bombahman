@@ -15,13 +15,13 @@ public class Brick {
 	
 	public static final short CATEGORYBIT = 2;
 	public static final short MASKBITS = Wall.CATEGORYBIT + Player.CATEGORYBIT + Brick.CATEGORYBIT;
-
+	
 	final FixtureDef BRICK_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Brick.CATEGORYBIT, Brick.MASKBITS, (short)0);
 
 	private Body mBody;
 	
 	public Brick(){
-		
+
 	}
 	
 	public void createBody(final TMXTile pTMXTile,PhysicsWorld physicsWorld, Scene scene, VertexBufferObjectManager vertexBufferManager)
@@ -30,6 +30,10 @@ public class Brick {
 		this.mBody = PhysicsFactory.createBoxBody(physicsWorld, boundBox, BodyType.StaticBody, BRICK_FIXTURE_DEF);
 		this.mBody.setUserData(this);
 		scene.attachChild(boundBox);
+	}
+
+	public void explode() {		
+		GameActivity.getPhysicsWorld().destroyBody(this.mBody);
 	}
 	
 	
