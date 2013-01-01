@@ -15,7 +15,8 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.util.debug.Debug;
 
 import pt.cagojati.bombahman.GameActivity;
-import pt.cagojati.bombahman.multiplayer.messages.AddFaceServerMessage;
+import pt.cagojati.bombahman.Player;
+import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.util.Log;
@@ -49,11 +50,12 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				}
 			});
 	
-			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_BOMB, AddBombServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-					mGameActivity.addFace(addFaceServerMessage.getX(), addFaceServerMessage.getY());
+					final AddBombServerMessage addBombServerMessage = (AddBombServerMessage)pServerMessage;
+					Player player = GameActivity.getPlayer(addBombServerMessage.getPlayerId());
+					player.dropBomb(addBombServerMessage.getX(),addBombServerMessage.getY());
 				}
 			});
 

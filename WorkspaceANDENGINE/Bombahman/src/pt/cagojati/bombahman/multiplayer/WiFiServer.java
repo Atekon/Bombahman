@@ -17,8 +17,8 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
 import android.util.Log;
 
-import pt.cagojati.bombahman.multiplayer.messages.AddFaceClientMessage;
-import pt.cagojati.bombahman.multiplayer.messages.AddFaceServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 
 public class WiFiServer implements IMultiplayerServer {
@@ -59,17 +59,17 @@ public class WiFiServer implements IMultiplayerServer {
 			protected SocketConnectionClientConnector newClientConnector(final SocketConnection pSocketConnection) throws IOException {
 				final SocketConnectionClientConnector clientConnector = new SocketConnectionClientConnector(pSocketConnection);
 				
-				clientConnector.registerClientMessage(MessageFlags.FLAG_MESSAGE_CLIENT_ADD_FACE, AddFaceClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+				clientConnector.registerClientMessage(MessageFlags.FLAG_MESSAGE_CLIENT_ADD_BOMB, AddBombClientMessage.class, new IClientMessageHandler<SocketConnection>() {
 					@Override
 					public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
-						final AddFaceClientMessage addFaceClientMessage = (AddFaceClientMessage) pClientMessage;
+						final AddBombClientMessage addBombClientMessage = (AddBombClientMessage) pClientMessage;
 						
-						final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_FACE);
-						addFaceServerMessage.set(addFaceClientMessage.getX(), addFaceClientMessage.getY());
+						final AddBombServerMessage addBombServerMessage = (AddBombServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_BOMB);
+						addBombServerMessage.set(addBombClientMessage.getX(), addBombClientMessage.getY(),addBombClientMessage.getPlayerId());
 
-						WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
+						WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
 
-						WiFiServer.this.mMessagePool.recycleMessage(addFaceServerMessage);
+						WiFiServer.this.mMessagePool.recycleMessage(addBombServerMessage);
 					}
 				});
 

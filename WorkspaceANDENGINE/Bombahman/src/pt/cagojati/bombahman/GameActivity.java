@@ -27,7 +27,7 @@ import org.andengine.util.debug.Debug;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
-import pt.cagojati.bombahman.multiplayer.messages.AddFaceClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.os.Bundle;
@@ -47,9 +47,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 	static final int CAMERA_HEIGHT = 480;
 
 	//	private ITextureRegion mFaceTextureRegion;
-	private IMultiplayerConnector mConnector;
+	private static IMultiplayerConnector mConnector;
 	private static Map mMap;
-	private Player[] mPlayers = new Player[4];
+	private static Player[] mPlayers = new Player[4];
 	private OnScreenControls mControls;
 	private static final PhysicsWorld mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
 	private static BombPool mBombPool;
@@ -77,14 +77,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		this.mPlayers[0] = new Player();
+		GameActivity.mPlayers[0] = new Player(0);
 		this.mControls = new OnScreenControls();
 		GameActivity.setMap(new Map());
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048,TextureOptions.BILINEAR);
 		
-		this.mPlayers[0].loadResources(textureAtlas, this);
+		GameActivity.mPlayers[0].loadResources(textureAtlas, this);
 		this.mControls.loadResources(textureAtlas, this);
 		Bomb.loadResources(0, textureAtlas, this);
 		Explosion.loadResources(textureAtlas, this);
@@ -109,17 +109,17 @@ public class GameActivity extends SimpleBaseGameActivity {
 		float[] firstTilePosition = new float[2];
 		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
 		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
-		this.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
+		GameActivity.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
 
-		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), this.mPlayers[0], scene, this.getVertexBufferObjectManager());
+		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[0], scene, this.getVertexBufferObjectManager());
 		
-		this.mConnector.setActivity(this);
-		this.mConnector.initClient();
+		GameActivity.mConnector.setActivity(this);
+		GameActivity.mConnector.initClient();
 		startTouchEvents(scene);
 		
 		createContactListeners();
 		
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		scene.registerUpdateHandler(GameActivity.mPhysicsWorld);
 
 		return scene;
 	}
@@ -231,8 +231,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 			server.terminate();
 		}
 
-		if(this.mConnector != null) {
-			this.mConnector.terminate();
+		if(GameActivity.mConnector != null) {
+			GameActivity.mConnector.terminate();
 		}
 		
 		super.onDestroy();
@@ -256,6 +256,14 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	private static void setBombPool(BombPool mBombPool) {
 		GameActivity.mBombPool = mBombPool;
+	}
+	
+	public static Player getPlayer(int id){
+		return GameActivity.mPlayers[id];
+	}
+	
+	public static IMultiplayerConnector getConnector(){
+		return GameActivity.mConnector;
 	}
 
 }

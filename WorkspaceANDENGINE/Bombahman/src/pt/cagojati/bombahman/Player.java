@@ -17,6 +17,8 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.Constants;
 
+import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
+
 import android.content.Context;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,13 +33,14 @@ public class Player {
 	AnimatedSprite mSprite;
 	private boolean isOverBomb = false;
 	private int mPower=1;
+	private int mId;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
 
-	public Player(){
-
+	public Player(int id){
+		this.mId = id;
 	}
 
 	public void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
@@ -131,12 +134,20 @@ public class Player {
 		/* Get the tile the feet of the player are currently waking on. */
 		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 		if(tmxTile != null) {
-			Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
-			bomb.setPlayer(this);
+//			Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
+//			bomb.setPlayer(this);
 			int posX = tmxTile.getTileX();
 			int posY = tmxTile.getTileY();
-			bomb.definePosition(posX,posY);
+//			bomb.definePosition(posX,posY);
+			AddBombClientMessage message = new AddBombClientMessage(posX, posY, this.mId);
+			GameActivity.getConnector().sendClientMessage(message);
 		}
+	}
+	
+	public void dropBomb(int posX, int posY){
+		Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
+		bomb.setPlayer(this);
+		bomb.definePosition(posX,posY);
 	}
 
 	/**
