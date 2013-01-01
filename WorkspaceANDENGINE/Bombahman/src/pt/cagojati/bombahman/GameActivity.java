@@ -190,16 +190,23 @@ public class GameActivity extends SimpleBaseGameActivity {
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					player.setOverBomb(true);
 				}else if(contact.getFixtureA().getBody().getUserData().getClass()==Explosion.class){
-					GameActivity.this.runOnUpdateThread(new Runnable() {	
-						@Override
-						public void run() {
-							GameActivity.this.mControls.disable();
-							GameActivity.this.mEngine.getScene().clearChildScene();
-							Player player = (Player) contact.getFixtureB().getBody().getUserData();
-							player.kill();
-						}
-					});
+					Player player = (Player) contact.getFixtureB().getBody().getUserData();
+					GameActivity.this.killPlayer(player);
+				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class){
+					Player player = (Player) contact.getFixtureA().getBody().getUserData();
+					GameActivity.this.killPlayer(player);
 				}
+			}
+		});
+	}
+	
+	private void killPlayer(final Player player){
+		GameActivity.this.runOnUpdateThread(new Runnable() {	
+			@Override
+			public void run() {
+				GameActivity.this.mControls.disable();
+				GameActivity.this.mEngine.getScene().clearChildScene();
+				player.kill();
 			}
 		});
 	}
@@ -212,9 +219,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		    if(element!=null)
 		    	mPhysicsWorld.destroyBody(element);
 		} 
-		
-		Log.d("oteste",""+mPhysicsWorld.getBodyCount());
-		
+				
 		if(WiFiServer.isInitialized()) {
 			WiFiServer server = WiFiServer.getSingletonObject();
 
