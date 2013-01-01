@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.GameActivity"
-            android:label="@string/title_activity_game" >
+            android:label="@string/title_activity_game"
+            android:launchMode="singleInstance" >
         </activity>
     </application>
 
