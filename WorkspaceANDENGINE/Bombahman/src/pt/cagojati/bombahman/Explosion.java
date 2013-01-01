@@ -69,15 +69,6 @@ public class Explosion {
 		this.mSpriteGroup = new SpriteGroup(posX,posY,Explosion.mExplosionTextureRegion.getTexture(), (4*mPower +1), vertexBufferManager);
 		//create center
 		createSprite(0, 0, 0, mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
-//		Rectangle boundBox = new Rectangle(posX,posY,32,32,vertexBufferManager);
-//		Sprite spriteCenter = new Sprite(0, 0, mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
-//		Body body = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.StaticBody, EXPLOSION_FIXTURE_DEF);
-//		body.setUserData(this);
-//		
-//		body.getFixtureList().get(0).setSensor(true);
-//		this.mSensorList.add(body);
-//		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, body, true, false));
-//		this.mSpriteGroup.attachChild(spriteCenter);
 
 		int angle = 0;
 		int deltaX = 0;
