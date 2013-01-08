@@ -16,10 +16,13 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.Constants;
+import org.andengine.util.debug.Debug;
+import org.andengine.util.debug.Debug.DebugLevel;
 
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -56,6 +59,7 @@ public class Player {
 	}
 
 	public void initialize(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
+		Debug.log(DebugLevel.ERROR, "PosX: "+posX+"\nPosY: "+posY);
 		this.mSprite = new AnimatedSprite(0, 0, this.mPlayerTextureRegion, vertexBufferManager);
 		this.mSprite.setCurrentTileIndex(7);
 		this.mSprite.setScale(0.35f);

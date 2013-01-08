@@ -20,6 +20,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -66,6 +67,7 @@ public class Explosion {
 	}
 
 	public void createSpriteGroup(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
+		Log.i("oteste", "ex-start");
 		this.mSpriteGroup = new SpriteGroup(posX,posY,Explosion.mExplosionTextureRegion.getTexture(), (4*mPower +1), vertexBufferManager);
 		//create center
 		createSprite(0, 0, 0, mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
@@ -135,17 +137,24 @@ public class Explosion {
 		scene.attachChild(this.mSpriteGroup);
 		
 		this.mSpriteGroup.registerUpdateHandler(new TimerHandler(TIMEOUT, new ITimerCallback() {
-			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				Explosion.this.mSpriteGroup.unregisterUpdateHandler(pTimerHandler);
-				Explosion.this.mSpriteGroup.detachSelf();
-				Explosion.this.mSpriteGroup.dispose();
-				for (Body element : Explosion.this.mSensorList) {
-					GameActivity.getPhysicsWorld().destroyBody(element);
-				}
+				GameActivity.getScene().postRunnable(new Runnable(){
+					@Override
+					public void run() {
+						Explosion.this.mSpriteGroup.detachSelf();
+						Explosion.this.mSpriteGroup.dispose();
+						for (Body element : Explosion.this.mSensorList) {
+							GameActivity.getPhysicsWorld().destroyBody(element);
+						}
+						Explosion.this.mSensorList.clear();
+					}
+				});
 			}
 		}));
+		
+		Log.i("oteste", "ex-end");
 	}
 
 	public int getPower() {

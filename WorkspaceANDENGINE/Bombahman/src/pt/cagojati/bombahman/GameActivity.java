@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.bitmap.BitmapTextureFormat;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
@@ -50,9 +51,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private static IMultiplayerConnector mConnector;
 	private static Map mMap;
 	private static Player[] mPlayers = new Player[4];
+	private static Scene mScene;
+	private static VertexBufferObjectManager mVertexBufferObjectManager;
 	private OnScreenControls mControls;
 	private static final PhysicsWorld mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
 	private static BombPool mBombPool;
+	private static int mCurrentPlayer;
+	private int mTotalPlayers = 0;
 	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -77,7 +82,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		GameActivity.mPlayers[0] = new Player(0);
+		for(int i =0; i<4; i++){
+			GameActivity.mPlayers[i] = new Player(i);
+		}
 		this.mControls = new OnScreenControls();
 		GameActivity.setMap(new Map());
 
@@ -85,6 +92,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048,TextureOptions.BILINEAR);
 		
 		GameActivity.mPlayers[0].loadResources(textureAtlas, this);
+		GameActivity.mPlayers[1].loadResources(textureAtlas, this);
 		this.mControls.loadResources(textureAtlas, this);
 		Bomb.loadResources(0, textureAtlas, this);
 		Explosion.loadResources(textureAtlas, this);
@@ -102,16 +110,16 @@ public class GameActivity extends SimpleBaseGameActivity {
 	@Override
 	protected Scene onCreateScene() {
 		final Scene scene = new Scene();
-		//scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		GameActivity.getBombPool().setScene(scene);
 		GameActivity.getMap().loadMap(scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
 		
-		float[] firstTilePosition = new float[2];
-		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
-		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
-		GameActivity.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
-
-		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[0], scene, this.getVertexBufferObjectManager());
+//		float[] firstTilePosition = new float[4];
+//		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
+//		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+//		GameActivity.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
+//		firstTilePosition[2] = GameActivity.getMap().getTileWidth()*23.5f;
+//		firstTilePosition[3] = GameActivity.getMap().getTileHeight()*13.5f;
+//		GameActivity.mPlayers[1].initialize(firstTilePosition[2],firstTilePosition[3], scene, this.getVertexBufferObjectManager());
 		
 		GameActivity.mConnector.setActivity(this);
 		GameActivity.mConnector.initClient();
@@ -121,6 +129,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 		
 		scene.registerUpdateHandler(GameActivity.mPhysicsWorld);
 
+		GameActivity.mVertexBufferObjectManager = this.getVertexBufferObjectManager();
+		GameActivity.mScene = scene;
 		return scene;
 	}
 
@@ -184,7 +194,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 			}
 			
 			@Override
-			public void beginContact(final Contact contact) {
+			public void beginContact(final Contact contact) {				
 				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
 				{
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
@@ -201,11 +211,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 	
 	private void killPlayer(final Player player){
-		GameActivity.this.runOnUpdateThread(new Runnable() {	
+		GameActivity.this.mScene.postRunnable(new Runnable() {	
 			@Override
 			public void run() {
-				GameActivity.this.mControls.disable();
-				GameActivity.this.mEngine.getScene().clearChildScene();
+				if(player == GameActivity.getPlayer(GameActivity.mCurrentPlayer)){
+					GameActivity.this.mControls.disable();
+					GameActivity.this.mEngine.getScene().clearChildScene();
+				}
 				player.kill();
 			}
 		});
@@ -264,6 +276,27 @@ public class GameActivity extends SimpleBaseGameActivity {
 	
 	public static IMultiplayerConnector getConnector(){
 		return GameActivity.mConnector;
+	}
+	
+	public static Scene getScene(){
+		return GameActivity.mScene;
+	}
+
+	public void addPlayer() {
+		float[] firstTilePosition = new float[4];
+		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
+		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+		GameActivity.mPlayers[this.mTotalPlayers].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
+		this.mTotalPlayers++;
+	}
+
+	public static void removePlayer() {
+		
+	}
+
+	public void setCurrentPlayerServerMessage() {
+		GameActivity.mCurrentPlayer = this.mTotalPlayers-1;
+		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 	}
 
 }

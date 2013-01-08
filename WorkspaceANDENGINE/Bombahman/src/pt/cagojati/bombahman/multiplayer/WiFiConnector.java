@@ -17,6 +17,7 @@ import org.andengine.util.debug.Debug;
 import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.util.Log;
@@ -58,7 +59,17 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					player.dropBomb(addBombServerMessage.getX(),addBombServerMessage.getY());
 				}
 			});
-
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER, AddPlayerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) pServerMessage;
+					mGameActivity.addPlayer();
+					if(addPlayerServerMessage.isPlayer()){
+						mGameActivity.setCurrentPlayerServerMessage();
+					}
+				}
+			});
 	
 			this.mServerConnector.getConnection().start();
 		}catch (final Throwable t) {
@@ -71,7 +82,6 @@ public class WiFiConnector implements IMultiplayerConnector  {
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
 		public void onStarted(final ServerConnector<SocketConnection> pConnector) {
-//			MultiplayerExample.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override

@@ -19,6 +19,8 @@ import android.util.Log;
 
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 
 public class WiFiServer implements IMultiplayerServer {
@@ -28,6 +30,7 @@ public class WiFiServer implements IMultiplayerServer {
 	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private static WiFiServer instance = null;
+	private int mPlayerCount = 0;
 
 	private WiFiServer() {
 		MessageFlags.initMessagePool(mMessagePool);
@@ -82,11 +85,30 @@ public class WiFiServer implements IMultiplayerServer {
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
-			Log.d("oteste",pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
+			try {
+				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
+				addPlayerServerMessage.setIsPlayer(false);
+				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
+				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
+				addPlayerServerMessage.setIsPlayer(true);
+				pConnector.sendServerMessage(addPlayerServerMessage);
+				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mPlayerCount++;
 		}
 
 		@Override
 		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
+			mPlayerCount--;
 		}
 	}
 	
