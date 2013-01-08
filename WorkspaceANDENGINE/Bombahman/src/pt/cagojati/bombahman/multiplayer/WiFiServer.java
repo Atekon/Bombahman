@@ -21,6 +21,7 @@ import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 
 public class WiFiServer implements IMultiplayerServer {
@@ -94,10 +95,12 @@ public class WiFiServer implements IMultiplayerServer {
 				e.printStackTrace();
 			}
 			try {
-				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
-				addPlayerServerMessage.setIsPlayer(true);
-				pConnector.sendServerMessage(addPlayerServerMessage);
-				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
+				JoinedServerServerMessage joinedServerServerMessage = (JoinedServerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOINED_SERVER);
+				joinedServerServerMessage.setIsPlayer(true);
+				joinedServerServerMessage.setNumPlayers(mPlayerCount);
+				pConnector.sendServerMessage(joinedServerServerMessage);
+				
+				WiFiServer.this.mMessagePool.recycleMessage(joinedServerServerMessage);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

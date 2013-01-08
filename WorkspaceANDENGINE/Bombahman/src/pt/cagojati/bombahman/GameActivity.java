@@ -82,17 +82,18 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		for(int i =0; i<4; i++){
-			GameActivity.mPlayers[i] = new Player(i);
-		}
+
 		this.mControls = new OnScreenControls();
 		GameActivity.setMap(new Map());
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048,TextureOptions.BILINEAR);
 		
-		GameActivity.mPlayers[0].loadResources(textureAtlas, this);
-		GameActivity.mPlayers[1].loadResources(textureAtlas, this);
+		for(int i =0; i<4; i++){
+			GameActivity.mPlayers[i] = new Player(i);
+			GameActivity.mPlayers[i].loadResources(textureAtlas, this);
+		}
+		
 		this.mControls.loadResources(textureAtlas, this);
 		Bomb.loadResources(0, textureAtlas, this);
 		Explosion.loadResources(textureAtlas, this);
@@ -283,9 +284,27 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 
 	public void addPlayer() {
-		float[] firstTilePosition = new float[4];
-		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
-		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+		float[] firstTilePosition = new float[2];
+		switch(this.mTotalPlayers)
+		{
+		case 0:
+			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
+			firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+			break;
+		case 1:
+			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*23.5f;
+			firstTilePosition[1] = GameActivity.getMap().getTileHeight()*13.5f;
+			break;
+		case 2:
+			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
+			firstTilePosition[1] = GameActivity.getMap().getTileHeight()*13.5f;
+			break;
+		case 3:
+			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*23.5f;
+			firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
+			break;
+		}
+		
 		GameActivity.mPlayers[this.mTotalPlayers].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		this.mTotalPlayers++;
 	}

@@ -19,6 +19,7 @@ import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.util.Log;
 
@@ -66,6 +67,19 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) pServerMessage;
 					mGameActivity.addPlayer();
 					if(addPlayerServerMessage.isPlayer()){
+						mGameActivity.setCurrentPlayerServerMessage();
+					}
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOINED_SERVER, JoinedServerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final JoinedServerServerMessage joinedServerServerMessage = (JoinedServerServerMessage) pServerMessage;
+					for(int i = 0; i <joinedServerServerMessage.getNumPlayers()+1; i++){
+						mGameActivity.addPlayer();
+					}
+					if(joinedServerServerMessage.isPlayer()){
 						mGameActivity.setCurrentPlayerServerMessage();
 					}
 				}

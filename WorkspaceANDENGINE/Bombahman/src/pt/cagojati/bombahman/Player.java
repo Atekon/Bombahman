@@ -47,7 +47,22 @@ public class Player {
 	}
 
 	public void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
-		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "playerwhite.png",3,4);
+		String texture = "";
+		switch(mId){
+			case 0:
+				texture = "playerwhite.png";
+				break;
+			case 1:
+				texture = "playergrey.png";
+				break;	
+			case 2:
+				texture = "playerblue.png";
+				break;
+			case 3:
+				texture = "playerred.png";
+				break;
+		}
+		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, texture,3,4);
 	}
 
 	public ITexture[] loadResources(BitmapTextureAtlas textureAtlas,int offsetX, int offsetY, Context context)
