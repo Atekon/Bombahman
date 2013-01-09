@@ -31,6 +31,7 @@ import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -191,24 +192,31 @@ public class GameActivity extends SimpleBaseGameActivity {
 			@Override
 			public void endContact(Contact contact) {
 				//happens when a new bomb is placed and adds the collision to the bomb
+				Object obj = contact.getFixtureB().getBody().getUserData().getClass();
+				Object objZ = contact.getFixtureA().getBody().getUserData().getClass();
+				Log.d("oteste", "B" + obj.toString());
+				Log.d("oteste", "A" + objZ.toString());
 				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
 				{
 					contact.getFixtureB().setSensor(false);
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					player.setOverBomb(false);
+				}else if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Integer.class){
+					Player player = (Player) contact.getFixtureA().getBody().getUserData();
+					
 				}
 			}
 			
 			@Override
 			public void beginContact(final Contact contact) {				
-				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
+				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class && contact.getFixtureA().getBody().getUserData().getClass()==Player.class)
 				{
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					player.setOverBomb(true);
-				}else if(contact.getFixtureA().getBody().getUserData().getClass()==Explosion.class){
+				}else if(contact.getFixtureA().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureB().getBody().getUserData().getClass()==Player.class){
 					Player player = (Player) contact.getFixtureB().getBody().getUserData();
 					GameActivity.this.killPlayer(player);
-				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class){
+				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureA().getBody().getUserData().getClass()==Player.class){
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					GameActivity.this.killPlayer(player);
 				}

@@ -32,6 +32,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class Player {
 
 	Body mBody;
+	Body deadbody;
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
 	private boolean isOverBomb = false;
@@ -41,6 +42,8 @@ public class Player {
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
+	private final FixtureDef DEAD_RECKONING_PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, true, Player.CATEGORYBIT,this.MASKBITS, (short)0);
+
 
 	public Player(int id){
 		this.mId = id;
@@ -87,10 +90,19 @@ public class Player {
 		this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.DynamicBody, this.PLAYER_FIXTURE_DEF);
 		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
 
+		final Rectangle deadboundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
+		deadboundBox.setColor(1, 0, 0, 1);
+		//boundBox.setAlpha(0);
+		this.deadbody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), deadboundBox, BodyType.DynamicBody, this.DEAD_RECKONING_PLAYER_FIXTURE_DEF);
+		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(deadboundBox, this.deadbody, true, false));
+		
 		this.mBody.setUserData(this);
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
-
+		
+		deadbody.setUserData(this.mId);
+		//deadboundBox.attachChild(this.mSprite);
+		scene.attachChild(deadboundBox);
 	}
 
 	public AnimatedSprite getSprite() {
@@ -99,6 +111,14 @@ public class Player {
 
 	public void setSprite(AnimatedSprite mSprite) {
 		this.mSprite = mSprite;
+	}
+	
+	public float getPosX(){
+		return this.mSprite.getX();
+	}
+	
+	public float getPosY(){
+		return this.mSprite.getY();
 	}
 
 	public boolean isOverBomb() {

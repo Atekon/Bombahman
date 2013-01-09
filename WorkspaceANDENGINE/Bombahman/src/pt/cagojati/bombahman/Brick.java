@@ -33,7 +33,14 @@ public class Brick {
 	}
 
 	public void explode() {		
-		GameActivity.getPhysicsWorld().destroyBody(this.mBody);
+		GameActivity.getScene().postRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+				GameActivity.getPhysicsWorld().destroyBody(Brick.this.mBody);
+			}
+		});
+		
 	}
 	
 	
