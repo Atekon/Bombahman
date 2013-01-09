@@ -1,5 +1,7 @@
 package pt.cagojati.bombahman;
 
+import java.util.UUID;
+
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
@@ -27,6 +29,7 @@ public class Bomb {
 	Sprite mSprite;
 	Rectangle mBoundBox;
 	Player mPlayer;
+	private String mId;
 
 	private static final String[] BOMB_TEXTURES = {"bomb_white.png", "bomb_black.png", "bomb_blue.png","bomb_red.png"};
 	
@@ -34,9 +37,10 @@ public class Bomb {
 	public static final short CATEGORYBIT = 8;
 	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef BOMB_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Bomb.CATEGORYBIT, this.MASKBITS, (short)0);
+	private TimerHandler mTimerHandler;
 	
 	public Bomb(){
-		
+		generateId();
 	}
 	
 	public static void loadResources(int playerId, BuildableBitmapTextureAtlas textureAtlas, Context context){
@@ -70,6 +74,14 @@ public class Bomb {
 	public void setPlayer(Player player){
 		this.mPlayer = player;
 	}
+	
+	public String getId() {
+		return mId;
+	}
+
+	public void setId(String mId) {
+		this.mId = mId;
+	}
 
 	public void definePosition(int pX, int pY) {
 		this.mSprite.setPosition(pX, pY-12);
@@ -85,14 +97,15 @@ public class Bomb {
 		
 		this.mBody.getFixtureList().get(0).setSensor(true);
 		
-		this.mSprite.registerUpdateHandler(new TimerHandler(TIMEOUT, new ITimerCallback() {
+		mTimerHandler = new TimerHandler(TIMEOUT, new ITimerCallback() {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				Bomb.this.explode();
-				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
+//				Bomb.this.explode();
+//				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
 			}
-		}));
+		});
+		this.mSprite.registerUpdateHandler(mTimerHandler);
 	}
 	
 	public void explode(){
@@ -102,6 +115,15 @@ public class Bomb {
 		//create Explosion
 		Explosion explosion = new Explosion(this.mPlayer.getPower());
 		explosion.createSpriteGroup(this.mSprite.getX(), this.mSprite.getY()+12, (Scene)this.mSprite.getParent(), this.mSprite.getVertexBufferObjectManager());
+	}
+	
+	public boolean unregisterTimerHandler()
+	{
+		return this.mSprite.unregisterUpdateHandler(mTimerHandler);
+	}
+
+	public void generateId() {
+		this.mId = UUID.randomUUID().toString();
 	}
 
 }

@@ -14,11 +14,13 @@ import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.util.debug.Debug;
 
+import pt.cagojati.bombahman.Bomb;
 import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.util.Log;
@@ -57,7 +59,7 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final AddBombServerMessage addBombServerMessage = (AddBombServerMessage)pServerMessage;
 					Player player = GameActivity.getPlayer(addBombServerMessage.getPlayerId());
-					player.dropBomb(addBombServerMessage.getX(),addBombServerMessage.getY());
+					player.dropBomb(addBombServerMessage.getX(),addBombServerMessage.getY(), addBombServerMessage.getBombId());
 				}
 			});
 			
@@ -81,6 +83,18 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					}
 					if(joinedServerServerMessage.isPlayer()){
 						mGameActivity.setCurrentPlayerServerMessage();
+					}
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_EXPLODE_BOMB, ExplodeBombServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final ExplodeBombServerMessage explodeBombServerMessage = (ExplodeBombServerMessage) pServerMessage;
+					Bomb bomb = GameActivity.getBombPool().getBomb(explodeBombServerMessage.getBombId());
+					if(bomb !=null){
+						bomb.unregisterTimerHandler();
+						bomb.explode();
 					}
 				}
 			});

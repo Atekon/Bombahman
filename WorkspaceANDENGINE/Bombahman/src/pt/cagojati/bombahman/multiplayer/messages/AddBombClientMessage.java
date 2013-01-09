@@ -12,21 +12,24 @@ public class AddBombClientMessage extends ClientMessage {
 	private int mX;
 	private int mY;
 	private int mPlayerId;
+	private String mBombId;
 
 	public AddBombClientMessage() {
 
 	}
 
-	public AddBombClientMessage(final int pX, final int pY, final int playerId) {
+	public AddBombClientMessage(final int pX, final int pY, final int playerId, final String bombId) {
 		this.setX(pX);
 		this.setY(pY);
 		this.setPlayerId(playerId);
+		this.setBombId(bombId);
 	}
 
-	public void set(final int pX, final int pY, int playerid) {
+	public void set(final int pX, final int pY, int playerid, String bombId ) {
 		this.setX(pX);
 		this.setY(pY);
 		this.setPlayerId(playerid);
+		this.setBombId(bombId);
 	}
 
 	@Override
@@ -39,6 +42,7 @@ public class AddBombClientMessage extends ClientMessage {
 		this.setX(pDataInputStream.readInt());
 		this.setY(pDataInputStream.readInt());
 		this.setPlayerId(pDataInputStream.readInt());
+		this.setBombId(pDataInputStream.readUTF());
 	}
 
 	@Override
@@ -46,6 +50,7 @@ public class AddBombClientMessage extends ClientMessage {
 		pDataOutputStream.writeInt(this.getX());
 		pDataOutputStream.writeInt(this.getY());
 		pDataOutputStream.writeInt(this.getPlayerId());
+		pDataOutputStream.writeUTF(getBombId());
 	}
 
 	public int getY() {
@@ -70,5 +75,13 @@ public class AddBombClientMessage extends ClientMessage {
 
 	private void setPlayerId(int playerId) {
 		this.mPlayerId = playerId;
+	}
+
+	public String getBombId() {
+		return mBombId;
+	}
+
+	private void setBombId(String mBombId) {
+		this.mBombId = mBombId;
 	}
 }

@@ -1,7 +1,10 @@
 package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
@@ -15,14 +18,14 @@ import org.andengine.extension.multiplayer.protocol.server.connector.SocketConne
 import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
-import android.util.Log;
-
+import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import android.util.Log;
 
 public class WiFiServer implements IMultiplayerServer {
 	
@@ -49,7 +52,7 @@ public class WiFiServer implements IMultiplayerServer {
 			return false;
 		return true;
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Server getServerSocket() {
@@ -69,11 +72,31 @@ public class WiFiServer implements IMultiplayerServer {
 						final AddBombClientMessage addBombClientMessage = (AddBombClientMessage) pClientMessage;
 						
 						final AddBombServerMessage addBombServerMessage = (AddBombServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_BOMB);
-						addBombServerMessage.set(addBombClientMessage.getX(), addBombClientMessage.getY(),addBombClientMessage.getPlayerId());
+						addBombServerMessage.set(addBombClientMessage.getX(), addBombClientMessage.getY(),addBombClientMessage.getPlayerId(), addBombClientMessage.getBombId());
 
-						WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
+						ArrayList<SocketConnectionClientConnector> clientBlackList = new ArrayList<SocketConnectionClientConnector>();
+						clientBlackList.add(clientConnector);
+						WiFiServer.this.mSocketServer.sendAlmostBroadcastServerMessage(addBombServerMessage, clientBlackList);
+						//WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
 
 						WiFiServer.this.mMessagePool.recycleMessage(addBombServerMessage);
+						final String bombId = addBombClientMessage.getBombId();
+						GameActivity.getScene().registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {
+							
+							@Override
+							public void onTimePassed(TimerHandler pTimerHandler) {
+								final ExplodeBombServerMessage explodeBombServerMessage = (ExplodeBombServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_EXPLODE_BOMB);
+								explodeBombServerMessage.set(bombId);
+								try {
+									WiFiServer.this.mSocketServer.sendBroadcastServerMessage(explodeBombServerMessage);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								WiFiServer.this.mMessagePool.recycleMessage(explodeBombServerMessage);
+							}
+						}));
 					}
 				});
 

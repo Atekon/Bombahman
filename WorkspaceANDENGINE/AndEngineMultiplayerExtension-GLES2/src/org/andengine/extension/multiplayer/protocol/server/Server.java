@@ -1,6 +1,7 @@
 package org.andengine.extension.multiplayer.protocol.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
@@ -173,6 +174,29 @@ public abstract class Server<C extends Connection, CC extends ClientConnector<C>
 		if(this.mRunning.get()) {
 			final SmartList<CC> clientConnectors = this.mClientConnectors;
 			for(int i = 0; i < clientConnectors.size(); i++) {
+				try {
+					clientConnectors.get(i).sendServerMessage(pServerMessage);
+				} catch (final IOException e) {
+					this.onException(e);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Sends message to almost everyone except the client list
+	 * @param pServerMessage
+	 * @param clientConnector
+	 * @throws IOException
+	 */
+	public synchronized void sendAlmostBroadcastServerMessage(final IServerMessage pServerMessage, ArrayList<CC> listClientConnector) throws IOException {
+		if(this.mRunning.get()) {
+			final SmartList<CC> clientConnectors = this.mClientConnectors;
+			for(int i = 0; i < clientConnectors.size(); i++) {
+				if(listClientConnector.contains(clientConnectors.get(i)))
+				{
+					continue;
+				}
 				try {
 					clientConnectors.get(i).sendServerMessage(pServerMessage);
 				} catch (final IOException e) {

@@ -67,7 +67,6 @@ public class Explosion {
 	}
 
 	public void createSpriteGroup(float posX, float posY, Scene scene, VertexBufferObjectManager vertexBufferManager){
-		Log.i("oteste", "ex-start");
 		this.mSpriteGroup = new SpriteGroup(posX,posY,Explosion.mExplosionTextureRegion.getTexture(), (4*mPower +1), vertexBufferManager);
 		//create center
 		createSprite(0, 0, 0, mExplosionTextureRegion.getTextureRegion(0), vertexBufferManager);
@@ -154,7 +153,6 @@ public class Explosion {
 			}
 		}));
 		
-		Log.i("oteste", "ex-end");
 	}
 
 	public int getPower() {

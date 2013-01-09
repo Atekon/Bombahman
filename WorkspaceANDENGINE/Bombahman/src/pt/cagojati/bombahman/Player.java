@@ -158,15 +158,23 @@ public class Player {
 			int posX = tmxTile.getTileX();
 			int posY = tmxTile.getTileY();
 //			bomb.definePosition(posX,posY);
-			AddBombClientMessage message = new AddBombClientMessage(posX, posY, this.mId);
+			Bomb bomb = dropBomb(posX, posY);
+			AddBombClientMessage message = new AddBombClientMessage(posX, posY, this.mId, bomb.getId());
 			GameActivity.getConnector().sendClientMessage(message);
 		}
 	}
 	
-	public void dropBomb(int posX, int posY){
+	public void dropBomb(int x, int y, String bombId) {
+		Bomb bomb = dropBomb(x, y);
+		GameActivity.getBombPool().replaceBomb(bomb.getId(), bombId);
+		bomb.setId(bombId);
+	}
+	
+	public Bomb dropBomb(int posX, int posY){
 		Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
 		bomb.setPlayer(this);
 		bomb.definePosition(posX,posY);
+		return bomb;
 	}
 
 	/**
@@ -178,4 +186,6 @@ public class Player {
 		GameActivity.getPhysicsWorld().destroyBody(mBody);
 
 	}
+
+
 }
