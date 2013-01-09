@@ -122,8 +122,6 @@ public class GameActivity extends SimpleBaseGameActivity {
 //		firstTilePosition[3] = GameActivity.getMap().getTileHeight()*13.5f;
 //		GameActivity.mPlayers[1].initialize(firstTilePosition[2],firstTilePosition[3], scene, this.getVertexBufferObjectManager());
 		
-		GameActivity.mConnector.setActivity(this);
-		GameActivity.mConnector.initClient();
 		startTouchEvents(scene);
 		
 		createContactListeners();
@@ -133,6 +131,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 		GameActivity.mVertexBufferObjectManager = this.getVertexBufferObjectManager();
 		GameActivity.mScene = scene;
 		return scene;
+	}
+
+	@Override
+	public synchronized void onGameCreated() {
+		super.onGameCreated();
+		GameActivity.mConnector.setActivity(this);
+		GameActivity.mConnector.initClient();
 	}
 
 	public void addFace(final float pX, final float pY) {

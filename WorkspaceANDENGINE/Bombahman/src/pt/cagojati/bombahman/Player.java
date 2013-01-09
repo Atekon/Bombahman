@@ -178,7 +178,7 @@ public class Player {
 	}
 
 	/**
-	 * must be runned inside updatethread
+	 * must be run inside updatethread
 	 */
 	public void kill() {
 		// TODO Animation

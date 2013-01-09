@@ -101,8 +101,8 @@ public class Bomb {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-//				Bomb.this.explode();
-//				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
+				Bomb.this.explode();
+				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
 			}
 		});
 		this.mSprite.registerUpdateHandler(mTimerHandler);

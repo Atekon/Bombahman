@@ -25,6 +25,8 @@ import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import android.util.Log;
 
 public class WiFiServer implements IMultiplayerServer {
@@ -97,6 +99,24 @@ public class WiFiServer implements IMultiplayerServer {
 								WiFiServer.this.mMessagePool.recycleMessage(explodeBombServerMessage);
 							}
 						}));
+					}
+				});
+				
+				clientConnector.registerClientMessage(MessageFlags.FLAG_MESSAGE_CLIENT_MOVE_PLAYER, MovePlayerClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+					@Override
+					public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
+						final MovePlayerClientMessage movePlayerClientMessage = (MovePlayerClientMessage) pClientMessage;
+						
+						final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
+						movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getPlayerId());
+
+						ArrayList<SocketConnectionClientConnector> clientBlackList = new ArrayList<SocketConnectionClientConnector>();
+						clientBlackList.add(clientConnector);
+						WiFiServer.this.mSocketServer.sendAlmostBroadcastServerMessage(movePlayerServerMessage, clientBlackList);
+						//WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
+
+						WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
+						
 					}
 				});
 
