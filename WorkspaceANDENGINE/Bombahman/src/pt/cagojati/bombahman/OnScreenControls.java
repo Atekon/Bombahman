@@ -4,6 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -16,8 +17,13 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
+
+import com.badlogic.gdx.math.Vector2;
+
 import android.content.Context;
 import android.opengl.GLES20;
+import android.util.Log;
 
 public class OnScreenControls {
 	
@@ -54,6 +60,13 @@ public class OnScreenControls {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				player.animate(pValueX, pValueY);
+				
+				if(!player.getDeadBoundBox().contains(player.getPosX(), player.getPosY()))
+				{
+					player.getDeadBoundBox().setPosition(player.getPosX()-player.getDeadBoundBox().getWidthScaled()/2, player.getPosY()-player.getDeadBoundBox().getHeightScaled()/2);
+					MovePlayerClientMessage message = new MovePlayerClientMessage((int)player.getPosX(), (int)player.getPosY(), player.getId());
+					GameActivity.getConnector().sendClientMessage(message);
+				}
 			}
 
 			@Override

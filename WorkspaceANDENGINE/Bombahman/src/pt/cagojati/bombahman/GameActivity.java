@@ -9,8 +9,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
@@ -20,7 +18,6 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
-import org.andengine.opengl.texture.bitmap.BitmapTextureFormat;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
@@ -28,9 +25,7 @@ import org.andengine.util.debug.Debug;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
-import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import android.os.Bundle;
 import android.util.Log;
@@ -190,20 +185,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 			}
 			
 			@Override
-			public void endContact(Contact contact) {
+			public void endContact(final Contact contact) {
 				//happens when a new bomb is placed and adds the collision to the bomb
-				Object obj = contact.getFixtureB().getBody().getUserData().getClass();
-				Object objZ = contact.getFixtureA().getBody().getUserData().getClass();
-				Log.d("oteste", "B" + obj.toString());
-				Log.d("oteste", "A" + objZ.toString());
-				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class)
+				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class && contact.getFixtureA().getBody().getUserData().getClass()==Player.class)
 				{
 					contact.getFixtureB().setSensor(false);
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					player.setOverBomb(false);
-				}else if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Integer.class){
-					Player player = (Player) contact.getFixtureA().getBody().getUserData();
-					
 				}
 			}
 			
@@ -294,6 +282,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 	
 	public static Scene getScene(){
 		return GameActivity.mScene;
+	}
+	
+	public static VertexBufferObjectManager getVertexBufferManager()
+	{
+		return GameActivity.mVertexBufferObjectManager;
 	}
 
 	public void addPlayer() {

@@ -23,6 +23,7 @@ import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import android.util.Log;
 
 public class WiFiConnector implements IMultiplayerConnector  {
@@ -96,6 +97,15 @@ public class WiFiConnector implements IMultiplayerConnector  {
 						bomb.unregisterTimerHandler();
 						bomb.explode();
 					}
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER, MovePlayerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) pServerMessage;
+					Player player = GameActivity.getPlayer(movePlayerServerMessage.getPlayerId());
+					player.setPos(movePlayerServerMessage.getX(), movePlayerServerMessage.getY());
 				}
 			});
 	
