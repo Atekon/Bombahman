@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	public static boolean isWifi = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

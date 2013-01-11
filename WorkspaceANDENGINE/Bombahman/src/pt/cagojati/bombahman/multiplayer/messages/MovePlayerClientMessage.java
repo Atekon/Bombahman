@@ -11,21 +11,26 @@ import pt.cagojati.bombahman.Player;
 public class MovePlayerClientMessage extends ClientMessage {
 	private int mX;
 	private int mY;
+	private float vX, vY;
 	private int mPlayerId;
 
 	public MovePlayerClientMessage() {
 
 	}
 
-	public MovePlayerClientMessage(final int pX, final int pY, final int playerId) {
+	public MovePlayerClientMessage(final int pX, final int pY,final float vX, final float vY, final int playerId) {
 		this.setX(pX);
 		this.setY(pY);
+		this.setVX(vX);
+		this.setVY(vY);
 		this.setPlayerId(playerId);
 	}
 
-	public void set(final int pX, final int pY, int playerid, String bombId ) {
+	public void set(final int pX, final int pY,final float vX, final float vY, int playerid, String bombId ) {
 		this.setX(pX);
 		this.setY(pY);
+		this.setVX(vX);
+		this.setVY(vY);
 		this.setPlayerId(playerid);
 	}
 
@@ -38,6 +43,8 @@ public class MovePlayerClientMessage extends ClientMessage {
 	protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
 		this.setX(pDataInputStream.readInt());
 		this.setY(pDataInputStream.readInt());
+		this.setVX(pDataInputStream.readFloat());
+		this.setVY(pDataInputStream.readFloat());
 		this.setPlayerId(pDataInputStream.readInt());
 	}
 
@@ -45,6 +52,8 @@ public class MovePlayerClientMessage extends ClientMessage {
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeInt(this.getX());
 		pDataOutputStream.writeInt(this.getY());
+		pDataOutputStream.writeFloat(this.getVX());
+		pDataOutputStream.writeFloat(this.getVY());
 		pDataOutputStream.writeInt(this.getPlayerId());
 	}
 
@@ -62,6 +71,22 @@ public class MovePlayerClientMessage extends ClientMessage {
 
 	public void setX(int mX) {
 		this.mX = mX;
+	}
+	
+	public float getVX() {
+		return vX;
+	}
+
+	public void setVX(float vX) {
+		this.vX = vX;
+	}
+
+	public float getVY() {
+		return vY;
+	}
+
+	public void setVY(float vY) {
+		this.vY = vY;
 	}
 
 	public int getPlayerId() {

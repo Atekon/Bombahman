@@ -92,7 +92,6 @@ public class WiFiServer implements IMultiplayerServer {
 								try {
 									WiFiServer.this.mSocketServer.sendBroadcastServerMessage(explodeBombServerMessage);
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								
@@ -108,7 +107,7 @@ public class WiFiServer implements IMultiplayerServer {
 						final MovePlayerClientMessage movePlayerClientMessage = (MovePlayerClientMessage) pClientMessage;
 						
 						final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
-						movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getPlayerId());
+						movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
 
 						ArrayList<SocketConnectionClientConnector> clientBlackList = new ArrayList<SocketConnectionClientConnector>();
 						clientBlackList.add(clientConnector);
@@ -146,7 +145,6 @@ public class WiFiServer implements IMultiplayerServer {
 				WiFiServer.this.mMessagePool.recycleMessage(joinedServerServerMessage);
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mPlayerCount++;
