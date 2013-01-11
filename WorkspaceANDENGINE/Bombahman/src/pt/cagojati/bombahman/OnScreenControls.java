@@ -17,6 +17,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import pt.cagojati.bombahman.multiplayer.DeadReckoning;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 
 import com.badlogic.gdx.math.Vector2;
@@ -59,13 +60,12 @@ public class OnScreenControls {
 		this.mAnalogOnScreenControl = new AnalogOnScreenControl(posX, posY, camera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, 200, vertexBufferManager, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
+				player.move(pValueX*3, pValueY*3);
 				player.animate(pValueX, pValueY);
 				
 				if(!player.getDeadBoundBox().contains(player.getPosX(), player.getPosY()))
 				{
-					player.getDeadBoundBox().setPosition(player.getPosX()-player.getDeadBoundBox().getWidthScaled()/2, player.getPosY()-player.getDeadBoundBox().getHeightScaled()/2);
-					MovePlayerClientMessage message = new MovePlayerClientMessage((int)player.getPosX(), (int)player.getPosY(), player.getId());
-					GameActivity.getConnector().sendClientMessage(message);
+					DeadReckoning.sendMoveMessage(pValueX*3, pValueY*3);
 				}
 			}
 

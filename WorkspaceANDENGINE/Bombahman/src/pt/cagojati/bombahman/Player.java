@@ -129,6 +129,16 @@ public class Player {
 		return this.getBody().getTransform().getPosition().y*32;
 	}
 	
+	public float getVelX(){
+		//return this.mSprite.getX();
+		return this.getBody().getLinearVelocity().x;
+	}
+	
+	public float getVelY(){
+		//return this.mSprite.getY();
+		return this.getBody().getLinearVelocity().y;
+	}
+	
 	public void setPos(final float x, final float y){
 		//return this.mSprite.getX();
 		GameActivity.getScene().postRunnable(new Runnable() {
@@ -165,10 +175,19 @@ public class Player {
 	public void setPower(int power){
 		this.mPower = power;
 	}
+	
+	public void move(final float pValueX, final float pValueY){
+		GameActivity.getScene().postRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+				Player.this.mBody.setLinearVelocity(pValueX, pValueY);
+			}
+		});
+	}
 
 	public void animate(float pValueX, float pValueY){
 		if(this.mBody!=null){
-			this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
 
 			if(Math.abs(pValueX)>Math.abs(pValueY)){
 				if(pValueX>0){
