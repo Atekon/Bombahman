@@ -1,5 +1,6 @@
 package pt.cagojati.bombahman.multiplayer;
 
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 
@@ -13,6 +14,7 @@ public class DeadReckoningClient {
 	private static TimerHandler mTimer;
 	private static float mTime = 0.5f;
 	private static float oldPosX, oldPosY;
+	private static IUpdateHandler velocityThread;
 	
 	public static void setPlayer(Player player)
 	{
@@ -25,6 +27,7 @@ public class DeadReckoningClient {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
+//				Log.d("oteste","timer");
 				DeadReckoningClient.sendMoveMessage(DeadReckoningClient.mPlayer.getVelX(),DeadReckoningClient.mPlayer.getVelY());
 			};
 		});
@@ -39,7 +42,7 @@ public class DeadReckoningClient {
 		mTimer.reset();
 	}
 	
-	public static void moveRemotePlayer(final float posX, final float posY,final float vX, final float vY, Player player){	
+	public static void moveRemotePlayer(final float posX, final float posY,final float vX, final float vY, final Player player){	
 		float difPosX = posX - oldPosX;
 		float difPosY = posY - oldPosY;
 		
@@ -58,8 +61,19 @@ public class DeadReckoningClient {
 			float velX = difPosX/max;
 			float velY = difPosY/max;
 			
-			player.move(vX,vY);
+//			if(velocityThread==null){
+//				velocityThread = new TimerHandler(0.1f, true, new ITimerCallback() {
+//					@Override
+//					public void onTimePassed(TimerHandler pTimerHandler) {
+//					}
+//				});
+//				GameActivity.getScene().registerUpdateHandler(velocityThread);
+//			}
+			player.move(vX,vY);	
+
 		}else{
+//			GameActivity.getScene().unregisterUpdateHandler(velocityThread);
+//			velocityThread = null;
 			player.move(0,0);
 		}
 		player.animate(difPosX, difPosY);

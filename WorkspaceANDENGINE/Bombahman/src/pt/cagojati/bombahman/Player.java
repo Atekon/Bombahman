@@ -1,13 +1,11 @@
 package pt.cagojati.bombahman;
 
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -20,21 +18,19 @@ import org.andengine.util.debug.Debug;
 import org.andengine.util.debug.Debug.DebugLevel;
 
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
-
 import android.content.Context;
-import android.util.Log;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Player {
 
 	Body mBody;
 	ITiledTextureRegion mPlayerTextureRegion;
+	ITiledTextureRegion mDeathAnimationTextureRegion;
 	AnimatedSprite mSprite;
+	AnimatedSprite mSpriteDeath;
 	Rectangle mDeadBoundBox;
 	private boolean isOverBomb = false;
 	private int mPower=2;
@@ -44,29 +40,17 @@ public class Player {
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
 	private final FixtureDef DEAD_RECKONING_PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, true, Player.CATEGORYBIT,this.MASKBITS, (short)0);
-
-
+	private static final String[] PLAYER_TEXTURES = {"playerwhite.png", "playergrey.png", "playerblue.png", "playerred.png"};
+	private static final String[] DEATH_TEXTURES = {"deadwhite.png", "deadgrey.png", "deadblue.png", "deadred.png"};
+	
 	public Player(int id){
 		this.mId = id;
 	}
 
 	public void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
-		String texture = "";
-		switch(mId){
-			case 0:
-				texture = "playerwhite.png";
-				break;
-			case 1:
-				texture = "playergrey.png";
-				break;	
-			case 2:
-				texture = "playerblue.png";
-				break;
-			case 3:
-				texture = "playerred.png";
-				break;
-		}
+		String texture = PLAYER_TEXTURES[mId];
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, texture,3,4);
+		this.mDeathAnimationTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, DEATH_TEXTURES[mId],3,2);
 	}
 
 	public ITexture[] loadResources(BitmapTextureAtlas textureAtlas,int offsetX, int offsetY, Context context)
@@ -84,6 +68,10 @@ public class Player {
 		this.mSprite.setScale(0.35f);
 		this.mSprite.setPosition(0-this.mSprite.getWidth()/2+7, 0-3*this.mSprite.getWidth()/4+7);
 		//this.setPosition(posX, posY);
+		
+		this.mSpriteDeath = new AnimatedSprite(0, 0, this.mDeathAnimationTextureRegion, vertexBufferManager);
+		this.mSpriteDeath.setCurrentTileIndex(0);
+		this.mSpriteDeath.setScale(0.35f);
 
 		final Rectangle boundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
 		boundBox.setColor(1, 0, 0, 0);
@@ -100,6 +88,8 @@ public class Player {
 		this.mBody.setUserData(this);
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
+		mSpriteDeath.setVisible(false);
+		scene.attachChild(this.mSpriteDeath);
 		
 		//deadbody.setUserData(this.mId);
 		//deadboundBox.attachChild(this.mSprite);
@@ -213,13 +203,17 @@ public class Player {
 			}
 		}
 	}
-
-	public void dropBomb() {
-		//get Current Tile Position
+	
+	public TMXTile getTMXTile()
+	{
 		final float[] playerFootCordinates = this.getSprite().convertLocalToSceneCoordinates(this.getSprite().getWidthScaled()/2+32, this.getSprite().getHeightScaled()+50);
 
+		return GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]); 
+	}
+
+	public void dropBomb() {
 		/* Get the tile the feet of the player are currently waking on. */
-		final TMXTile tmxTile = GameActivity.getMap().getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
+		final TMXTile tmxTile = this.getTMXTile();
 		if(tmxTile != null) {
 //			Bomb bomb = GameActivity.getBombPool().obtainPoolItem();
 //			bomb.setPlayer(this);
@@ -249,8 +243,48 @@ public class Player {
 	 * must be run inside updatethread
 	 */
 	public void kill() {
-		// TODO Animation
+		this.mSpriteDeath.setPosition(this.getPosX()-52, this.getPosY()-80);
 		this.mSprite.detachSelf();
+		this.mSpriteDeath.setVisible(true);
+		this.mSpriteDeath.animate(new long[]{300,300,300,300,300},0,4,false, new IAnimationListener() {
+			
+			@Override
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+				
+			}
+			
+			@Override
+			public void onAnimationLoopFinished(final AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+				Player.this.mSpriteDeath.stopAnimation();
+				GameActivity.getScene().postRunnable(new Runnable() {
+					
+					@Override
+					public void run() {
+						pAnimatedSprite.detachSelf();
+					}
+				});
+			}
+			
+			@Override
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+				
+			}
+			
+			@Override
+			public void onAnimationFinished(final AnimatedSprite pAnimatedSprite) {
+				Player.this.mSpriteDeath.stopAnimation();
+				GameActivity.getScene().postRunnable(new Runnable() {
+					
+					@Override
+					public void run() {
+						pAnimatedSprite.detachSelf();
+					}
+				});
+			}
+		});
 		GameActivity.getPhysicsWorld().destroyBody(mBody);
 
 	}

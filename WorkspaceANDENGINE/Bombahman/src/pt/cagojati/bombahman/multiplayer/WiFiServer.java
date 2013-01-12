@@ -1,7 +1,10 @@
 package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.SocketAddress;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -19,11 +22,13 @@ import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
 import pt.cagojati.bombahman.GameActivity;
+import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
@@ -37,9 +42,11 @@ public class WiFiServer implements IMultiplayerServer {
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private static WiFiServer instance = null;
 	private int mPlayerCount = 0;
+	private Hashtable<InetAddress, Integer> clientList;
 
 	private WiFiServer() {
 		MessageFlags.initMessagePool(mMessagePool);
+		clientList = new Hashtable<InetAddress, Integer>();
 	}
 	
 	public static synchronized WiFiServer getSingletonObject() {
@@ -140,6 +147,11 @@ public class WiFiServer implements IMultiplayerServer {
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
+			if(clientList.containsKey(pConnector.getConnection().getSocket().getInetAddress()))
+			{
+				return;
+			}
+			clientList.put(pConnector.getConnection().getSocket().getInetAddress(), mPlayerCount);
 			//first player should be server right?
 			if(mPlayerCount==0){
 				DeadReckoningServer.startTimer();
@@ -168,6 +180,14 @@ public class WiFiServer implements IMultiplayerServer {
 
 		@Override
 		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
+			KillPlayerServerMessage killPlayerServerMessage = new KillPlayerServerMessage();
+			killPlayerServerMessage.setPlayerId(clientList.get(pConnector.getConnection().getSocket().getInetAddress()));
+			try {
+				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(killPlayerServerMessage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			mPlayerCount--;
 		}
 	}

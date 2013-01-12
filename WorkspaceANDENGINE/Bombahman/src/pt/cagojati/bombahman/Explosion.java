@@ -48,8 +48,8 @@ public class Explosion {
 	public static void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
 		mExplosionTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "explosion1.png",3,1);
 	}
-
-	private void createSprite(final float posX, final float posY, final float angle,final ITextureRegion texture, final VertexBufferObjectManager vertexBufferManager){
+	
+	private void createBody(final float posX, final float posY, final VertexBufferObjectManager vertexBufferManager){
 		Rectangle boundBox = new Rectangle(posX+Explosion.this.mSpriteGroup.getX(),posY+Explosion.this.mSpriteGroup.getY(),32,32,vertexBufferManager);
 
 		Body body = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.StaticBody, EXPLOSION_FIXTURE_DEF);
@@ -58,7 +58,10 @@ public class Explosion {
 		body.getFixtureList().get(0).setSensor(true);
 		Explosion.this.mSensorList.add(body);
 		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, body, true, false));
+	}
 
+	private void createSprite(final float posX, final float posY, final float angle,final ITextureRegion texture, final VertexBufferObjectManager vertexBufferManager){
+		createBody(posX, posY, vertexBufferManager);
 		Sprite spriteConnector = new Sprite(posX, posY, texture, vertexBufferManager);
 		spriteConnector.setRotationCenter(16, 16);
 		spriteConnector.setRotation(angle);
@@ -125,7 +128,17 @@ public class Explosion {
 									continue directionloop;
 								}
 							}
-
+							
+//							//checks if there is a player in the way
+//							for(int k=0; k<GameActivity.getTotalPlayers(); k++){
+//								TMXTile playerTile = GameActivity.getPlayer(k).getTMXTile();
+//								if(tile.getTileX() == playerTile.getTileX() && tile.getTileY() == tile.getTileY())
+//								{
+//									createBody(currentX, currentY, vertexBufferManager);
+//									angle+=90;
+//									continue directionloop;
+//								}
+//							}
 							if(j<mPower-1)
 								createSprite(currentX, currentY, angle,Explosion.mExplosionTextureRegion.getTextureRegion(1), vertexBufferManager);
 							else{

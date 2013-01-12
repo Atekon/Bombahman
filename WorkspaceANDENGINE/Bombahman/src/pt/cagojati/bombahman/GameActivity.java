@@ -57,7 +57,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private static final PhysicsWorld mPhysicsWorld = new PhysicsWorld(new Vector2(0,0), false);
 	private static BombPool mBombPool;
 	private static int mCurrentPlayer;
-	private int mTotalPlayers = 0;
+	private static int mTotalPlayers = 0;
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -122,8 +122,6 @@ public class GameActivity extends SimpleBaseGameActivity {
 		//		firstTilePosition[3] = GameActivity.getMap().getTileHeight()*13.5f;
 		//		GameActivity.mPlayers[1].initialize(firstTilePosition[2],firstTilePosition[3], scene, this.getVertexBufferObjectManager());
 
-		startTouchEvents(scene);
-
 		createContactListeners();
 
 		scene.registerUpdateHandler(GameActivity.mPhysicsWorld);
@@ -150,41 +148,17 @@ public class GameActivity extends SimpleBaseGameActivity {
 		//this.mPlayers[0].setPosition(pX, pY);
 	}
 
-	public void startTouchEvents(Scene scene){
-
-		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.isActionDown()) {					
-					//test
-					//					MessagePool<IMessage> messagePool = GameActivity.this.mConnector.getMessagePool();
-					//					final AddFaceClientMessage addFaceClientMessage = (AddFaceClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_ADD_FACE);
-					//					addFaceClientMessage.set(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-					//					GameActivity.this.mConnector.sendClientMessage(addFaceClientMessage);
-					//
-					//					messagePool.recycleMessage(addFaceClientMessage);
-					return true;
-				} else {
-					return true;
-				}
-			}
-		});
-
-		scene.setTouchAreaBindingOnActionDownEnabled(true);
-	}
 
 	private void createContactListeners(){
 		mPhysicsWorld.setContactListener(new ContactListener() {
 
 			@Override
 			public void preSolve(Contact contact, Manifold oldManifold) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void postSolve(Contact contact, ContactImpulse impulse) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -322,7 +296,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	public void addPlayer() {
 		float[] firstTilePosition = new float[2];
-		switch(this.mTotalPlayers)
+		switch(GameActivity.mTotalPlayers)
 		{
 		case 0:
 			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
@@ -342,19 +316,19 @@ public class GameActivity extends SimpleBaseGameActivity {
 			break;
 		}
 
-		GameActivity.mPlayers[this.mTotalPlayers].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
-		this.mTotalPlayers++;
-	}
-
-	public static void removePlayer() {
-
+		GameActivity.mPlayers[GameActivity.mTotalPlayers].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
+		GameActivity.mTotalPlayers++;
 	}
 
 	public void setCurrentPlayerServerMessage() {
-		GameActivity.mCurrentPlayer = this.mTotalPlayers-1;
+		GameActivity.mCurrentPlayer = GameActivity.mTotalPlayers-1;
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		DeadReckoningClient.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));
 		DeadReckoningClient.startTimer();
 	}
 
+	public static int getTotalPlayers()
+	{
+		return mTotalPlayers;
+	}
 }
