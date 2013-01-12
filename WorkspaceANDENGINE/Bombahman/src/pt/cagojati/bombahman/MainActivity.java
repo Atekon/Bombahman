@@ -92,6 +92,15 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		
+		Button btnLobby = (Button) this.findViewById(R.id.LobbyBtn);
+		btnLobby.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
+						startActivity(intent);
+					}
+		});
 	}
-
 }

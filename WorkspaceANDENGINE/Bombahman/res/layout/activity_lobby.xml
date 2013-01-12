@@ -1,0 +1,258 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".LobbyActivity" >
+
+    <LinearLayout
+        android:id="@+id/PlayersLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/HorizontalRow1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/VerticalPlayer1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:background="#AAD3D3D3"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/ImgPlayer1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/playerunknown" />
+
+                <TextView
+                    android:id="@+id/Player1Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/VerticalPlayer2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:background="#AA555555"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/ImgPlayer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/playerunknown" />
+
+                <TextView
+                    android:id="@+id/Player2Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 2" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/HorizontalRow2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/VerticalPlayer3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:background="#AA1C86EE"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/ImgPlayer3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/playerunknown" />
+
+                <TextView
+                    android:id="@+id/Player3Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/VerticalPlayer4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:background="#AAEE2C2C"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/ImgPlayer4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/playerunknown" />
+
+                <TextView
+                    android:id="@+id/Player4Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 4" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/OptionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.0"
+        android:orientation="vertical"
+         >
+        
+        <LinearLayout
+            android:id="@+id/Map_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/MapImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#A0A0A0"
+                android:src="@drawable/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/PreviousMap_Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="&lt;" />
+
+                <TextView
+                    android:id="@+id/MapName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Map Name"
+                    android:layout_weight="0.3"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/NextMap_Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="&gt;" />
+
+            </LinearLayout>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/OptionsVertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+
+            <TextView
+                android:id="@+id/OptionsStr"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Options" />
+
+            <LinearLayout
+                android:id="@+id/TimeOptionVertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/TimeOptionHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/SetTime_Btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Set Time"
+                        android:gravity="left|center_vertical"
+                        android:layout_marginLeft="-5dp"
+	                    android:layout_marginRight="-5dp"
+	                    android:layout_marginTop="-5dp"
+	                    android:layout_marginBottom="-5dp"/>
+                </LinearLayout>
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/background_light">
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/PowerupOptionVertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                
+                android:orientation="vertical" 
+                >
+                
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/btn_default"
+                    android:layout_marginLeft="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="-5dp">
+	                <CheckBox
+	                    android:id="@+id/Powerups"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="match_parent"
+	                    android:text="Powerups" 
+	                    />
+				</LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/background_light" >
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ReadyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Ready" />
+
+    </LinearLayout>
+
+</LinearLayout>
