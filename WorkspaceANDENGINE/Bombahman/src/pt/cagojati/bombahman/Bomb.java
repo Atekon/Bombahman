@@ -83,38 +83,53 @@ public class Bomb {
 		this.mId = mId;
 	}
 
-	public void definePosition(int pX, int pY) {
-		this.mSprite.setPosition(pX, pY-12);
-		
-		mBoundBox.setPosition(pX, pY);
-		//mBoundBox.setColor(1, 1, 0);
-		
-		//boundBox.setAlpha(0);
-		this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), this.mBoundBox, BodyType.StaticBody, BOMB_FIXTURE_DEF);
-		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(this.mBoundBox, this.mBody, true, false));
-		
-		this.mBody.setUserData(this);
-		
-		this.mBody.getFixtureList().get(0).setSensor(true);
-		
-		mTimerHandler = new TimerHandler(TIMEOUT, new ITimerCallback() {
+	public void definePosition(final int pX, final int pY) {
+		GameActivity.getScene().postRunnable(new Runnable() {
 			
 			@Override
-			public void onTimePassed(TimerHandler pTimerHandler) {
-//				Bomb.this.explode();
-//				Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
+			public void run() {
+				// TODO Auto-generated method stub
+				Bomb.this.mSprite.setPosition(pX, pY-12);
+				
+				mBoundBox.setPosition(pX, pY);
+				//mBoundBox.setColor(1, 1, 0);
+				
+				//boundBox.setAlpha(0);
+				Bomb.this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), Bomb.this.mBoundBox, BodyType.StaticBody, BOMB_FIXTURE_DEF);
+				GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(Bomb.this.mBoundBox, Bomb.this.mBody, true, false));
+				
+				Bomb.this.mBody.setUserData(Bomb.this);
+				
+				Bomb.this.mBody.getFixtureList().get(0).setSensor(true);
+				
+				mTimerHandler = new TimerHandler(TIMEOUT, new ITimerCallback() {
+					
+					@Override
+					public void onTimePassed(TimerHandler pTimerHandler) {
+						Bomb.this.explode();
+						Bomb.this.mSprite.unregisterUpdateHandler(pTimerHandler);
+					}
+				});
+				Bomb.this.mSprite.registerUpdateHandler(mTimerHandler);
 			}
 		});
-		this.mSprite.registerUpdateHandler(mTimerHandler);
 	}
 	
 	public void explode(){
-		GameActivity.getPhysicsWorld().destroyBody(mBody);
-		GameActivity.getBombPool().recyclePoolItem(this);
-		
-		//create Explosion
-		Explosion explosion = new Explosion(this.mPlayer.getPower());
-		explosion.createSpriteGroup(this.mSprite.getX(), this.mSprite.getY()+12, (Scene)this.mSprite.getParent(), this.mSprite.getVertexBufferObjectManager());
+		GameActivity.getScene().postRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(GameActivity.getBombPool().getBomb(Bomb.this.getId())!= null){
+					GameActivity.getBombPool().recyclePoolItem(Bomb.this);
+					GameActivity.getPhysicsWorld().destroyBody(mBody);
+					
+					//create Explosion
+					Explosion explosion = new Explosion(Bomb.this.mPlayer.getPower());
+					explosion.createSpriteGroup(Bomb.this.mSprite.getX(), Bomb.this.mSprite.getY()+12, (Scene)Bomb.this.mSprite.getParent(), Bomb.this.mSprite.getVertexBufferObjectManager());
+				}
+			}
+		});
 	}
 	
 	public boolean unregisterTimerHandler()

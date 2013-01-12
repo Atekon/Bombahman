@@ -24,6 +24,7 @@ import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import android.content.Context;
 import android.util.Log;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -34,13 +35,16 @@ public class Player {
 	Body mBody;
 	ITiledTextureRegion mPlayerTextureRegion;
 	AnimatedSprite mSprite;
+	Rectangle mDeadBoundBox;
 	private boolean isOverBomb = false;
-	private int mPower=1;
+	private int mPower=2;
 	private int mId;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
+	private final FixtureDef DEAD_RECKONING_PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, true, Player.CATEGORYBIT,this.MASKBITS, (short)0);
+
 
 	public Player(int id){
 		this.mId = id;
@@ -87,22 +91,77 @@ public class Player {
 		this.mBody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), boundBox, BodyType.DynamicBody, this.PLAYER_FIXTURE_DEF);
 		GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(boundBox, this.mBody, true, false));
 
+		this.mDeadBoundBox = new Rectangle(posX-8,posY-8,16,16,vertexBufferManager);
+		this.mDeadBoundBox.setColor(1, 0, 0, 0);
+		//boundBox.setAlpha(0);
+		//this.deadbody = PhysicsFactory.createBoxBody(GameActivity.getPhysicsWorld(), deadboundBox, BodyType.DynamicBody, this.DEAD_RECKONING_PLAYER_FIXTURE_DEF);
+		//GameActivity.getPhysicsWorld().registerPhysicsConnector(new PhysicsConnector(deadboundBox, this.deadbody, true, false));
+		
 		this.mBody.setUserData(this);
 		boundBox.attachChild(this.mSprite);
 		scene.attachChild(boundBox);
-
+		
+		//deadbody.setUserData(this.mId);
+		//deadboundBox.attachChild(this.mSprite);
+		scene.attachChild(this.mDeadBoundBox);
+		
 	}
 
 	public AnimatedSprite getSprite() {
 		return mSprite;
 	}
+	
+	public Rectangle getDeadBoundBox(){
+		return this.mDeadBoundBox;
+	}
 
 	public void setSprite(AnimatedSprite mSprite) {
 		this.mSprite = mSprite;
 	}
+	
+	public float getPosX(){
+		//return this.mSprite.getX();
+		return this.getBody().getTransform().getPosition().x*32;
+	}
+	
+	public float getPosY(){
+		//return this.mSprite.getY();
+		return this.getBody().getTransform().getPosition().y*32;
+	}
+	
+	public float getVelX(){
+		//return this.mSprite.getX();
+		return this.getBody().getLinearVelocity().x;
+	}
+	
+	public float getVelY(){
+		//return this.mSprite.getY();
+		return this.getBody().getLinearVelocity().y;
+	}
+	
+	public void setPos(final float x, final float y){
+		//return this.mSprite.getX();
+		GameActivity.getScene().postRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+				Player.this.getBody().setTransform(x/32, y/32, 0);
+			}
+		});
+	}
+	
+	public Body getBody()
+	{
+		return this.mBody;
+	}
 
 	public boolean isOverBomb() {
 		return isOverBomb;
+	}
+	
+	public int getId()
+	{
+		return this.mId;
 	}
 
 	public void setOverBomb(boolean isOverBomb) {
@@ -116,10 +175,19 @@ public class Player {
 	public void setPower(int power){
 		this.mPower = power;
 	}
+	
+	public void move(final float pValueX, final float pValueY){
+		GameActivity.getScene().postRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+				Player.this.mBody.setLinearVelocity(pValueX, pValueY);
+			}
+		});
+	}
 
 	public void animate(float pValueX, float pValueY){
 		if(this.mBody!=null){
-			this.mBody.setLinearVelocity(pValueX*3, pValueY*3);
 
 			if(Math.abs(pValueX)>Math.abs(pValueY)){
 				if(pValueX>0){
@@ -178,7 +246,7 @@ public class Player {
 	}
 
 	/**
-	 * must be runned inside updatethread
+	 * must be run inside updatethread
 	 */
 	public void kill() {
 		// TODO Animation
