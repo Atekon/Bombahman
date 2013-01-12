@@ -37,7 +37,7 @@ public class Player {
 	AnimatedSprite mSprite;
 	Rectangle mDeadBoundBox;
 	private boolean isOverBomb = false;
-	private int mPower=1;
+	private int mPower=2;
 	private int mId;
 
 	public static final short CATEGORYBIT = 4;

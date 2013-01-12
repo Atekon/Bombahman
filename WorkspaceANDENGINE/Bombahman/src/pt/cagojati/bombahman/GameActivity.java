@@ -23,7 +23,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
-import pt.cagojati.bombahman.multiplayer.DeadReckoning;
+import pt.cagojati.bombahman.multiplayer.DeadReckoningClient;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
@@ -353,8 +353,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public void setCurrentPlayerServerMessage() {
 		GameActivity.mCurrentPlayer = this.mTotalPlayers-1;
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
-		DeadReckoning.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));
-		DeadReckoning.startTimer();
+		DeadReckoningClient.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));
+		DeadReckoningClient.startTimer();
 	}
 
 }

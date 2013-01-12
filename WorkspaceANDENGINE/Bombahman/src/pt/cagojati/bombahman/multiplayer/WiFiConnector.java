@@ -114,7 +114,7 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) pServerMessage;
 					Player player = GameActivity.getPlayer(movePlayerServerMessage.getPlayerId());
-					DeadReckoning.moveRemotePlayer(movePlayerServerMessage.getX(), movePlayerServerMessage.getY(),movePlayerServerMessage.getVX(),movePlayerServerMessage.getVY(), player);
+					DeadReckoningClient.moveRemotePlayer(movePlayerServerMessage.getX(), movePlayerServerMessage.getY(),movePlayerServerMessage.getVX(),movePlayerServerMessage.getVY(), player);
 				}
 			});
 	

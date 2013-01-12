@@ -46,7 +46,7 @@ public class Explosion {
 	}
 
 	public static void loadResources(BuildableBitmapTextureAtlas textureAtlas, Context context){
-		mExplosionTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "explosion.png",3,1);
+		mExplosionTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(textureAtlas, context, "explosion1.png",3,1);
 	}
 
 	private void createSprite(final float posX, final float posY, final float angle,final ITextureRegion texture, final VertexBufferObjectManager vertexBufferManager){

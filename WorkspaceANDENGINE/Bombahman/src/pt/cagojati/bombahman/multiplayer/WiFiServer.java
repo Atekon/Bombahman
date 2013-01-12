@@ -106,16 +106,28 @@ public class WiFiServer implements IMultiplayerServer {
 					public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
 						final MovePlayerClientMessage movePlayerClientMessage = (MovePlayerClientMessage) pClientMessage;
 						
-						final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
-						movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
+						if(DeadReckoningServer.validateMessage(movePlayerClientMessage.getPlayerId())){
+							if(movePlayerClientMessage.getPlayerId()!=0)
+							Log.d("oteste", "no lag on player" + movePlayerClientMessage.getPlayerId());
 
-						ArrayList<SocketConnectionClientConnector> clientBlackList = new ArrayList<SocketConnectionClientConnector>();
-						clientBlackList.add(clientConnector);
-						WiFiServer.this.mSocketServer.sendAlmostBroadcastServerMessage(movePlayerServerMessage, clientBlackList);
-						//WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
-
-						WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
-						
+							final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
+							movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
+	
+							ArrayList<SocketConnectionClientConnector> clientBlackList = new ArrayList<SocketConnectionClientConnector>();
+							clientBlackList.add(clientConnector);
+							WiFiServer.this.mSocketServer.sendAlmostBroadcastServerMessage(movePlayerServerMessage, clientBlackList);
+	
+							WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
+						}else{
+							//player laggedout
+							Log.d("oteste", "lag on player" + movePlayerClientMessage.getPlayerId());
+							final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
+							movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
+							
+							pClientConnector.sendServerMessage(movePlayerServerMessage);
+							
+							WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
+						}
 					}
 				});
 
@@ -128,6 +140,10 @@ public class WiFiServer implements IMultiplayerServer {
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
+			//first player should be server right?
+			if(mPlayerCount==0){
+				DeadReckoningServer.startTimer();
+			}
 			try {
 				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
 				addPlayerServerMessage.setIsPlayer(false);

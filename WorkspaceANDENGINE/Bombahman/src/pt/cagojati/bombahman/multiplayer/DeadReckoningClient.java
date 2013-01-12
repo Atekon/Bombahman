@@ -8,7 +8,7 @@ import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import android.util.Log;
 
-public class DeadReckoning {
+public class DeadReckoningClient {
 	private static Player mPlayer;
 	private static TimerHandler mTimer;
 	private static float mTime = 0.5f;
@@ -25,7 +25,7 @@ public class DeadReckoning {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				DeadReckoning.sendMoveMessage(DeadReckoning.mPlayer.getVelX(),DeadReckoning.mPlayer.getVelY());
+				DeadReckoningClient.sendMoveMessage(DeadReckoningClient.mPlayer.getVelX(),DeadReckoningClient.mPlayer.getVelY());
 			};
 		});
 		GameActivity.getScene().registerUpdateHandler(mTimer);
@@ -59,8 +59,6 @@ public class DeadReckoning {
 			float velY = difPosY/max;
 			
 			player.move(vX,vY);
-			Log.d("oteste","velX"+velX);
-			Log.d("oteste","velY"+velY);
 		}else{
 			player.move(0,0);
 		}

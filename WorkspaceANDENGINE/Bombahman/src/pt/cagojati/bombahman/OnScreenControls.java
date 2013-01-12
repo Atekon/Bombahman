@@ -17,7 +17,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import pt.cagojati.bombahman.multiplayer.DeadReckoning;
+import pt.cagojati.bombahman.multiplayer.DeadReckoningClient;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 
 import com.badlogic.gdx.math.Vector2;
@@ -65,7 +65,7 @@ public class OnScreenControls {
 				
 				if(!player.getDeadBoundBox().contains(player.getPosX(), player.getPosY()))
 				{
-					DeadReckoning.sendMoveMessage(pValueX*3, pValueY*3);
+					DeadReckoningClient.sendMoveMessage(pValueX*3, pValueY*3);
 				}
 			}
 
