@@ -18,6 +18,14 @@
             android:layout_centerVertical="true"
             android:text="Join" />
 
+        <Button
+            android:id="@+id/LobbyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/JoinWiFiButton"
+            android:layout_marginTop="62dp"
+            android:text="Lobby" />
 
     </RelativeLayout>
 
