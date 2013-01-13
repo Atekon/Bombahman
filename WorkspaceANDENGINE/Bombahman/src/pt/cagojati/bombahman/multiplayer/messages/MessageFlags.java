@@ -18,6 +18,7 @@ public class MessageFlags {
 	public static final short FLAG_MESSAGE_SERVER_ADD_POWERUPS = 10;
 	public static final short FLAG_MESSAGE_SERVER_GET_POWERUP = 11;
 	public static final short FLAG_MESSAGE_SERVER_START_SUDDEN_DEATH = 12;
+	public static final short FLAG_MESSAGE_SERVER_ALLREADY = 13;
 			
 	public static void initMessagePool(MessagePool<IMessage> messagePool) {
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_BOMB, AddBombServerMessage.class);
@@ -32,5 +33,6 @@ public class MessageFlags {
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_POWERUPS, AddPowerupServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_GET_POWERUP, GetPowerupServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_START_SUDDEN_DEATH, StartSuddenDeathServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ALLREADY, AllReadyServerMessage.class);
 	}
 }

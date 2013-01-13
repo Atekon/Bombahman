@@ -8,35 +8,24 @@ import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMes
 
 import pt.cagojati.bombahman.Player;
 
-public class AddPlayerServerMessage extends ServerMessage {
+public class AllReadyServerMessage extends ServerMessage {
 	
-	private int mPlayerId;
-
-	public AddPlayerServerMessage() {
+	public AllReadyServerMessage() {
 
 	}
 
 	@Override
 	public short getFlag() {
-		return MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER;
+		return MessageFlags.FLAG_MESSAGE_SERVER_ALLREADY;
 	}
 
 	@Override
 	protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
-		this.mPlayerId = pDataInputStream.readInt();
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
-		pDataOutputStream.writeInt(this.mPlayerId);
 	}
 
-	public int getPlayerId() {
-		return mPlayerId;
-	}
-
-	public void setPlayerId(int playerId) {
-		this.mPlayerId = playerId;
-	}
 }
 

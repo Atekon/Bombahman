@@ -26,6 +26,7 @@ import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AllReadyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.GetPowerupServerMessage;
@@ -37,7 +38,7 @@ import pt.cagojati.bombahman.multiplayer.messages.StartSuddenDeathServerMessage;
 import android.util.Log;
 
 public class WiFiConnector implements IMultiplayerConnector  {
-	private static final int SERVER_PORT = 4444;
+	private static final int SERVER_PORT = 4445;
 	
 	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 	private ServerConnector<SocketConnection> mServerConnector;
@@ -78,10 +79,7 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) pServerMessage;
-					mGameActivity.addPlayer();
-					if(addPlayerServerMessage.isPlayer()){
-						mGameActivity.setCurrentPlayerServerMessage();
-					}
+					mGameActivity.addPlayer(addPlayerServerMessage.getPlayerId());
 				}
 			});
 			
@@ -89,12 +87,10 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final JoinedServerServerMessage joinedServerServerMessage = (JoinedServerServerMessage) pServerMessage;
-					for(int i = 0; i <joinedServerServerMessage.getNumPlayers()+1; i++){
-						mGameActivity.addPlayer();
+					for(int i = 0; i <joinedServerServerMessage.getNumPlayers(); i++){
+						mGameActivity.addPlayer(joinedServerServerMessage.getPlayersToAdd()[i]);
 					}
-					if(joinedServerServerMessage.isPlayer()){
-						mGameActivity.setCurrentPlayerServerMessage();
-					}
+					mGameActivity.setCurrentPlayerServerMessage(joinedServerServerMessage.getPlayerId());
 				}
 			});
 			
@@ -159,6 +155,14 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					clock.dropWalls();
 				}
 			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ALLREADY, AllReadyServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+
+				@Override
+				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+					//removeLoading
+				}
+			});
 	
 			this.mServerConnector.getConnection().start();
 		}catch (final Throwable t) {
@@ -190,7 +194,6 @@ public class WiFiConnector implements IMultiplayerConnector  {
 		try {
 			this.mServerConnector.sendClientMessage(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

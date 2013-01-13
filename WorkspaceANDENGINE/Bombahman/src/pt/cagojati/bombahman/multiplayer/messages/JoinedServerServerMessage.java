@@ -10,11 +10,12 @@ import pt.cagojati.bombahman.Player;
 
 public class JoinedServerServerMessage extends ServerMessage {
 	
-	private boolean mIsPlayer;
 	private int mNumPlayers;
+	private int mPlayerId;
+	private int[] playersToAdd;
 
 	public JoinedServerServerMessage() {
-
+		
 	}
 
 	@Override
@@ -24,22 +25,20 @@ public class JoinedServerServerMessage extends ServerMessage {
 
 	@Override
 	protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
-		this.mIsPlayer = pDataInputStream.readBoolean();
-		this.mNumPlayers = pDataInputStream.readInt();
+		setNumPlayers(pDataInputStream.readInt());
+		this.mPlayerId = pDataInputStream.readInt();
+		for(int i =0; i <this.mNumPlayers;i++){
+			this.getPlayersToAdd()[i] = pDataInputStream.readInt();
+		}
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
-		pDataOutputStream.writeBoolean(this.mIsPlayer);
 		pDataOutputStream.writeInt(this.mNumPlayers);
-	}
-
-	public boolean isPlayer() {
-		return mIsPlayer;
-	}
-
-	public void setIsPlayer(boolean mIsPlayer) {
-		this.mIsPlayer = mIsPlayer;
+		pDataOutputStream.writeInt(this.mPlayerId);
+		for(int i =0; i <this.mNumPlayers;i++){
+			pDataOutputStream.writeInt(this.getPlayersToAdd()[i]);
+		}
 	}
 
 	public int getNumPlayers() {
@@ -48,6 +47,23 @@ public class JoinedServerServerMessage extends ServerMessage {
 
 	public void setNumPlayers(int numPlayers) {
 		this.mNumPlayers = numPlayers;
+		this.setPlayersToAdd(new int[numPlayers]);
+	}
+	
+	public int getPlayerId() {
+		return mPlayerId;
+	}
+
+	public void setPlayerId(int playerId) {
+		this.mPlayerId = playerId;
+	}
+
+	public int[] getPlayersToAdd() {
+		return playersToAdd;
+	}
+
+	public void setPlayersToAdd(int[] playersToAdd) {
+		this.playersToAdd = playersToAdd;
 	}
 }
 

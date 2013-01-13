@@ -27,6 +27,7 @@ import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AllReadyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
@@ -37,13 +38,16 @@ import android.util.Log;
 
 public class WiFiServer implements IMultiplayerServer {
 	
-	private static final int SERVER_PORT = 4444;
+	private static final int SERVER_PORT = 4445;
 	
 	MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private static WiFiServer instance = null;
 	private int mPlayerCount = 0;
 	private Hashtable<InetAddress, Integer> clientList;
+	private InetAddress[] hostsAdresses;
+	private int mMaxPlayers;
+	private boolean[] clientHasJoined;
 
 	private WiFiServer() {
 		MessageFlags.initMessagePool(mMessagePool);
@@ -66,6 +70,20 @@ public class WiFiServer implements IMultiplayerServer {
 	public MessagePool<IMessage> getMessagePool()
 	{
 		return mMessagePool;
+	}
+	
+	public void setHostsAddreses(InetAddress[] hostsAddresses)
+	{
+		this.hostsAdresses = hostsAddresses;
+		clientHasJoined = new boolean[hostsAddresses.length];
+		for(int i =0; i< hostsAddresses.length;i++)
+		{
+			clientHasJoined[i] = false;
+		}
+	}
+	
+	public void setMaxPlayers(int maxPlayers){
+		this.mMaxPlayers = maxPlayers;
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -141,14 +159,24 @@ public class WiFiServer implements IMultiplayerServer {
 			{
 				return;
 			}
-			clientList.put(pConnector.getConnection().getSocket().getInetAddress(), mPlayerCount);
+			InetAddress address = pConnector.getConnection().getSocket().getInetAddress();
+			int pos = -1;
+			for(int i =0; i<mMaxPlayers;i++)
+			{
+				if(address == hostsAdresses[i])
+				{
+					pos = i;
+					clientHasJoined[pos] = true;
+				}
+			}
+			clientList.put(pConnector.getConnection().getSocket().getInetAddress(), pos);
 			//first player should be server right?
-			if(mPlayerCount==0){
+			if(pos==0){
 				DeadReckoningServer.startTimer();
 			}
 			try {
 				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
-				addPlayerServerMessage.setIsPlayer(false);
+				addPlayerServerMessage.setPlayerId(pos);
 				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
 				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
 				
@@ -157,8 +185,21 @@ public class WiFiServer implements IMultiplayerServer {
 			}
 			try {
 				JoinedServerServerMessage joinedServerServerMessage = (JoinedServerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOINED_SERVER);
-				joinedServerServerMessage.setIsPlayer(true);
 				joinedServerServerMessage.setNumPlayers(mPlayerCount);
+				joinedServerServerMessage.setPlayerId(pos);
+				int[] players = new int[mPlayerCount];
+				int j = 0;
+				for(int i = 0; i<WiFiServer.this.mMaxPlayers; i++){
+					if(WiFiServer.this.clientHasJoined[i] == true)
+					{
+						if(pos!=i)
+						{
+							players[j] = i;
+							j++;
+						}
+					}
+				}
+				joinedServerServerMessage.setPlayersToAdd(players);
 				pConnector.sendServerMessage(joinedServerServerMessage);
 				WiFiServer.this.mMessagePool.recycleMessage(joinedServerServerMessage);
 				
@@ -172,6 +213,17 @@ public class WiFiServer implements IMultiplayerServer {
 				e.printStackTrace();
 			}
 			mPlayerCount++;
+			if(mPlayerCount == WiFiServer.this.mMaxPlayers)
+			{
+				AllReadyServerMessage message = (AllReadyServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ALLREADY);
+				try {
+					WiFiServer.this.mSocketServer.sendBroadcastServerMessage(message);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				mMessagePool.recycleMessage(message);
+
+			}
 		}
 
 		@Override

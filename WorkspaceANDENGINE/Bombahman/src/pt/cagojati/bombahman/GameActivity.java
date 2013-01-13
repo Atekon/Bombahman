@@ -8,8 +8,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.tmx.TMXProperties;
 import org.andengine.extension.tmx.TMXTile;
@@ -30,13 +28,10 @@ import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
-import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.GetPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -46,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 
-public class GameActivity extends SimpleBaseGameActivity {
+public class GameActivity extends SimpleBaseGameActivity{
 
 	static final int CAMERA_WIDTH = 800;
 	static final int CAMERA_HEIGHT = 480;
@@ -369,9 +364,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 		return GameActivity.mVertexBufferObjectManager;
 	}
 
-	public void addPlayer() {
+	public void addPlayer(int playerId) {
 		float[] firstTilePosition = new float[2];
-		switch(GameActivity.mTotalPlayers)
+		switch(playerId)
 		{
 		case 0:
 			firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
@@ -391,12 +386,12 @@ public class GameActivity extends SimpleBaseGameActivity {
 			break;
 		}
 
-		GameActivity.mPlayers[GameActivity.mTotalPlayers].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
+		GameActivity.mPlayers[playerId].initialize(firstTilePosition[0],firstTilePosition[1], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		GameActivity.mTotalPlayers++;
 	}
 
-	public void setCurrentPlayerServerMessage() {
-		GameActivity.mCurrentPlayer = GameActivity.mTotalPlayers-1;
+	public void setCurrentPlayerServerMessage(int playerId) {
+		GameActivity.mCurrentPlayer = playerId;
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		DeadReckoningClient.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));
 		DeadReckoningClient.startTimer();
@@ -422,4 +417,12 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public static boolean isPowerupEnabled(){
 		return mHasPowerUps;
 	}
+	
+	@Override
+	protected void onSetContentView() {
+		super.onSetContentView();
+	}
+
+	
+	
 }
