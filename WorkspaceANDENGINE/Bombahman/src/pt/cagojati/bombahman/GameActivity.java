@@ -32,6 +32,7 @@ import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.GetPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.os.Bundle;
@@ -226,6 +227,21 @@ public class GameActivity extends SimpleBaseGameActivity {
 					Player player = (Player) contact.getFixtureB().getBody().getUserData();
 					powerUp.destroy();
 					powerUp.apply(player);
+//					IMultiplayerServer server = getServer();
+//					if(getServer()!=null)
+//					{
+//						IPowerUp powerUp = (IPowerUp) contact.getFixtureA().getBody().getUserData();
+//						Player player = (Player) contact.getFixtureB().getBody().getUserData();
+//						MessagePool<IMessage> msgPool = server.getMessagePool();
+//						GetPowerupServerMessage msg = (GetPowerupServerMessage) msgPool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_GET_POWERUP);
+//						msg.set(player.getId(), powerUp.getX(), powerUp.getY());
+//						try {
+//							server.sendBroadcastServerMessage(msg);							
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//						msgPool.recycleMessage(msg);
+//					}
 				}
 			}
 		});

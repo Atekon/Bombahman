@@ -12,16 +12,22 @@ import org.andengine.extension.multiplayer.protocol.client.connector.SocketConne
 import org.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
 import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.debug.Debug;
 
 import pt.cagojati.bombahman.Bomb;
+import pt.cagojati.bombahman.BombPowerup;
+import pt.cagojati.bombahman.Brick;
+import pt.cagojati.bombahman.FirePowerup;
 import pt.cagojati.bombahman.GameActivity;
+import pt.cagojati.bombahman.IPowerUp;
 import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.GetPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
@@ -125,6 +131,21 @@ public class WiFiConnector implements IMultiplayerConnector  {
 				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
 					final AddPowerupServerMessage addPowerupServerMessage = (AddPowerupServerMessage) pServerMessage;
 					mGameActivity.addPowerups(addPowerupServerMessage.getPowerUpList());
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_GET_POWERUP, GetPowerupServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+
+				@Override
+				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+					final GetPowerupServerMessage getPowerupServerMessage = (GetPowerupServerMessage) pServerMessage;
+					Player player = GameActivity.getPlayer(getPowerupServerMessage.getPlayerId());
+					TMXTile tile = GameActivity.getMap().getTMXTileAt(player.getPosX(), player.getPosY());
+					Brick brick = (Brick) tile.getUserData();
+					IPowerUp powerUp = brick.getPowerUp();
+					
+					powerUp.destroy();
+					powerUp.apply(player);
 				}
 			});
 	
