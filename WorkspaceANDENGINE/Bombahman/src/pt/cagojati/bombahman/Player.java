@@ -33,13 +33,12 @@ public class Player {
 	AnimatedSprite mSpriteDeath;
 	Rectangle mDeadBoundBox;
 	private boolean isOverBomb = false;
-	private int mPower=2;
+	private int mPower=1;
 	private int mId;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Player.CATEGORYBIT,this.MASKBITS, (short)0);
-	private final FixtureDef DEAD_RECKONING_PLAYER_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, true, Player.CATEGORYBIT,this.MASKBITS, (short)0);
 	private static final String[] PLAYER_TEXTURES = {"playerwhite.png", "playergrey.png", "playerblue.png", "playerred.png"};
 	private static final String[] DEATH_TEXTURES = {"deadwhite.png", "deadgrey.png", "deadblue.png", "deadred.png"};
 	

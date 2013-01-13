@@ -7,11 +7,13 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
+import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.input.touch.TouchEvent;
+import org.andengine.extension.tmx.TMXProperties;
+import org.andengine.extension.tmx.TMXTile;
+import org.andengine.extension.tmx.TMXTileProperty;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -28,9 +30,10 @@ import pt.cagojati.bombahman.multiplayer.IMultiplayerConnector;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
 import pt.cagojati.bombahman.multiplayer.WiFiConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
+import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -48,6 +51,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	static final int CAMERA_HEIGHT = 480;
 
 	//	private ITextureRegion mFaceTextureRegion;
+	private static IPowerUp[] mPowerUpList;
 	private static IMultiplayerConnector mConnector;
 	private static Map mMap;
 	private static Player[] mPlayers = new Player[4];
@@ -82,6 +86,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
+		GameActivity.mTotalPlayers =0;
 
 		this.mControls = new OnScreenControls();
 		GameActivity.setMap(new Map());
@@ -97,7 +102,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mControls.loadResources(textureAtlas, this);
 		Bomb.loadResources(0, textureAtlas, this);
 		Explosion.loadResources(textureAtlas, this);
-
+		FirePowerup.loadResources(textureAtlas, this);
+		BombPowerup.loadResources(textureAtlas, this);
+		
 		try {
 			textureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 1));
 			textureAtlas.load();
@@ -114,14 +121,6 @@ public class GameActivity extends SimpleBaseGameActivity {
 		GameActivity.getBombPool().setScene(scene);
 		GameActivity.getMap().loadMap(scene, mEngine, this.getAssets(), this.getVertexBufferObjectManager());
 
-		//		float[] firstTilePosition = new float[4];
-		//		firstTilePosition[0] = GameActivity.getMap().getTileWidth()*1.5f;
-		//		firstTilePosition[1] = GameActivity.getMap().getTileHeight()*1.5f;
-		//		GameActivity.mPlayers[0].initialize(firstTilePosition[0],firstTilePosition[1], scene, this.getVertexBufferObjectManager());
-		//		firstTilePosition[2] = GameActivity.getMap().getTileWidth()*23.5f;
-		//		firstTilePosition[3] = GameActivity.getMap().getTileHeight()*13.5f;
-		//		GameActivity.mPlayers[1].initialize(firstTilePosition[2],firstTilePosition[3], scene, this.getVertexBufferObjectManager());
-
 		createContactListeners();
 
 		scene.registerUpdateHandler(GameActivity.mPhysicsWorld);
@@ -135,19 +134,56 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public synchronized void onGameCreated() {
 		super.onGameCreated();
 		GameActivity.mConnector.setActivity(this);
+		if(getServer()!=null)
+		{
+			generatePowerups();
+		}
 		GameActivity.mConnector.initClient();
 	}
 
-	public void addFace(final float pX, final float pY) {
-		//		final Scene scene = this.mEngine.getScene();
-		//		/* Create the face and add it to the scene. */
-		//		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		//		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
-		//		
-		//		scene.attachChild(face);
-		//this.mPlayers[0].setPosition(pX, pY);
-	}
 
+	private void generatePowerups() {
+		int max = 14;
+		mPowerUpList = new IPowerUp[max];
+		int i = 0;
+		while(i<max){
+			double x = Math.random()*CAMERA_WIDTH;
+			double y = Math.random()*CAMERA_HEIGHT;
+			TMXTile tile = mMap.getTMXTileAt((float)x, (float)y);
+			TMXProperties<TMXTileProperty> property = tile.getTMXTileProperties(mMap.getTMXTiledMap());
+			if(property!= null && property.containsTMXProperty("brick", "true")){
+				int choice = (int) Math.round(Math.random());
+				switch(choice)
+				{
+				case 0:
+					FirePowerup fire = new FirePowerup();
+					fire.setX((float) x);
+					fire.setY((float) y);
+					((Brick)tile.getUserData()).setPowerUp(fire);
+					mPowerUpList[i] = fire;
+					break;
+				case 1:
+					BombPowerup bomb = new BombPowerup();
+					bomb.setX((float) x);
+					bomb.setY((float) y);
+					((Brick)tile.getUserData()).setPowerUp(bomb);
+					mPowerUpList[i] = bomb;
+					break;
+				}
+				i++;
+			}
+		}
+	}
+	
+	public void addPowerups(IPowerUp[] vecPowerUps)
+	{
+		mPowerUpList = vecPowerUps;
+		for(int i =0; i<vecPowerUps.length; i++){
+			TMXTile tile = mMap.getTMXTileAt(vecPowerUps[i].getX(), vecPowerUps[i].getY());
+			Brick brick = (Brick)tile.getUserData();
+			brick.setPowerUp(vecPowerUps[i]);
+		}
+	}
 
 	private void createContactListeners(){
 		mPhysicsWorld.setContactListener(new ContactListener() {
@@ -174,7 +210,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 			}
 
 			@Override
-			public void beginContact(final Contact contact) {				
+			public void beginContact(final Contact contact) {
 				if(contact.getFixtureB().isSensor() && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class && contact.getFixtureA().getBody().getUserData().getClass()==Player.class)
 				{
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
@@ -185,34 +221,44 @@ public class GameActivity extends SimpleBaseGameActivity {
 				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureA().getBody().getUserData().getClass()==Player.class){
 					Player player = (Player) contact.getFixtureA().getBody().getUserData();
 					GameActivity.this.serverKillPlayer(player);
+				}else if(contact.getFixtureA().isSensor() == true && (contact.getFixtureA().getBody().getUserData().getClass() == FirePowerup.class || contact.getFixtureA().getBody().getUserData().getClass() == BombPowerup.class) && contact.getFixtureB().getBody().getUserData().getClass() == Player.class){
+					IPowerUp powerUp = (IPowerUp) contact.getFixtureA().getBody().getUserData();
+					Player player = (Player) contact.getFixtureB().getBody().getUserData();
+					powerUp.destroy();
+					powerUp.apply(player);
 				}
 			}
 		});
 	}
-
-	public void serverKillPlayer(Player player)
+	
+	public IMultiplayerServer getServer()
 	{
-		boolean flag = false;
 		IMultiplayerServer server = null;
 		if(MainActivity.isWifi)
 		{
 			if(WiFiServer.isInitialized())
 			{
-				flag = true;
 				server = WiFiServer.getSingletonObject();
 			}
 		}else{
 			//TODO: bluetooth
 		}
-		if(flag == true)
+		return server;
+	}
+
+	public void serverKillPlayer(Player player)
+	{
+		IMultiplayerServer server = getServer();
+		if(server != null)
 		{
-			KillPlayerServerMessage killPlayerServerMessage = new KillPlayerServerMessage();
+			KillPlayerServerMessage killPlayerServerMessage = (KillPlayerServerMessage) server.getMessagePool().obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_KILL_PLAYER);
 			killPlayerServerMessage.setPlayerId(player.getId());
 			try {
 				server.sendBroadcastServerMessage(killPlayerServerMessage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			server.getMessagePool().recycleMessage(killPlayerServerMessage);
 		}
 	}
 
@@ -330,5 +376,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public static int getTotalPlayers()
 	{
 		return mTotalPlayers;
+	}
+	
+	public static IPowerUp[] getPowerUpList()
+	{
+		return mPowerUpList;
 	}
 }

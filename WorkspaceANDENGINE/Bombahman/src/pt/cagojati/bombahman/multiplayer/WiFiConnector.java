@@ -19,6 +19,7 @@ import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
@@ -115,6 +116,15 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) pServerMessage;
 					Player player = GameActivity.getPlayer(movePlayerServerMessage.getPlayerId());
 					DeadReckoningClient.moveRemotePlayer(movePlayerServerMessage.getX(), movePlayerServerMessage.getY(),movePlayerServerMessage.getVX(),movePlayerServerMessage.getVY(), player);
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS, AddPowerupServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+
+				@Override
+				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+					final AddPowerupServerMessage addPowerupServerMessage = (AddPowerupServerMessage) pServerMessage;
+					mGameActivity.addPowerups(addPowerupServerMessage.getPowerUpList());
 				}
 			});
 	

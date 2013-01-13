@@ -1,7 +1,9 @@
 package pt.cagojati.bombahman.multiplayer;
 
+import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.andengine.extension.multiplayer.protocol.server.Server;
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
 public class BluetoothServer implements IMultiplayerServer {
 
@@ -27,6 +29,12 @@ public class BluetoothServer implements IMultiplayerServer {
 	public void sendBroadcastServerMessage(IServerMessage msg) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public MessagePool<IMessage> getMessagePool() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -26,6 +26,7 @@ import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.AddPowerupServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
@@ -60,6 +61,11 @@ public class WiFiServer implements IMultiplayerServer {
 		if(instance==null)
 			return false;
 		return true;
+	}
+	
+	public MessagePool<IMessage> getMessagePool()
+	{
+		return mMessagePool;
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -161,6 +167,12 @@ public class WiFiServer implements IMultiplayerServer {
 				addPlayerServerMessage.setIsPlayer(false);
 				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
 				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
+				
+				
+				AddPowerupServerMessage message = (AddPowerupServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS);
+				message.set(GameActivity.getPowerUpList());
+				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(message);
+				mMessagePool.recycleMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -169,9 +181,12 @@ public class WiFiServer implements IMultiplayerServer {
 				joinedServerServerMessage.setIsPlayer(true);
 				joinedServerServerMessage.setNumPlayers(mPlayerCount);
 				pConnector.sendServerMessage(joinedServerServerMessage);
-				
 				WiFiServer.this.mMessagePool.recycleMessage(joinedServerServerMessage);
 				
+				AddPowerupServerMessage message = (AddPowerupServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS);
+				message.set(GameActivity.getPowerUpList());
+				pConnector.sendServerMessage(message);
+				mMessagePool.recycleMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -180,13 +195,14 @@ public class WiFiServer implements IMultiplayerServer {
 
 		@Override
 		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
-			KillPlayerServerMessage killPlayerServerMessage = new KillPlayerServerMessage();
+			KillPlayerServerMessage killPlayerServerMessage = (KillPlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_KILL_PLAYER);
 			killPlayerServerMessage.setPlayerId(clientList.get(pConnector.getConnection().getSocket().getInetAddress()));
 			try {
 				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(killPlayerServerMessage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			WiFiServer.this.mMessagePool.recycleMessage(killPlayerServerMessage);
 			
 			mPlayerCount--;
 		}
@@ -213,6 +229,7 @@ public class WiFiServer implements IMultiplayerServer {
 	@Override
 	public void terminate() {
 		this.mSocketServer.terminate();
+		instance = null;
 	}
 
 	@Override
