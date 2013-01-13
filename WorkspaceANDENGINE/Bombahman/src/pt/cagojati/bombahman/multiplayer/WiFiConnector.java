@@ -18,6 +18,7 @@ import org.andengine.util.debug.Debug;
 import pt.cagojati.bombahman.Bomb;
 import pt.cagojati.bombahman.BombPowerup;
 import pt.cagojati.bombahman.Brick;
+import pt.cagojati.bombahman.Clock;
 import pt.cagojati.bombahman.FirePowerup;
 import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.IPowerUp;
@@ -32,6 +33,7 @@ import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.StartSuddenDeathServerMessage;
 import android.util.Log;
 
 public class WiFiConnector implements IMultiplayerConnector  {
@@ -146,6 +148,15 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					
 					powerUp.destroy();
 					powerUp.apply(player);
+				}
+			});
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_SUDDEN_DEATH, StartSuddenDeathServerMessage.class, new IServerMessageHandler<SocketConnection>(){
+				
+				@Override
+				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+					Clock clock = new Clock(0, mGameActivity);
+					clock.dropWalls();
 				}
 			});
 	

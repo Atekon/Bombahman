@@ -1,17 +1,23 @@
 package pt.cagojati.bombahman;
 
+import java.io.IOException;
+
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.extension.tmx.TMXProperties;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTileProperty;
 
+import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.StartSuddenDeathServerMessage;
+
 import android.util.Log;
 
 public class Clock {
 	
 	private int mTime;
-	private int mDeltaTime = 1;
+	private float mDeltaTime = 0.5f;
 	private GameActivity mGameActivity;
 	
 	public Clock(int time, GameActivity mGameActivity)
@@ -24,7 +30,7 @@ public class Clock {
 		return mTime;
 	}
 
-	private void setTime(int mTime) {
+	public void setTime(int mTime) {
 		this.mTime = mTime;
 	}
 
@@ -34,12 +40,20 @@ public class Clock {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				dropWalls();
+				IMultiplayerServer server = mGameActivity.getServer();
+				StartSuddenDeathServerMessage msg = (StartSuddenDeathServerMessage) server.getMessagePool().obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_SUDDEN_DEATH);
+				try {
+					server.sendBroadcastServerMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				server.getMessagePool().recycleMessage(msg);
+//				dropWalls();
 			}
 		}));
 	}
 	
-	private void dropWalls()
+	public void dropWalls()
 	{	
 		GameActivity.getScene().registerUpdateHandler(new TimerHandler(mDeltaTime,true, new ITimerCallback() {
 			int x = 1;
@@ -78,7 +92,7 @@ public class Clock {
 					wall.createBody(tile, GameActivity.getPhysicsWorld(), GameActivity.getScene(), GameActivity.getVertexBufferManager());
 					for(int k=0; k<GameActivity.getTotalPlayers(); k++){
 						TMXTile playerTile = GameActivity.getPlayer(k).getTMXTile();
-						if(tile.getTileX() == playerTile.getTileX() && tile.getTileY() == tile.getTileY())
+						if(tile.getTileX() == playerTile.getTileX() && tile.getTileY() == playerTile.getTileY())
 						{
 							mGameActivity.killPlayer(GameActivity.getPlayer(k));
 						}

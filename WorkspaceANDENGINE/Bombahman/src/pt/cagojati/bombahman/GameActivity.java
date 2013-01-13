@@ -358,13 +358,6 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 
 	public void addPlayer() {
-		//first player should be server right?
-		if(mTotalPlayers==0)
-		{
-			Clock clock = new Clock(10, this);
-			clock.startTimer();
-		}
-		
 		float[] firstTilePosition = new float[2];
 		switch(GameActivity.mTotalPlayers)
 		{
@@ -395,6 +388,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		DeadReckoningClient.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));
 		DeadReckoningClient.startTimer();
+		//first player should be server right?
+		if(GameActivity.mCurrentPlayer==0)
+		{
+			Clock clock = new Clock(10, this);
+			clock.startTimer();
+		}
+		
 	}
 
 	public static int getTotalPlayers()
