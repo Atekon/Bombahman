@@ -40,6 +40,7 @@ public final class R {
         public static final int ImgPlayer2=0x7f070006;
         public static final int ImgPlayer3=0x7f07000a;
         public static final int ImgPlayer4=0x7f07000d;
+        public static final int JoinLobby=0x7f070020;
         public static final int JoinWiFiButton=0x7f07001d;
         public static final int LobbyBtn=0x7f07001e;
         public static final int MapImg=0x7f070011;
@@ -65,11 +66,11 @@ public final class R {
         public static final int VerticalPlayer2=0x7f070005;
         public static final int VerticalPlayer3=0x7f070009;
         public static final int VerticalPlayer4=0x7f07000c;
-        public static final int decrement=0x7f070022;
-        public static final int increment=0x7f070020;
-        public static final int menu_settings=0x7f070024;
-        public static final int pref_num_picker=0x7f070023;
-        public static final int timepicker_input=0x7f070021;
+        public static final int decrement=0x7f070023;
+        public static final int increment=0x7f070021;
+        public static final int menu_settings=0x7f070025;
+        public static final int pref_num_picker=0x7f070024;
+        public static final int timepicker_input=0x7f070022;
     }
     public static final class layout {
         public static final int activity_game=0x7f030000;

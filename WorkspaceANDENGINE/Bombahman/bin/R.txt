@@ -25,6 +25,7 @@ int id ImgPlayer1 0x7f070003
 int id ImgPlayer2 0x7f070006
 int id ImgPlayer3 0x7f07000a
 int id ImgPlayer4 0x7f07000d
+int id JoinLobby 0x7f070020
 int id JoinWiFiButton 0x7f07001d
 int id LobbyBtn 0x7f07001e
 int id MapImg 0x7f070011
@@ -50,11 +51,11 @@ int id VerticalPlayer1 0x7f070002
 int id VerticalPlayer2 0x7f070005
 int id VerticalPlayer3 0x7f070009
 int id VerticalPlayer4 0x7f07000c
-int id decrement 0x7f070022
-int id increment 0x7f070020
-int id menu_settings 0x7f070024
-int id pref_num_picker 0x7f070023
-int id timepicker_input 0x7f070021
+int id decrement 0x7f070023
+int id increment 0x7f070021
+int id menu_settings 0x7f070025
+int id pref_num_picker 0x7f070024
+int id timepicker_input 0x7f070022
 int layout activity_game 0x7f030000
 int layout activity_lobby 0x7f030001
 int layout activity_main 0x7f030002

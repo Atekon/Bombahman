@@ -8,6 +8,8 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
+import org.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
+import org.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
 import org.andengine.extension.multiplayer.protocol.server.IClientMessageHandler;
 import org.andengine.extension.multiplayer.protocol.server.Server;
 import org.andengine.extension.multiplayer.protocol.server.SocketServer;
@@ -22,11 +24,15 @@ import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinedLobbyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
 import android.util.Log;
 
 public class WiFiLobbyServer implements ILobbyServer {
@@ -68,7 +74,29 @@ public class WiFiLobbyServer implements ILobbyServer {
 			protected SocketConnectionClientConnector newClientConnector(final SocketConnection pSocketConnection) throws IOException {
 				final SocketConnectionClientConnector clientConnector = new SocketConnectionClientConnector(pSocketConnection);
 				
+				clientConnector.registerClientMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY, PlayerReadyClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+
+					@Override
+					public void onHandleMessage(ClientConnector<SocketConnection> pClientConnector,IClientMessage pClientMessage) throws IOException {
+						
+						final PlayerReadyClientMessage playerReadyClientMessage = (PlayerReadyClientMessage) pClientMessage;
+						
+						final PlayerReadyServerMessage playerReadyServerMessage = (PlayerReadyServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_PLAYER_READY);
+						playerReadyServerMessage.set(playerReadyClientMessage.getPlayerId(), playerReadyClientMessage.getIsReady());
+						
+						WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(playerReadyServerMessage);
+						
+						WiFiLobbyServer.this.mMessagePool.recycleMessage(playerReadyServerMessage);
+					}
+				});
 				
+//				clientConnector.registerClientMessage(MessageFlags., ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+//					@Override
+//					public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+//						final JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage)pServerMessage;
+//						
+//					}
+//				});
 
 				return clientConnector;
 			}
@@ -79,8 +107,27 @@ public class WiFiLobbyServer implements ILobbyServer {
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
-			
+			try {
+				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
+				addPlayerServerMessage.setIsPlayer(false);
+				WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
+				WiFiLobbyServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_LOBBY_JOINED);
+				joinedLobbyServerMessage.setIsPlayer(true);
+				joinedLobbyServerMessage.setNumPlayers(mPlayerCount);
+				pConnector.sendServerMessage(joinedLobbyServerMessage);
+				
+				WiFiLobbyServer.this.mMessagePool.recycleMessage(joinedLobbyServerMessage);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			mPlayerCount++;
+			
 		}
 
 		@Override
@@ -115,6 +162,11 @@ public class WiFiLobbyServer implements ILobbyServer {
 	@Override
 	public void sendBroadcastServerMessage(IServerMessage msg) throws IOException {
 		this.mSocketServer.sendBroadcastServerMessage(msg);
+	}
+
+	@Override
+	public MessagePool<IMessage> getMessagePool() {
+		return this.mMessagePool;
 	}
 	
 }

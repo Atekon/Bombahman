@@ -22,10 +22,12 @@ import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinedLobbyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
 import android.util.Log;
 
 public class WiFiLobbyConnector implements ILobbyConnector  {
@@ -35,6 +37,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 	private ServerConnector<SocketConnection> mServerConnector;
 	private String mServerIP;
 	private LobbyActivity mLobbyActivity;
+	private int mPlayerCount=0;
 	
 	public WiFiLobbyConnector(String ip) {
 		MessageFlags.initMessagePool(mMessagePool);
@@ -47,22 +50,58 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 	
 	public void initClient()
 	{
-		try{
-			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
-	
-			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try{
+					WiFiLobbyConnector.this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(WiFiLobbyConnector.this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
+			
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							mLobbyActivity.finish();
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_PLAYER_READY, PlayerReadyServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final PlayerReadyServerMessage playerReadyServerMessage = (PlayerReadyServerMessage)pServerMessage;
+							mLobbyActivity.setPlayerReady(playerReadyServerMessage.getPlayerId());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_LOBBY_JOINED, JoinedLobbyServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage)pServerMessage;
+							mLobbyActivity.setPlayerId(joinedLobbyServerMessage.getNumPlayers());
+							mLobbyActivity.setPlayerImage(joinedLobbyServerMessage.getNumPlayers());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER, AddPlayerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage)pServerMessage;
+							mLobbyActivity.setPlayerId(mPlayerCount);
+							mLobbyActivity.setPlayerImage(mPlayerCount);
+							mPlayerCount++;
+						}
+					});
+					
+			
+					WiFiLobbyConnector.this.mServerConnector.getConnection().start();
+				}catch (final Throwable t) {
+					Log.d("oteste", t.getMessage());
+					Debug.e(t);
 					mLobbyActivity.finish();
 				}
-			});
-	
-			this.mServerConnector.getConnection().start();
-		}catch (final Throwable t) {
-			Log.d("oteste", t.getMessage());
-			Debug.e(t);
-			mLobbyActivity.finish();
-		}
+				
+			}
+		}).start();
+		
 	}
 	
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {

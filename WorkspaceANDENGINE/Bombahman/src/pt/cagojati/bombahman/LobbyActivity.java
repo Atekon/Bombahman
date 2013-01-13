@@ -1,6 +1,22 @@
 package pt.cagojati.bombahman;
 
+import java.io.IOException;
+
+import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
+import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.opengl.vbo.LowMemoryVertexBufferObject;
+
+import pt.cagojati.bombahman.multiplayer.ILobbyConnector;
+import pt.cagojati.bombahman.multiplayer.ILobbyServer;
+import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
+import pt.cagojati.bombahman.multiplayer.WiFiConnector;
+import pt.cagojati.bombahman.multiplayer.WiFiLobbyConnector;
+import pt.cagojati.bombahman.multiplayer.WiFiLobbyServer;
+import pt.cagojati.bombahman.multiplayer.WiFiServer;
+import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +24,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -20,14 +39,25 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class LobbyActivity extends Activity {
 
+	private ILobbyConnector mConnector;
+	private static int mPlayerId;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lobby);
+		Bundle bundle = getIntent().getExtras();
+		if(bundle.getBoolean("isWiFi")){
+			mConnector = new WiFiLobbyConnector(bundle.getString("ip"));
+		}
+		mConnector.setActivity(LobbyActivity.this);
+		mConnector.initClient();
 		
+		//set views click listeners and resize them
 		Button btn_setTime = (Button) this.findViewById(R.id.SetTime_Btn);
 		btn_setTime.setOnClickListener(new OnClickListener() {
 			
@@ -89,6 +119,69 @@ public class LobbyActivity extends Activity {
 		params = mapImage.getLayoutParams();
 		params.height = (int) (screenHeight*0.33);
 		mapImage.setLayoutParams(params);
+		
+		Button ready_btn = (Button) this.findViewById(R.id.ReadyBtn);
+		ready_btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+				PlayerReadyClientMessage ready_msg = (PlayerReadyClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY);
+				ready_msg.set(mPlayerId, true);
+				mConnector.sendClientMessage(ready_msg);
+			}
+		});
+	}
+	
+	public void setPlayerReady(int playerId)
+	{
+		switch(playerId)
+		{
+			case 0:
+				TextView player1_name = (TextView) this.findViewById(R.id.Player1Name);
+				player1_name.setTextColor(Color.GREEN);
+				break;
+			case 1:
+				TextView player2_name = (TextView) this.findViewById(R.id.Player2Name);
+				player2_name.setTextColor(Color.GREEN);
+				break;
+			case 2:
+				TextView player3_name = (TextView) this.findViewById(R.id.Player3Name);
+				player3_name.setTextColor(Color.GREEN);
+				break;
+			case 3:
+				TextView player4_name = (TextView) this.findViewById(R.id.Player4Name);
+				player4_name.setTextColor(Color.GREEN);
+				break;	
+		}
+	}
+	
+	public void setPlayerImage(int playerId)
+	{
+		switch(playerId)
+		{
+			case 0:
+				ImageView player1_name = (ImageView) this.findViewById(R.id.ImgPlayer1);
+				player1_name.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
+				break;
+			case 1:
+				ImageView player2_name = (ImageView) this.findViewById(R.id.ImgPlayer2);
+				//Set player's image
+				break;
+			case 2:
+				ImageView player3_name = (ImageView) this.findViewById(R.id.ImgPlayer3);
+				//Set player's image
+				break;
+			case 3:
+				ImageView player4_name = (ImageView) this.findViewById(R.id.ImgPlayer4);
+				//Set player's image
+				break;	
+		}
+	}
+	
+	public void setPlayerId(int playerId)
+	{
+		mPlayerId = playerId;
 	}
 
 }

@@ -42,6 +42,16 @@
             android:layout_centerVertical="true"
             android:text="Create" />
 
+        <Button
+            android:id="@+id/JoinLobby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/CreateWifi"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="39dp"
+            android:text="Join Lobby" />
+
     </RelativeLayout>
 
 </LinearLayout>
