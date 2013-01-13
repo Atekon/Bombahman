@@ -14,9 +14,12 @@ import pt.cagojati.bombahman.multiplayer.WiFiLobbyConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiLobbyServer;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.CurrentMapServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.CurrentTimeServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.SetPowerupsServerMessage;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
@@ -37,6 +41,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +50,12 @@ public class LobbyActivity extends Activity {
 
 	private ILobbyConnector mConnector;
 	private static int mPlayerId;
+	private static boolean mIsReady = false;
+	
+	//Just for INDES
+	private static String[] mapNames = {"map", "map2", "map3", "map4"};
+	private static int[] maps = {R.drawable.map, R.drawable.map2, R.drawable.map3, R.drawable.map4};
+	private static int currentMap =0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +79,12 @@ public class LobbyActivity extends Activity {
 				LinearLayout timeLayout = new LinearLayout(LobbyActivity.this);
 				timeLayout.setOrientation(LinearLayout.HORIZONTAL);
 				timeLayout.setGravity(Gravity.CENTER);
-				NumberPicker time_minutes = new NumberPicker(LobbyActivity.this);
+				final NumberPicker time_minutes = new NumberPicker(LobbyActivity.this);
 				time_minutes.setRange(1, 3);
 				//disable keyboard in numberpicker
 				time_minutes.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 				time_minutes.setLayoutParams(new NumberPicker.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
-				NumberPicker time_seconds = new NumberPicker(LobbyActivity.this);
+				final NumberPicker time_seconds = new NumberPicker(LobbyActivity.this);
 				time_seconds.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 				time_seconds.setLayoutParams(new NumberPicker.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
 				time_seconds.setRange(0, 59);
@@ -86,7 +97,19 @@ public class LobbyActivity extends Activity {
 			    .setView(timeLayout)
 			    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int whichButton) {
-			            
+			        	//get time and send it
+			        	int timeInSeconds=0;
+			        	timeInSeconds = time_minutes.mCurrent*60 + time_seconds.mCurrent;
+			        	MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+						CurrentTimeServerMessage currentTime_msg = (CurrentTimeServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_TIME);
+						currentTime_msg.setCurrentTime(timeInSeconds);
+						try {
+							WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(currentTime_msg);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						messagePool.recycleMessage(currentTime_msg);
 			        }
 			    }).show();
 								
@@ -119,69 +142,266 @@ public class LobbyActivity extends Activity {
 		params = mapImage.getLayoutParams();
 		params.height = (int) (screenHeight*0.33);
 		mapImage.setLayoutParams(params);
+		//set default map
+		mapImage.setImageResource(maps[currentMap]);
+		//set default map's name
+		TextView mapName = (TextView) this.findViewById(R.id.MapName);
+		mapName.setText(mapNames[currentMap]);
 		
 		Button ready_btn = (Button) this.findViewById(R.id.ReadyBtn);
 		ready_btn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
+				mIsReady = !mIsReady;
 				MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 				PlayerReadyClientMessage ready_msg = (PlayerReadyClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY);
-				ready_msg.set(mPlayerId, true);
+				ready_msg.set(mPlayerId, mIsReady);
+				Button ready_btn = (Button) LobbyActivity.this.findViewById(R.id.ReadyBtn);
+				if(mIsReady)
+				{
+					if(mPlayerId!=0)
+						ready_btn.setText("Unready");
+				}
+				else
+				{
+					if(mPlayerId!=0)
+						ready_btn.setText("Ready");
+				}
 				mConnector.sendClientMessage(ready_msg);
+				messagePool.recycleMessage(ready_msg);
+			}
+		});
+		
+		//set map selection buttons listeners
+		Button nextMap = (Button) this.findViewById(R.id.NextMap_Btn);
+		nextMap.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mPlayerId==0)
+				{
+					if(currentMap==3)
+					{
+						currentMap=0;
+					}
+					else
+					{
+						currentMap++;
+					}
+					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+					CurrentMapServerMessage currentMap_msg = (CurrentMapServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_MAP);
+					currentMap_msg.setCurrentMap(currentMap);
+					try {
+						WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(currentMap_msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					messagePool.recycleMessage(currentMap_msg);
+				}
+			}
+		});
+		
+		Button previousMap = (Button) this.findViewById(R.id.PreviousMap_Btn);
+		previousMap.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mPlayerId==0)
+				{
+					if(currentMap==0)
+					{
+						currentMap=3;
+					}
+					else
+					{
+						currentMap--;
+					}
+					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+					CurrentMapServerMessage currentMap_msg = (CurrentMapServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_MAP);
+					currentMap_msg.setCurrentMap(currentMap);
+					try {
+						WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(currentMap_msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					messagePool.recycleMessage(currentMap_msg);
+				}
+			}
+		});
+		
+		//set powerup checkbox handler
+		final CheckBox powerups = (CheckBox) this.findViewById(R.id.Powerups);
+		powerups.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mPlayerId==0){
+					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+					SetPowerupsServerMessage setPowerups_msg = (SetPowerupsServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_SET_POWERUPS);
+					setPowerups_msg.setPowerups(powerups.isChecked());
+					try {
+						WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(setPowerups_msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					messagePool.recycleMessage(setPowerups_msg);
+				}
+			}
+			
+		});
+	}
+	
+	public void setPlayerReady(final int playerId, final boolean isReady)
+	{
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				TextView txt = null;
+				switch(playerId)
+				{
+					case 0:
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player1Name);
+						break;
+					case 1:
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player2Name);
+						break;
+					case 2:
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player3Name);
+						break;
+					case 3:
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player4Name);
+						break;	
+				}
+				int color;
+				if(isReady)
+				{
+					txt.setTextColor(Color.GREEN);
+				}
+				else
+				{
+					txt.setTextColor(Color.BLACK);
+				}
 			}
 		});
 	}
 	
-	public void setPlayerReady(int playerId)
+	public void addPlayer(final int playerId)
 	{
-		switch(playerId)
-		{
-			case 0:
-				TextView player1_name = (TextView) this.findViewById(R.id.Player1Name);
-				player1_name.setTextColor(Color.GREEN);
-				break;
-			case 1:
-				TextView player2_name = (TextView) this.findViewById(R.id.Player2Name);
-				player2_name.setTextColor(Color.GREEN);
-				break;
-			case 2:
-				TextView player3_name = (TextView) this.findViewById(R.id.Player3Name);
-				player3_name.setTextColor(Color.GREEN);
-				break;
-			case 3:
-				TextView player4_name = (TextView) this.findViewById(R.id.Player4Name);
-				player4_name.setTextColor(Color.GREEN);
-				break;	
-		}
-	}
-	
-	public void setPlayerImage(int playerId)
-	{
-		switch(playerId)
-		{
-			case 0:
-				ImageView player1_name = (ImageView) this.findViewById(R.id.ImgPlayer1);
-				player1_name.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
-				break;
-			case 1:
-				ImageView player2_name = (ImageView) this.findViewById(R.id.ImgPlayer2);
-				//Set player's image
-				break;
-			case 2:
-				ImageView player3_name = (ImageView) this.findViewById(R.id.ImgPlayer3);
-				//Set player's image
-				break;
-			case 3:
-				ImageView player4_name = (ImageView) this.findViewById(R.id.ImgPlayer4);
-				//Set player's image
-				break;	
-		}
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ImageView img = null;
+				int playerImage =0;
+				switch(playerId)
+				{
+					case 0:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer1);
+						playerImage = R.drawable.player1lobby;
+						break;
+					case 1:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer2);
+						playerImage = R.drawable.player2lobby;
+						break;
+					case 2:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer3);
+						playerImage = R.drawable.player3lobby;
+						break;
+					case 3:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer4);
+						playerImage = R.drawable.player4lobby;
+						break;	
+				}
+				img.setImageDrawable(getResources().getDrawable(playerImage));
+			}
+		});
+		
 	}
 	
 	public void setPlayerId(int playerId)
 	{
 		mPlayerId = playerId;
+		if(mPlayerId == 0)
+		{
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Button ready_btn = (Button) LobbyActivity.this.findViewById(R.id.ReadyBtn);
+					ready_btn.setText("Start");
+				}
+			});
+			
+		}
+	}
+
+	public void setNumOfPlayer(int numPlayers) {
+		for(int i =0; i<numPlayers; i++)
+		{
+			addPlayer(i);
+		}
+	}
+	
+	public void setPastReadyPlayers(boolean[] mReadyPlayers)
+	{
+		for(int i=0; i<mReadyPlayers.length; i++)
+		{
+			if(mReadyPlayers[i]==true)
+			{
+				setPlayerReady(i, mReadyPlayers[i]);
+			}
+		}
+	}
+	
+	public void setCurrentMap(int currentMap)
+	{
+		this.currentMap = currentMap;
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ImageView mapImage = (ImageView) LobbyActivity.this.findViewById(R.id.MapImg);
+				mapImage.setImageResource(maps[LobbyActivity.this.currentMap]);
+				//set default map's name
+				TextView mapName = (TextView) LobbyActivity.this.findViewById(R.id.MapName);
+				mapName.setText(mapNames[LobbyActivity.this.currentMap]);
+				
+			}
+		});
+	}
+
+	public void setCurrentTime(final int time) {
+		if(mPlayerId!=0)
+		{
+			//convert time to minutes and seconds
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					int minutes = (int) Math.floor(time/60);
+					int seconds = time-minutes*60;
+					Button time_btn = (Button) LobbyActivity.this.findViewById(R.id.SetTime_Btn);
+					time_btn.setText("Time: "+minutes+":"+seconds);
+				}
+			});
+		}
+		
+	}
+
+	public void setPowerups(final boolean powerupsEnable) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				CheckBox powerups = (CheckBox) LobbyActivity.this.findViewById(R.id.Powerups);
+				powerups.setChecked(powerupsEnable);
+				
+			}
+		});
+		
 	}
 
 }

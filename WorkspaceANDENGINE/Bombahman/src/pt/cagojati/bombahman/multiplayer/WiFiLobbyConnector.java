@@ -21,6 +21,8 @@ import pt.cagojati.bombahman.Player;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.CurrentMapServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.CurrentTimeServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedLobbyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
@@ -28,6 +30,7 @@ import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.SetPowerupsServerMessage;
 import android.util.Log;
 
 public class WiFiLobbyConnector implements ILobbyConnector  {
@@ -68,7 +71,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						@Override
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final PlayerReadyServerMessage playerReadyServerMessage = (PlayerReadyServerMessage)pServerMessage;
-							mLobbyActivity.setPlayerReady(playerReadyServerMessage.getPlayerId());
+							mLobbyActivity.setPlayerReady(playerReadyServerMessage.getPlayerId(), playerReadyServerMessage.getIsReady());
 						}
 					});
 					
@@ -76,8 +79,16 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						@Override
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage)pServerMessage;
+							mLobbyActivity.setNumOfPlayer(joinedLobbyServerMessage.getNumPlayers());
+							mLobbyActivity.addPlayer(joinedLobbyServerMessage.getNumPlayers());
 							mLobbyActivity.setPlayerId(joinedLobbyServerMessage.getNumPlayers());
-							mLobbyActivity.setPlayerImage(joinedLobbyServerMessage.getNumPlayers());
+							
+							mLobbyActivity.setPastReadyPlayers(joinedLobbyServerMessage.getPlayersReady());
+							mLobbyActivity.setCurrentMap(joinedLobbyServerMessage.getCurrentMap());
+							mLobbyActivity.setCurrentTime(joinedLobbyServerMessage.getTime());
+							mLobbyActivity.setPowerups(joinedLobbyServerMessage.isPowerupsEnable());
+							
+							mPlayerCount = joinedLobbyServerMessage.getNumPlayers();
 						}
 					});
 					
@@ -85,12 +96,34 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						@Override
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage)pServerMessage;
-							mLobbyActivity.setPlayerId(mPlayerCount);
-							mLobbyActivity.setPlayerImage(mPlayerCount);
 							mPlayerCount++;
+							mLobbyActivity.addPlayer(mPlayerCount);
 						}
 					});
 					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_MAP, CurrentMapServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final CurrentMapServerMessage currentMapServerMessage = (CurrentMapServerMessage)pServerMessage;
+							mLobbyActivity.setCurrentMap(currentMapServerMessage.getCurrentMap());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_TIME, CurrentTimeServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final CurrentTimeServerMessage currentTimeServerMessage = (CurrentTimeServerMessage)pServerMessage;
+							mLobbyActivity.setCurrentTime(currentTimeServerMessage.getCurrentTime());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_SET_POWERUPS, SetPowerupsServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final SetPowerupsServerMessage powerupsServerMessage = (SetPowerupsServerMessage)pServerMessage;
+							mLobbyActivity.setPowerups(powerupsServerMessage.hasPowerups());
+						}
+					});
 			
 					WiFiLobbyConnector.this.mServerConnector.getConnection().start();
 				}catch (final Throwable t) {

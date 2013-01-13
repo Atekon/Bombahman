@@ -13,14 +13,9 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Grass" width="25" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYmBgYBrFo3gUj+JRPKwwAKF0Au8=
-  </data>
- </layer>
  <layer name="Camada de Tiles 1" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYKQDZoJiZipimJnIdjBC5ahJI9tBTfejY0Yc9lObHvXHqD+Gsj/okc/pUV7RGgMAiZMDPg==
+   eJxjZGBgYKQDZoJiZipimJnIdlDTfGR7YHYgi1MjXLCZN2rHqB2jduA2jx75nB7lFa0xAIpVApA=
   </data>
  </layer>
 </map>

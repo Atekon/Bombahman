@@ -35,7 +35,9 @@
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.LobbyActivity"
-            android:label="@string/title_activity_lobby" >
+            android:label="@string/title_activity_lobby"
+            android:launchMode="singleInstance" 
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

@@ -12,6 +12,10 @@ public class JoinedLobbyServerMessage extends ServerMessage {
 	
 	private boolean mIsPlayer;
 	private int mNumPlayers;
+	private boolean[] mPlayersReady = new boolean[4];
+	private int mCurrentMap;
+	private int mTime;
+	private boolean mPowerupsEnable;
 
 	public JoinedLobbyServerMessage() {
 
@@ -26,12 +30,26 @@ public class JoinedLobbyServerMessage extends ServerMessage {
 	protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
 		this.mIsPlayer = pDataInputStream.readBoolean();
 		this.mNumPlayers = pDataInputStream.readInt();
+		for(int i=0; i<4; i++)
+		{
+			this.getPlayersReady()[i] = pDataInputStream.readBoolean();
+		}
+		this.mCurrentMap = pDataInputStream.readInt();
+		this.mTime = pDataInputStream.readInt();
+		this.mPowerupsEnable = pDataInputStream.readBoolean();
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeBoolean(this.mIsPlayer);
 		pDataOutputStream.writeInt(this.mNumPlayers);
+		for(int i=0; i<4; i++)
+		{
+			pDataOutputStream.writeBoolean(this.getPlayersReady()[i]);
+		}
+		pDataOutputStream.writeInt(this.mCurrentMap);
+		pDataOutputStream.writeInt(this.mTime);
+		pDataOutputStream.writeBoolean(this.mPowerupsEnable);
 	}
 
 	public boolean isPlayer() {
@@ -48,6 +66,38 @@ public class JoinedLobbyServerMessage extends ServerMessage {
 
 	public void setNumPlayers(int numPlayers) {
 		this.mNumPlayers = numPlayers;
+	}
+
+	public boolean[] getPlayersReady() {
+		return mPlayersReady;
+	}
+
+	public void setPlayersReady(boolean[] mPlayersReady) {
+		this.mPlayersReady = mPlayersReady;
+	}
+
+	public int getCurrentMap() {
+		return mCurrentMap;
+	}
+
+	public void setCurrentMap(int mCurrentMap) {
+		this.mCurrentMap = mCurrentMap;
+	}
+
+	public int getTime() {
+		return mTime;
+	}
+
+	public void setTime(int mTime) {
+		this.mTime = mTime;
+	}
+
+	public boolean isPowerupsEnable() {
+		return mPowerupsEnable;
+	}
+
+	public void setPowerupsEnable(boolean mPowerupsEnable) {
+		this.mPowerupsEnable = mPowerupsEnable;
 	}
 }
 

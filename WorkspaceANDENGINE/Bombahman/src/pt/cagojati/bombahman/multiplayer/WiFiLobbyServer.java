@@ -43,6 +43,7 @@ public class WiFiLobbyServer implements ILobbyServer {
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private static WiFiLobbyServer instance = null;
 	private int mPlayerCount = 0;
+	private boolean[] mPlayersReady = {false, false, false, false};
 
 	private WiFiLobbyServer() {
 		MessageFlags.initMessagePool(mMessagePool);
@@ -84,6 +85,8 @@ public class WiFiLobbyServer implements ILobbyServer {
 						final PlayerReadyServerMessage playerReadyServerMessage = (PlayerReadyServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_PLAYER_READY);
 						playerReadyServerMessage.set(playerReadyClientMessage.getPlayerId(), playerReadyClientMessage.getIsReady());
 						
+						mPlayersReady[playerReadyClientMessage.getPlayerId()] = playerReadyClientMessage.getIsReady();
+						
 						WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(playerReadyServerMessage);
 						
 						WiFiLobbyServer.this.mMessagePool.recycleMessage(playerReadyServerMessage);
@@ -119,6 +122,7 @@ public class WiFiLobbyServer implements ILobbyServer {
 				JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_LOBBY_JOINED);
 				joinedLobbyServerMessage.setIsPlayer(true);
 				joinedLobbyServerMessage.setNumPlayers(mPlayerCount);
+				joinedLobbyServerMessage.setPlayersReady(mPlayersReady);
 				pConnector.sendServerMessage(joinedLobbyServerMessage);
 				
 				WiFiLobbyServer.this.mMessagePool.recycleMessage(joinedLobbyServerMessage);
@@ -157,6 +161,7 @@ public class WiFiLobbyServer implements ILobbyServer {
 	@Override
 	public void terminate() {
 		this.mSocketServer.terminate();
+		instance = null;
 	}
 
 	@Override

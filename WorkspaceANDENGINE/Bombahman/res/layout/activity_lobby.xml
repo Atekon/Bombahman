@@ -21,9 +21,9 @@
 
             <LinearLayout
                 android:id="@+id/VerticalPlayer1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:background="#AAD3D3D3"
                 android:orientation="vertical" >
@@ -43,9 +43,9 @@
 
             <LinearLayout
                 android:id="@+id/VerticalPlayer2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:background="#AA555555"
                 android:orientation="vertical" >
@@ -73,9 +73,9 @@
 
             <LinearLayout
                 android:id="@+id/VerticalPlayer3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:background="#AA1C86EE"
                 android:orientation="vertical" >
@@ -95,9 +95,9 @@
 
             <LinearLayout
                 android:id="@+id/VerticalPlayer4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:background="#AAEE2C2C"
                 android:orientation="vertical" >
