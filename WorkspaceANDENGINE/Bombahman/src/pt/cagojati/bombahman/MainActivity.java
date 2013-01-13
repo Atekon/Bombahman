@@ -48,6 +48,9 @@ public class MainActivity extends Activity {
 						Bundle bundle = new Bundle();
 			            bundle.putBoolean("isWiFi", true);
 			            bundle.putString("ip", value.toString());
+			            bundle.putInt("time", 5);
+			    		bundle.putBoolean("powerupsEnabled", true);
+			    		bundle.putString("map", "map2");
 			            intent.putExtras(bundle);
 						startActivity(intent);
 			        }
@@ -87,6 +90,9 @@ public class MainActivity extends Activity {
 				Bundle bundle = new Bundle();
 	            bundle.putBoolean("isWiFi", true);
 	            bundle.putString("ip", "127.0.0.1");
+	            bundle.putInt("time", 5);
+	    		bundle.putBoolean("powerupsEnabled", true);
+	    		bundle.putString("map", "map2");
 	            intent.putExtras(bundle);
 				startActivity(intent);
 				

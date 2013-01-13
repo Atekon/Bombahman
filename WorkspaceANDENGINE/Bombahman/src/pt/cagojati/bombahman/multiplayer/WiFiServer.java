@@ -152,11 +152,6 @@ public class WiFiServer implements IMultiplayerServer {
 				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
 				WiFiServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
 				
-				
-				AddPowerupServerMessage message = (AddPowerupServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS);
-				message.set(GameActivity.getPowerUpList());
-				WiFiServer.this.mSocketServer.sendBroadcastServerMessage(message);
-				mMessagePool.recycleMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -167,10 +162,12 @@ public class WiFiServer implements IMultiplayerServer {
 				pConnector.sendServerMessage(joinedServerServerMessage);
 				WiFiServer.this.mMessagePool.recycleMessage(joinedServerServerMessage);
 				
-				AddPowerupServerMessage message = (AddPowerupServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS);
-				message.set(GameActivity.getPowerUpList());
-				pConnector.sendServerMessage(message);
-				mMessagePool.recycleMessage(message);
+				if(GameActivity.isPowerupEnabled()){
+					AddPowerupServerMessage message = (AddPowerupServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_POWERUPS);
+					message.set(GameActivity.getPowerUpList());
+					pConnector.sendServerMessage(message);
+					mMessagePool.recycleMessage(message);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

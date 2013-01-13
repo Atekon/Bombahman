@@ -36,7 +36,7 @@ public class Clock {
 
 	public void startTimer()
 	{
-		GameActivity.getScene().registerUpdateHandler(new TimerHandler(mTime-mDeltaTime, new ITimerCallback() {
+		GameActivity.getScene().registerUpdateHandler(new TimerHandler(mTime, new ITimerCallback() {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {

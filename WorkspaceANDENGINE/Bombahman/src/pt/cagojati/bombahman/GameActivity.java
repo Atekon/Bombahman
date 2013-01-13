@@ -63,6 +63,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private static BombPool mBombPool;
 	private static int mCurrentPlayer;
 	private static int mTotalPlayers = 0;
+	private int mTotalTime;
+	private static boolean mHasPowerUps;
+	private String mMapName;
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -73,6 +76,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 		if(bundle.getBoolean("isWiFi")){
 			mConnector = new WiFiConnector(bundle.getString("ip"));
 		}
+		mTotalTime = bundle.getInt("time");
+		mHasPowerUps = bundle.getBoolean("powerupsEnabled");
+		mMapName = bundle.getString("map");
 		mPhysicsWorld.reset();
 	}
 
@@ -90,7 +96,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		GameActivity.mTotalPlayers =0;
 
 		this.mControls = new OnScreenControls();
-		GameActivity.setMap(new Map());
+		GameActivity.setMap(new Map(mMapName));
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		BuildableBitmapTextureAtlas textureAtlas = new BuildableBitmapTextureAtlas(getTextureManager(), 2048, 2048,TextureOptions.BILINEAR);
@@ -136,7 +142,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public synchronized void onGameCreated() {
 		super.onGameCreated();
 		GameActivity.mConnector.setActivity(this);
-		if(getServer()!=null)
+		if(getServer()!=null && mHasPowerUps)
 		{
 			generatePowerups();
 		}
@@ -397,7 +403,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		//first player should be server right?
 		if(GameActivity.mCurrentPlayer==0)
 		{
-			Clock clock = new Clock(100, this);
+			Clock clock = new Clock(mTotalTime, this);
 			clock.startTimer();
 		}
 		
@@ -411,5 +417,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public static IPowerUp[] getPowerUpList()
 	{
 		return mPowerUpList;
+	}
+	
+	public static boolean isPowerupEnabled(){
+		return mHasPowerUps;
 	}
 }

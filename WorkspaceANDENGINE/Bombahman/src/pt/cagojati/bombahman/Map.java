@@ -30,10 +30,11 @@ public class Map{
 	// ===========================================================
 
 	private TMXTiledMap mTMXTiledMap;
+	private String mMapName;
 	
-	public Map()
+	public Map(String mapName)
 	{
-		
+		mMapName = mapName;
 	}
 	
 	public void loadMap(final Scene scene, final Engine engine, final AssetManager assetManager, final VertexBufferObjectManager vertexBufferManager){
@@ -51,7 +52,7 @@ public class Map{
 					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/map.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/"+mMapName+".tmx");
 
 		} catch (final TMXLoadException e) {
 			Debug.e(e);
