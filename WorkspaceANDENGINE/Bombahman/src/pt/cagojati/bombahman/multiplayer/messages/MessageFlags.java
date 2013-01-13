@@ -6,6 +6,12 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 public class MessageFlags {
 	
 	public static final short FLAG_MESSAGE_SERVER_CONNECTION_CLOSE = Short.MIN_VALUE;
+	public static final short FLAG_MESSAGE_SERVER_SET_POWERUPS = -5;
+	public static final short FLAG_MESSAGE_SERVER_CURRENT_TIME = -4;
+	public static final short FLAG_MESSAGE_SERVER_CURRENT_MAP = -3;
+	public static final short FLAG_MESSAGE_SERVER_PLAYER_READY = -2;
+	public static final short FLAG_MESSAGE_CLIENT_PLAYER_READY = -1;
+	public static final short FLAG_MESSAGE_SERVER_LOBBY_JOINED = 0;
 	public static final short FLAG_MESSAGE_SERVER_ADD_BOMB = 1;
 	public static final short FLAG_MESSAGE_CLIENT_ADD_BOMB = 2;
 	public static final short FLAG_MESSAGE_SERVER_ADD_PLAYER = 3;
@@ -21,6 +27,12 @@ public class MessageFlags {
 	public static final short FLAG_MESSAGE_SERVER_ALLREADY = 13;
 			
 	public static void initMessagePool(MessagePool<IMessage> messagePool) {
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_SET_POWERUPS, SetPowerupsServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_CURRENT_TIME, CurrentTimeServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_CURRENT_MAP, CurrentMapServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_PLAYER_READY, PlayerReadyServerMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_CLIENT_PLAYER_READY, PlayerReadyClientMessage.class);
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_LOBBY_JOINED, JoinedLobbyServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_BOMB, AddBombServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_CLIENT_ADD_BOMB, AddBombClientMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_PLAYER, AddPlayerServerMessage.class);

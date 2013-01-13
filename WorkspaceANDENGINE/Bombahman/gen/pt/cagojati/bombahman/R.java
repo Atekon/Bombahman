@@ -12,28 +12,100 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+<<<<<<< HEAD
         public static final int icon=0x7f020001;
         public static final int iconeexhdpi=0x7f020002;
         public static final int iconehdpi=0x7f020003;
+=======
+        public static final int ic_menu_refresh=0x7f020001;
+        public static final int map=0x7f020002;
+        public static final int map2=0x7f020003;
+        public static final int map3=0x7f020004;
+        public static final int map4=0x7f020005;
+        public static final int player1lobby=0x7f020006;
+        public static final int player2lobby=0x7f020007;
+        public static final int player3lobby=0x7f020008;
+        public static final int player4lobby=0x7f020009;
+        public static final int playerunknown=0x7f02000a;
+        public static final int timepicker_down_btn=0x7f02000b;
+        public static final int timepicker_down_disabled=0x7f02000c;
+        public static final int timepicker_down_disabled_focused=0x7f02000d;
+        public static final int timepicker_down_normal=0x7f02000e;
+        public static final int timepicker_down_pressed=0x7f02000f;
+        public static final int timepicker_down_selected=0x7f020010;
+        public static final int timepicker_input=0x7f020011;
+        public static final int timepicker_input_disabled=0x7f020012;
+        public static final int timepicker_input_normal=0x7f020013;
+        public static final int timepicker_input_pressed=0x7f020014;
+        public static final int timepicker_input_selected=0x7f020015;
+        public static final int timepicker_up_btn=0x7f020016;
+        public static final int timepicker_up_disabled=0x7f020017;
+        public static final int timepicker_up_disabled_focused=0x7f020018;
+        public static final int timepicker_up_normal=0x7f020019;
+        public static final int timepicker_up_pressed=0x7f02001a;
+        public static final int timepicker_up_selected=0x7f02001b;
+>>>>>>> origin/MultiplayerLobby
     }
     public static final class id {
-        public static final int CreateWifi=0x7f070001;
-        public static final int JoinWiFiButton=0x7f070000;
-        public static final int menu_settings=0x7f070002;
+        public static final int CreateWifi=0x7f040021;
+        public static final int HorizontalRow1=0x7f040003;
+        public static final int HorizontalRow2=0x7f04000a;
+        public static final int ImgPlayer1=0x7f040005;
+        public static final int ImgPlayer2=0x7f040008;
+        public static final int ImgPlayer3=0x7f04000c;
+        public static final int ImgPlayer4=0x7f04000f;
+        public static final int JoinLobby=0x7f040022;
+        public static final int JoinWiFiButton=0x7f04001f;
+        public static final int LobbyBtn=0x7f040020;
+        public static final int MapImg=0x7f040013;
+        public static final int MapName=0x7f040015;
+        public static final int Map_selection=0x7f040012;
+        public static final int NextMap_Btn=0x7f040016;
+        public static final int OptionsLayout=0x7f040011;
+        public static final int OptionsStr=0x7f040018;
+        public static final int OptionsVertical=0x7f040017;
+        public static final int Player1Name=0x7f040006;
+        public static final int Player2Name=0x7f040009;
+        public static final int Player3Name=0x7f04000d;
+        public static final int Player4Name=0x7f040010;
+        public static final int PlayersLayout=0x7f040002;
+        public static final int PowerupOptionVertical=0x7f04001c;
+        public static final int Powerups=0x7f04001d;
+        public static final int PreviousMap_Btn=0x7f040014;
+        public static final int ReadyBtn=0x7f04001e;
+        public static final int SetTime_Btn=0x7f04001b;
+        public static final int TimeOptionHorizontal=0x7f04001a;
+        public static final int TimeOptionVertical=0x7f040019;
+        public static final int VerticalPlayer1=0x7f040004;
+        public static final int VerticalPlayer2=0x7f040007;
+        public static final int VerticalPlayer3=0x7f04000b;
+        public static final int VerticalPlayer4=0x7f04000e;
+        public static final int decrement=0x7f040025;
+        public static final int increment=0x7f040023;
+        public static final int menu_settings=0x7f040027;
+        public static final int numberPicker_minutes=0x7f040000;
+        public static final int numberPicker_seconds=0x7f040001;
+        public static final int pref_num_picker=0x7f040026;
+        public static final int timepicker_input=0x7f040024;
     }
     public static final class layout {
         public static final int activity_game=0x7f030000;
-        public static final int activity_main=0x7f030001;
+        public static final int activity_lobby=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int main=0x7f030003;
+        public static final int number_picker=0x7f030004;
+        public static final int number_picker_pref=0x7f030005;
     }
     public static final class menu {
-        public static final int activity_game=0x7f060000;
-        public static final int activity_main=0x7f060001;
+        public static final int activity_game=0x7f070000;
+        public static final int activity_main=0x7f070001;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040001;
-        public static final int menu_settings=0x7f040002;
-        public static final int title_activity_game=0x7f040003;
+        public static final int app_name=0x7f050000;
+        public static final int hello_world=0x7f050001;
+        public static final int menu_settings=0x7f050002;
+        public static final int title_activity_game=0x7f050003;
+        public static final int title_activity_lobby=0x7f050004;
     }
     public static final class style {
         /** 
@@ -57,10 +129,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060001;
     }
 }
