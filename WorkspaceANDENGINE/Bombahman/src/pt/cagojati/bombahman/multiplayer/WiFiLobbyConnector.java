@@ -30,6 +30,7 @@ import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.RemovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.SetPowerupsServerMessage;
 import android.util.Log;
 
@@ -122,6 +123,15 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final SetPowerupsServerMessage powerupsServerMessage = (SetPowerupsServerMessage)pServerMessage;
 							mLobbyActivity.setPowerups(powerupsServerMessage.hasPowerups());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_REMOVE_PLAYER, RemovePlayerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final RemovePlayerServerMessage removePlayerServerMessage = (RemovePlayerServerMessage)pServerMessage;
+							mLobbyActivity.removePlayer(removePlayerServerMessage.getPlayerId());
+							mPlayerCount--;
 						}
 					});
 			

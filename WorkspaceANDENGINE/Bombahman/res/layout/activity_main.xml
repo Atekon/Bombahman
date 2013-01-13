@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="@drawable/entrada"
     android:weightSum="2">
 
     <RelativeLayout
@@ -11,21 +12,12 @@
         android:layout_weight="1" >
 
         <Button
-            android:id="@+id/JoinWiFiButton"
+            android:id="@+id/JoinLobbyBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Join" />
-
-        <Button
-            android:id="@+id/LobbyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/JoinWiFiButton"
-            android:layout_marginTop="62dp"
-            android:text="Lobby" />
 
     </RelativeLayout>
 
@@ -35,22 +27,12 @@
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/CreateWifi"
+            android:id="@+id/CreateLobbyBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Create" />
-
-        <Button
-            android:id="@+id/JoinLobby"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/CreateWifi"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="39dp"
-            android:text="Join Lobby" />
 
     </RelativeLayout>
 

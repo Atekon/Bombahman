@@ -1,10 +1,14 @@
 package pt.cagojati.bombahman;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.opengl.vbo.LowMemoryVertexBufferObject;
+import org.andengine.util.debug.Debug;
+
+import com.badlogic.gdx.physics.box2d.Body;
 
 import pt.cagojati.bombahman.multiplayer.ILobbyConnector;
 import pt.cagojati.bombahman.multiplayer.ILobbyServer;
@@ -14,6 +18,7 @@ import pt.cagojati.bombahman.multiplayer.WiFiLobbyConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiLobbyServer;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentMapServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentTimeServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
@@ -336,7 +341,24 @@ public class LobbyActivity extends Activity {
 					ready_btn.setText("Start");
 				}
 			});
-			
+		}
+		else
+		{
+			runOnUiThread(new Runnable() {
+							
+				@Override
+				public void run() {
+					//disable options
+					Button previousMap_btn = (Button) LobbyActivity.this.findViewById(R.id.PreviousMap_Btn);
+					previousMap_btn.setEnabled(false);
+					Button nextMap_btn = (Button) LobbyActivity.this.findViewById(R.id.NextMap_Btn);
+					nextMap_btn.setEnabled(false);
+					Button setTime_btn = (Button) LobbyActivity.this.findViewById(R.id.SetTime_Btn);
+					setTime_btn.setEnabled(false);
+					CheckBox powerups_check = (CheckBox) LobbyActivity.this.findViewById(R.id.Powerups);
+					powerups_check.setEnabled(false);
+				}
+			});
 		}
 	}
 
@@ -401,7 +423,60 @@ public class LobbyActivity extends Activity {
 				
 			}
 		});
+	}
+
+	public void removePlayer(final int playerId) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ImageView img = null;
+				TextView txt = null;
+				switch(playerId)
+				{
+					case 0:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer1);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player1Name);
+						break;
+					case 1:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer2);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player2Name);
+						break;
+					case 2:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer3);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player3Name);
+						break;
+					case 3:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer4);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player4Name);
+						break;	
+				}
+				img.setImageDrawable(getResources().getDrawable(R.drawable.playerunknown));
+				txt.setTextColor(Color.BLACK);
+			}
+		});
 		
+	}
+	
+	@Override
+	protected void onDestroy() {
+
+		if(WiFiLobbyServer.isInitialized()) {
+			WiFiLobbyServer server = WiFiLobbyServer.getSingletonObject();
+
+			try {
+				server.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
+			server.terminate();
+		}
+
+		if(LobbyActivity.this.mConnector != null) {
+			LobbyActivity.this.mConnector.terminate();
+		}
+
+		super.onDestroy();
 	}
 
 }
