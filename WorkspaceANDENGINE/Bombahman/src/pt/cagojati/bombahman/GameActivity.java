@@ -358,6 +358,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 
 	public void addPlayer() {
+		//first player should be server right?
+		if(mTotalPlayers==0)
+		{
+			Clock clock = new Clock(10, this);
+			clock.startTimer();
+		}
+		
 		float[] firstTilePosition = new float[2];
 		switch(GameActivity.mTotalPlayers)
 		{
