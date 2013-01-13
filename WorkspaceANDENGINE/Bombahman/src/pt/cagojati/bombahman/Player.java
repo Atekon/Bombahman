@@ -33,7 +33,9 @@ public class Player {
 	AnimatedSprite mSpriteDeath;
 	Rectangle mDeadBoundBox;
 	private boolean isOverBomb = false;
-	private int mPower=1;
+	private int mPower = 1;
+	private int mMaxBombs = 1;
+	private int numberOfBombs = 0;
 	private int mId;
 
 	public static final short CATEGORYBIT = 4;
@@ -219,6 +221,7 @@ public class Player {
 			int posX = tmxTile.getTileX();
 			int posY = tmxTile.getTileY();
 //			bomb.definePosition(posX,posY);
+			this.numberOfBombs++;
 			Bomb bomb = dropBomb(posX, posY);
 			AddBombClientMessage message = new AddBombClientMessage(posX, posY, this.mId, bomb.getId());
 			GameActivity.getConnector().sendClientMessage(message);
@@ -286,6 +289,22 @@ public class Player {
 		});
 		GameActivity.getPhysicsWorld().destroyBody(mBody);
 
+	}
+
+	public int getNumberOfBombs() {
+		return numberOfBombs;
+	}
+
+	public void setNumberOfBombs(int numberOfBombs) {
+		this.numberOfBombs = numberOfBombs;
+	}
+
+	public int getMaxBombs() {
+		return mMaxBombs;
+	}
+
+	public void setMaxBombs(int mMaxBombs) {
+		this.mMaxBombs = mMaxBombs;
 	}
 
 

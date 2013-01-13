@@ -12,7 +12,7 @@ import android.util.Log;
 public class DeadReckoningClient {
 	private static Player mPlayer;
 	private static TimerHandler mTimer;
-	private static float mTime = 0.5f;
+	private static float mTime = 0.25f;
 	private static float oldPosX, oldPosY;
 	private static IUpdateHandler velocityThread;
 	

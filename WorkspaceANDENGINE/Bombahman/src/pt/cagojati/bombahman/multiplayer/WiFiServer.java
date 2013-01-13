@@ -133,13 +133,13 @@ public class WiFiServer implements IMultiplayerServer {
 							WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
 						}else{
 							//player laggedout
-							Log.d("oteste", "lag on player" + movePlayerClientMessage.getPlayerId());
-							final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
-							movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
-							
-							pClientConnector.sendServerMessage(movePlayerServerMessage);
-							
-							WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
+//							Log.d("oteste", "lag on player" + movePlayerClientMessage.getPlayerId());
+//							final MovePlayerServerMessage movePlayerServerMessage = (MovePlayerServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_MOVE_PLAYER);
+//							movePlayerServerMessage.set(movePlayerClientMessage.getX(), movePlayerClientMessage.getY(),movePlayerClientMessage.getVX(),movePlayerClientMessage.getVY(),movePlayerClientMessage.getPlayerId());
+//							
+//							pClientConnector.sendServerMessage(movePlayerServerMessage);
+//							
+//							WiFiServer.this.mMessagePool.recycleMessage(movePlayerServerMessage);
 						}
 					}
 				});

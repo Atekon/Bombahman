@@ -52,6 +52,10 @@ public class Brick {
 	public void setPowerUp(IPowerUp iPowerUp) {
 		mPowerUp = iPowerUp;
 	}
+
+	public IPowerUp getPowerUp() {
+		return mPowerUp;
+	}
 	
 	
 }

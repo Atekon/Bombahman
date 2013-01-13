@@ -100,7 +100,11 @@ public class OnScreenControls {
 					float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()){
 					if(!player.isOverBomb()){
-						player.dropBomb();
+						Log.d("oteste", "max: "+player.getMaxBombs());
+						Log.d("oteste", "current:" + player.getNumberOfBombs());
+						if(player.getNumberOfBombs() < player.getMaxBombs()){
+							player.dropBomb();
+						}
 					}					
 				}
 				return true;

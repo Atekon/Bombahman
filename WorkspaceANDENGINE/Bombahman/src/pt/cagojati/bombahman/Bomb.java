@@ -6,17 +6,16 @@ import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -121,6 +120,8 @@ public class Bomb {
 			@Override
 			public void run() {
 				if(GameActivity.getBombPool().getBomb(Bomb.this.getId())!= null){
+					Log.d("oteste", "decrementei");
+					mPlayer.setNumberOfBombs(mPlayer.getNumberOfBombs()-1);
 					GameActivity.getBombPool().recyclePoolItem(Bomb.this);
 					GameActivity.getPhysicsWorld().destroyBody(mBody);
 					

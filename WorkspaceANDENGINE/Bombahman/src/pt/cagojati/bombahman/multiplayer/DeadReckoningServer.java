@@ -9,7 +9,7 @@ public class DeadReckoningServer {
 	
 	private static float[] lastMessage = {0,0,0,0};
 	private static float elapsedTime=0;
-	private static float compareTime = 0.7f;
+	private static float compareTime = 0.4f;
 	
 	public static void startTimer()
 	{
