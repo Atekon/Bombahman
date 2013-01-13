@@ -79,7 +79,7 @@ public class BombPowerup implements IPowerUp {
 
 	@Override
 	public void apply(Player player) {
-		player.setNumberOfBombs(player.getNumberOfBombs()+1);
+		player.setMaxBombs(player.getMaxBombs()+1);
 	}
 
 	@Override

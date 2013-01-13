@@ -1,4 +1,7 @@
 int drawable ic_launcher 0x7f020000
+int drawable icon 0x7f020001
+int drawable iconeexhdpi 0x7f020002
+int drawable iconehdpi 0x7f020003
 int id CreateWifi 0x7f070001
 int id JoinWiFiButton 0x7f070000
 int id menu_settings 0x7f070002

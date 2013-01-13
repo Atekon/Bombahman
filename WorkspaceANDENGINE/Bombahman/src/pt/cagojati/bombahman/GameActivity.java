@@ -105,6 +105,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		Explosion.loadResources(textureAtlas, this);
 		FirePowerup.loadResources(textureAtlas, this);
 		BombPowerup.loadResources(textureAtlas, this);
+		Brick.loadResources(textureAtlas, this);
 		
 		try {
 			textureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 1));
