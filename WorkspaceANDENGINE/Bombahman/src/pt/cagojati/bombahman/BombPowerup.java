@@ -4,6 +4,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -44,6 +45,8 @@ public class BombPowerup implements IPowerUp {
 	public void show(float posX, float posY) {
 		mX = posX-mBombPowerUpTextureRegion.getWidth()/2;
 		mY = posY-mBombPowerUpTextureRegion.getHeight()/2;
+		TMXTile tile = GameActivity.getMap().getTMXTileAt(posX, posY);
+		tile.setUserData(this);
 		this.mSprite = new Sprite(mX, mY, BombPowerup.mBombPowerUpTextureRegion, GameActivity.getVertexBufferManager());
 		//this.setPosition(posX, posY);
 		

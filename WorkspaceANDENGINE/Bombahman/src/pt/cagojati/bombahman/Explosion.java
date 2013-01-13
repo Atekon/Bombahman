@@ -31,7 +31,7 @@ public class Explosion {
 	private static final float TIMEOUT = 1f;
 
 	public static final short CATEGORYBIT = 16;
-	private final short MASKBITS = Player.CATEGORYBIT;
+	private final short MASKBITS = Player.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef EXPLOSION_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0);//, false, Explosion.CATEGORYBIT, this.MASKBITS, (short)0);
 
 	static ITiledTextureRegion mExplosionTextureRegion;
@@ -124,6 +124,27 @@ public class Explosion {
 									Brick brick = (Brick) tile.getUserData();
 									brick.explode();
 
+									angle+=90;
+									continue directionloop;
+								}
+							}
+							if(tile.getUserData()!= null)
+							{
+								if(tile.getUserData().getClass() == Bomb.class){
+									Bomb bomb = (Bomb) tile.getUserData();
+									bomb.explode();
+									angle+=90;
+									continue directionloop;
+								}else if(tile.getUserData().getClass() == FirePowerup.class){
+									FirePowerup fire = (FirePowerup) tile.getUserData();
+									tile.setUserData(null);
+									fire.destroy();
+									angle+=90;
+									continue directionloop;
+								}else if(tile.getUserData().getClass() == BombPowerup.class){
+									BombPowerup bombPowerUp = (BombPowerup) tile.getUserData();
+									tile.setUserData(null);
+									bombPowerUp.destroy();
 									angle+=90;
 									continue directionloop;
 								}

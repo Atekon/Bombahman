@@ -95,22 +95,6 @@ public class WiFiServer implements IMultiplayerServer {
 						//WiFiServer.this.mSocketServer.sendBroadcastServerMessage(addBombServerMessage);
 
 						WiFiServer.this.mMessagePool.recycleMessage(addBombServerMessage);
-						final String bombId = addBombClientMessage.getBombId();
-						GameActivity.getScene().registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {
-							
-							@Override
-							public void onTimePassed(TimerHandler pTimerHandler) {
-								final ExplodeBombServerMessage explodeBombServerMessage = (ExplodeBombServerMessage) WiFiServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_EXPLODE_BOMB);
-								explodeBombServerMessage.set(bombId);
-								try {
-									WiFiServer.this.mSocketServer.sendBroadcastServerMessage(explodeBombServerMessage);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-								
-								WiFiServer.this.mMessagePool.recycleMessage(explodeBombServerMessage);
-							}
-						}));
 					}
 				});
 				

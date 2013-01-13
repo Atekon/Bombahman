@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="15" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
-  <image source="gfx/map2.png" width="64" height="64"/>
+ <tileset firstgid="1" name="map_tiled" tilewidth="32" tileheight="32">
+  <image source="gfx/map_tiled.png" width="64" height="64"/>
   <tile id="0">
    <properties>
     <property name="wall" value="true"/>
    </properties>
   </tile>
-  <tile id="1">
+  <tile id="2">
    <properties>
     <property name="brick" value="true"/>
    </properties>
@@ -15,7 +15,7 @@
  </tileset>
  <layer name="Camada de Tiles 1" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJy9VEEKACAI0+r/b+7iIUZqqXUYCtqaNGMi4g8Ygl6IJljvYKkx5JnYgE+DV/ew0xzhxX7kOuWLatDmOOFCfVbu8UR6I+9hnX+lrcJXN76p9FV2DtzzbNzt+Y//6jUmCPIDag==
+   eJzNVEEKACAI0/r/n7sUiMwVZdFhEIlu01JFRB+gdNREjJqWI7O+5RkcPobuWAz1xsd8bnRmHEzTzxwoF/Ur2webFfObzTF7M6fzOAHyyrRHu2BFM6q5889nGiz8Lrm9r26jAa0DA0I=
   </data>
  </layer>
 </map>

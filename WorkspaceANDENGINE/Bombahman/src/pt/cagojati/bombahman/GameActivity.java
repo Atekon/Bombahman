@@ -243,12 +243,18 @@ public class GameActivity extends SimpleBaseGameActivity {
 //						}
 //						msgPool.recycleMessage(msg);
 //					}
+				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureA().getBody().getUserData().getClass()==Bomb.class){
+					Bomb bomb = (Bomb) contact.getFixtureA().getBody().getUserData();
+					bomb.explode();
+				}else if(contact.getFixtureA().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureB().getBody().getUserData().getClass()==Bomb.class){
+					Bomb bomb = (Bomb) contact.getFixtureB().getBody().getUserData();
+					bomb.explode();
 				}
 			}
 		});
 	}
 	
-	public IMultiplayerServer getServer()
+	public static IMultiplayerServer getServer()
 	{
 		IMultiplayerServer server = null;
 		if(MainActivity.isWifi)
@@ -391,7 +397,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		//first player should be server right?
 		if(GameActivity.mCurrentPlayer==0)
 		{
-			Clock clock = new Clock(10, this);
+			Clock clock = new Clock(100, this);
 			clock.startTimer();
 		}
 		

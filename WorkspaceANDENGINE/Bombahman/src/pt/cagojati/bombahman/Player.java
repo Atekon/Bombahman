@@ -223,6 +223,7 @@ public class Player {
 //			bomb.definePosition(posX,posY);
 			this.numberOfBombs++;
 			Bomb bomb = dropBomb(posX, posY);
+			tmxTile.setUserData(bomb);
 			AddBombClientMessage message = new AddBombClientMessage(posX, posY, this.mId, bomb.getId());
 			GameActivity.getConnector().sendClientMessage(message);
 		}

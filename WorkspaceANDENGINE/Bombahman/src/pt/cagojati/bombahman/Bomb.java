@@ -1,5 +1,6 @@
 package pt.cagojati.bombahman;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
@@ -9,10 +10,16 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
+import pt.cagojati.bombahman.multiplayer.WiFiServer;
+import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 
 import android.content.Context;
 import android.util.Log;
@@ -34,7 +41,7 @@ public class Bomb {
 	
 	private static final short TIMEOUT = 3;
 	public static final short CATEGORYBIT = 8;
-	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
+	private final short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Explosion.CATEGORYBIT + Bomb.CATEGORYBIT;
 	private final FixtureDef BOMB_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0, 0, false, Bomb.CATEGORYBIT, this.MASKBITS, (short)0);
 	private TimerHandler mTimerHandler;
 	
@@ -81,6 +88,16 @@ public class Bomb {
 	public void setId(String mId) {
 		this.mId = mId;
 	}
+	
+	public float getX()
+	{
+		return this.mBody.getTransform().getPosition().x*32f;
+	}
+	
+	public float getY()
+	{
+		return this.mBody.getTransform().getPosition().y*32f;
+	}
 
 	public void definePosition(final int pX, final int pY) {
 		GameActivity.getScene().postRunnable(new Runnable() {
@@ -115,12 +132,28 @@ public class Bomb {
 	}
 	
 	public void explode(){
+		//check if server
+		IMultiplayerServer server = GameActivity.getServer();
+		if(server!=null)
+		{
+			final ExplodeBombServerMessage explodeBombServerMessage = (ExplodeBombServerMessage) server.getMessagePool().obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_EXPLODE_BOMB);
+			explodeBombServerMessage.set(mId);
+			try {
+				server.sendBroadcastServerMessage(explodeBombServerMessage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			server.getMessagePool().recycleMessage(explodeBombServerMessage);
+		}
+		
+		TMXTile tile = GameActivity.getMap().getTMXTileAt(getX(), getY());
+		tile.setUserData(null);
 		GameActivity.getScene().postRunnable(new Runnable() {
 			
 			@Override
 			public void run() {
 				if(GameActivity.getBombPool().getBomb(Bomb.this.getId())!= null){
-					Log.d("oteste", "decrementei");
 					mPlayer.setNumberOfBombs(mPlayer.getNumberOfBombs()-1);
 					GameActivity.getBombPool().recyclePoolItem(Bomb.this);
 					GameActivity.getPhysicsWorld().destroyBody(mBody);
