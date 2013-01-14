@@ -25,18 +25,15 @@
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.GameActivity"
-            android:label="@string/title_activity_game"
             android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.LobbyActivity"
-            android:label="@string/title_activity_lobby"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.multiplayer.BluetoothListDevicesActivity"
-            android:label="@string/title_activity_lobby"
             android:screenOrientation="landscape" >
         </activity>
         <activity
@@ -51,7 +48,6 @@
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.WinnerActivity"
-            android:label="@string/title_activity_winner"
             android:screenOrientation="landscape" >
         </activity>
     </application>
