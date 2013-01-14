@@ -30,26 +30,27 @@ public class JoinedLobbyServerMessage extends ServerMessage {
 	protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
 		this.mIsPlayer = pDataInputStream.readBoolean();
 		this.mNumPlayers = pDataInputStream.readInt();
+		this.mCurrentMap = pDataInputStream.readInt();
+		this.mTime = pDataInputStream.readInt();
+		this.mPowerupsEnable = pDataInputStream.readBoolean();
 		for(int i=0; i<4; i++)
 		{
 			this.getPlayersReady()[i] = pDataInputStream.readBoolean();
 		}
-		this.mCurrentMap = pDataInputStream.readInt();
-		this.mTime = pDataInputStream.readInt();
-		this.mPowerupsEnable = pDataInputStream.readBoolean();
+		
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeBoolean(this.mIsPlayer);
 		pDataOutputStream.writeInt(this.mNumPlayers);
+		pDataOutputStream.writeInt(this.mCurrentMap);
+		pDataOutputStream.writeInt(this.mTime);
+		pDataOutputStream.writeBoolean(this.mPowerupsEnable);
 		for(int i=0; i<4; i++)
 		{
 			pDataOutputStream.writeBoolean(this.getPlayersReady()[i]);
 		}
-		pDataOutputStream.writeInt(this.mCurrentMap);
-		pDataOutputStream.writeInt(this.mTime);
-		pDataOutputStream.writeBoolean(this.mPowerupsEnable);
 	}
 
 	public boolean isPlayer() {

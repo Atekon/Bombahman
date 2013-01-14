@@ -59,7 +59,7 @@ public class GameActivity extends SimpleBaseGameActivity{
 	private static BombPool mBombPool;
 	private static int mCurrentPlayer;
 	private static int mTotalPlayers = 0;
-	private int mTotalTime;
+	private int mTotalTime = 60;
 	private static boolean mHasPowerUps;
 	private String mMapName;
 

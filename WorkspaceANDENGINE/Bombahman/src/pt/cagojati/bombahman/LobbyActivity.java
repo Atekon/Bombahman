@@ -69,8 +69,8 @@ public class LobbyActivity extends Activity {
 	private static String[] mapNames = {"map", "map2", "map3", "map4"};
 	private static int[] maps = {R.drawable.map, R.drawable.map2, R.drawable.map3, R.drawable.map4};
 	private static int currentMap =0;
-	private int currentTime = 0;
-	private boolean currentPowerups = false;
+	private static int currentTime = 0;
+	private static boolean currentPowerups = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class LobbyActivity extends Activity {
 			        	MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 						CurrentTimeServerMessage currentTime_msg = (CurrentTimeServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_TIME);
 						currentTime_msg.setCurrentTime(timeInSeconds);
-						LobbyActivity.this.currentTime = timeInSeconds;
+						LobbyActivity.currentTime = timeInSeconds;
 						try {
 							WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(currentTime_msg);
 						} catch (IOException e) {
@@ -129,7 +129,7 @@ public class LobbyActivity extends Activity {
 		
 		//get screen size
 		Display display = getWindowManager().getDefaultDisplay(); 
-		int screenWidth = display.getWidth();  // deprecated
+		//int screenWidth = display.getWidth();  // deprecated
 		int screenHeight = display.getHeight();
 		
 		//set height of map layout (image + buttons + map name)
@@ -324,7 +324,6 @@ public class LobbyActivity extends Activity {
 						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player4Name);
 						break;	
 				}
-				int color;
 				if(isReady)
 				{
 					txt.setTextColor(Color.GREEN);
@@ -424,16 +423,16 @@ public class LobbyActivity extends Activity {
 	
 	public void setCurrentMap(int currentMap)
 	{
-		this.currentMap = currentMap;
+		LobbyActivity.currentMap = currentMap;
 		runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
 				ImageView mapImage = (ImageView) LobbyActivity.this.findViewById(R.id.MapImg);
-				mapImage.setImageResource(maps[LobbyActivity.this.currentMap]);
+				mapImage.setImageResource(maps[LobbyActivity.currentMap]);
 				//set default map's name
 				TextView mapName = (TextView) LobbyActivity.this.findViewById(R.id.MapName);
-				mapName.setText(mapNames[LobbyActivity.this.currentMap]);
+				mapName.setText(mapNames[LobbyActivity.currentMap]);
 				
 			}
 		});
@@ -533,20 +532,24 @@ public class LobbyActivity extends Activity {
 		super.onDestroy();
 	}
 
-	public boolean isCurrentPowerups() {
+	public static boolean isCurrentPowerups() {
 		return currentPowerups;
 	}
 
-	public void setCurrentPowerups(boolean currentPowerups) {
-		this.currentPowerups = currentPowerups;
+	public static void setCurrentPowerups(boolean currentPowerups) {
+		LobbyActivity.currentPowerups = currentPowerups;
 	}
 
-	public int getCurrentTime() {
+	public static int getCurrentTime() {
 		return currentTime;
 	}
 	
-	public String getCurrentMapName(){
+	public static String getCurrentMapName(){
 		return LobbyActivity.mapNames[currentMap];
+	}
+	
+	public static int getCurrentMap(){
+		return LobbyActivity.currentMap;
 	}
 
 }

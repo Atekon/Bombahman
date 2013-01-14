@@ -20,6 +20,7 @@ import org.andengine.extension.multiplayer.protocol.shared.BluetoothSocketConnec
 import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
+import pt.cagojati.bombahman.LobbyActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedLobbyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
@@ -122,6 +123,9 @@ public class BluetoothLobbyServer implements ILobbyServer {
 				joinedLobbyServerMessage.setIsPlayer(true);
 				joinedLobbyServerMessage.setNumPlayers(mPlayerCount);
 				joinedLobbyServerMessage.setPlayersReady(mPlayersReady);
+				joinedLobbyServerMessage.setTime(LobbyActivity.getCurrentTime());
+				joinedLobbyServerMessage.setCurrentMap(LobbyActivity.getCurrentMap());
+				joinedLobbyServerMessage.setPowerupsEnable(LobbyActivity.isCurrentPowerups());
 				pConnector.sendServerMessage(joinedLobbyServerMessage);
 				
 				BluetoothLobbyServer.this.mMessagePool.recycleMessage(joinedLobbyServerMessage);

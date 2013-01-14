@@ -23,6 +23,7 @@ import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 
 import pt.cagojati.bombahman.GameActivity;
+import pt.cagojati.bombahman.LobbyActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
@@ -121,6 +122,9 @@ public class WiFiLobbyServer implements ILobbyServer {
 				joinedLobbyServerMessage.setIsPlayer(true);
 				joinedLobbyServerMessage.setNumPlayers(mPlayerCount);
 				joinedLobbyServerMessage.setPlayersReady(mPlayersReady);
+				joinedLobbyServerMessage.setTime(LobbyActivity.getCurrentTime());
+				joinedLobbyServerMessage.setCurrentMap(LobbyActivity.getCurrentMap());
+				joinedLobbyServerMessage.setPowerupsEnable(LobbyActivity.isCurrentPowerups());
 				pConnector.sendServerMessage(joinedLobbyServerMessage);
 				
 				WiFiLobbyServer.this.mMessagePool.recycleMessage(joinedLobbyServerMessage);
