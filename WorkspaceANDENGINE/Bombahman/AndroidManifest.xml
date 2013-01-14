@@ -22,11 +22,6 @@
             android:name="pt.cagojati.bombahman.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="pt.cagojati.bombahman.GameActivity"
@@ -36,8 +31,28 @@
         <activity
             android:name="pt.cagojati.bombahman.LobbyActivity"
             android:label="@string/title_activity_lobby"
-            android:launchMode="singleInstance" 
-            android:screenOrientation="landscape">
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="pt.cagojati.bombahman.multiplayer.BluetoothListDevicesActivity"
+            android:label="@string/title_activity_lobby"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="pt.cagojati.bombahman.MainMenuActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="pt.cagojati.bombahman.WinnerActivity"
+            android:label="@string/title_activity_winner"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

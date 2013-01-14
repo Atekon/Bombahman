@@ -6,5 +6,12 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_lobby">LobbyActivity</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="Bluetooth">Bluetooth</string>
+    <string name="WifiBtn">Wifi</string>
+    <string name="title_activity_winner">WinnerActivity</string>
+    <string name="victory">YOU WIN!!</string>
+    <string name="defeat">You Lost...</string>
+    <string name="playerWon">Player X won</string>
 
 </resources>

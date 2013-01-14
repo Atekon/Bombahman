@@ -15,4 +15,6 @@ public interface ILobbyConnector {
 	public void initClient();
 	
 	public void terminate();
+	public int getPlayerCount();
+
 }

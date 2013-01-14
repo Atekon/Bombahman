@@ -86,7 +86,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 							mLobbyActivity.setCurrentTime(joinedLobbyServerMessage.getTime());
 							mLobbyActivity.setPowerups(joinedLobbyServerMessage.isPowerupsEnable());
 							
-							mPlayerCount = joinedLobbyServerMessage.getNumPlayers();
+							setPlayerCount(joinedLobbyServerMessage.getNumPlayers());
 						}
 					});
 					
@@ -94,8 +94,8 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						@Override
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage)pServerMessage;
-							mPlayerCount++;
-							mLobbyActivity.addPlayer(mPlayerCount);
+							setPlayerCount(getPlayerCount() + 1);
+							mLobbyActivity.addPlayer(getPlayerCount());
 						}
 					});
 					
@@ -128,7 +128,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final RemovePlayerServerMessage removePlayerServerMessage = (RemovePlayerServerMessage)pServerMessage;
 							mLobbyActivity.removePlayer(removePlayerServerMessage.getPlayerId());
-							mPlayerCount--;
+							setPlayerCount(getPlayerCount() - 1);
 						}
 					});
 					
@@ -144,6 +144,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 				    		bundle.putString("map", mLobbyActivity.getCurrentMapName());
 				            intent.putExtras(bundle);
 							mLobbyActivity.startActivity(intent);
+							mLobbyActivity.finish();
 						}
 					});
 			
@@ -190,5 +191,13 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 		if(this.mServerConnector!=null){
 			this.mServerConnector.terminate();
 		}
+	}
+
+	public int getPlayerCount() {
+		return mPlayerCount;
+	}
+
+	public void setPlayerCount(int mPlayerCount) {
+		this.mPlayerCount = mPlayerCount;
 	}
 }

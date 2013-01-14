@@ -37,6 +37,7 @@ public class Player {
 	private int mMaxBombs = 1;
 	private int numberOfBombs = 0;
 	private int mId;
+	private boolean isAlive = true;
 
 	public static final short CATEGORYBIT = 4;
 	private short MASKBITS = Wall.CATEGORYBIT + Brick.CATEGORYBIT + Player.CATEGORYBIT + Bomb.CATEGORYBIT;
@@ -246,6 +247,7 @@ public class Player {
 	 * must be run inside updatethread
 	 */
 	public void kill() {
+		this.isAlive = false;
 		this.mSpriteDeath.setPosition(this.getPosX()-52, this.getPosY()-80);
 		this.mSprite.detachSelf();
 		this.mSpriteDeath.setVisible(true);
@@ -306,6 +308,14 @@ public class Player {
 
 	public void setMaxBombs(int mMaxBombs) {
 		this.mMaxBombs = mMaxBombs;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 
 

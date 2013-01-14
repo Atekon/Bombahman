@@ -98,13 +98,6 @@ public class WiFiLobbyServer implements ILobbyServer {
 					}
 				});
 				
-//				clientConnector.registerClientMessage(MessageFlags., ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
-//					@Override
-//					public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-//						final JoinedLobbyServerMessage joinedLobbyServerMessage = (JoinedLobbyServerMessage)pServerMessage;
-//						
-//					}
-//				});
 
 				return clientConnector;
 			}

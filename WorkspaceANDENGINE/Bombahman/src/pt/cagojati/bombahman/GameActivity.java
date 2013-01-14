@@ -31,6 +31,7 @@ import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.badlogic.gdx.math.Vector2;
@@ -296,6 +297,27 @@ public class GameActivity extends SimpleBaseGameActivity{
 					GameActivity.this.mEngine.getScene().clearChildScene();
 				}
 				player.kill();
+				int counter =0;
+				int winner =-1;
+				for(int i =0; i<GameActivity.mTotalPlayers;i++)
+				{
+					if(GameActivity.this.mPlayers[i].isAlive())
+					{
+						counter++;
+						winner = i;
+					}
+				}
+				if(counter == 1)
+				{
+					Intent intent = new Intent(GameActivity.this, WinnerActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("winnerId",winner);
+					bundle.putBoolean("isWinner", GameActivity.this.mCurrentPlayer == winner);
+					intent.putExtras(bundle);
+					GameActivity.this.startActivity(intent);
+					GameActivity.this.finish();
+
+				}
 			}
 		});
 	}

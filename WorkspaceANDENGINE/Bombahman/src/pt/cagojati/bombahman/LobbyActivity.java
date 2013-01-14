@@ -10,6 +10,10 @@ import org.andengine.util.debug.Debug;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+import pt.cagojati.bombahman.multiplayer.BluetoothListDevicesActivity;
+import pt.cagojati.bombahman.multiplayer.BluetoothLobbyConnector;
+import pt.cagojati.bombahman.multiplayer.BluetoothLobbyServer;
+import pt.cagojati.bombahman.multiplayer.BluetoothRequestCodes;
 import pt.cagojati.bombahman.multiplayer.ILobbyConnector;
 import pt.cagojati.bombahman.multiplayer.ILobbyServer;
 import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
@@ -31,6 +35,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -57,6 +62,8 @@ public class LobbyActivity extends Activity {
 	private ILobbyConnector mConnector;
 	private static int mPlayerId;
 	private static boolean mIsReady = false;
+	BluetoothAdapter mBluetoothAdapter;
+
 	
 	//Just for INDES
 	private static String[] mapNames = {"map", "map2", "map3", "map4"};
@@ -69,12 +76,6 @@ public class LobbyActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lobby);
-		Bundle bundle = getIntent().getExtras();
-		if(bundle.getBoolean("isWiFi")){
-			mConnector = new WiFiLobbyConnector(bundle.getString("ip"));
-		}
-		mConnector.setActivity(LobbyActivity.this);
-		mConnector.initClient();
 		
 		//set views click listeners and resize them
 		Button btn_setTime = (Button) this.findViewById(R.id.SetTime_Btn);
@@ -112,6 +113,7 @@ public class LobbyActivity extends Activity {
 			        	MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 						CurrentTimeServerMessage currentTime_msg = (CurrentTimeServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_TIME);
 						currentTime_msg.setCurrentTime(timeInSeconds);
+						LobbyActivity.this.currentTime = timeInSeconds;
 						try {
 							WiFiLobbyServer.getSingletonObject().sendBroadcastServerMessage(currentTime_msg);
 						} catch (IOException e) {
@@ -163,43 +165,45 @@ public class LobbyActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(mPlayerId!=0){
-				mIsReady = !mIsReady;
-				MessagePool<IMessage> messagePool = mConnector.getMessagePool();
-				PlayerReadyClientMessage ready_msg = (PlayerReadyClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY);
-				ready_msg.set(mPlayerId, mIsReady);
-				Button ready_btn = (Button) LobbyActivity.this.findViewById(R.id.ReadyBtn);
-				if(mIsReady)
-				{
-					if(mPlayerId!=0)
-						ready_btn.setText("Unready");
-				}
-				else
-				{
-					if(mPlayerId!=0)
-						ready_btn.setText("Ready");
-				}
-				mConnector.sendClientMessage(ready_msg);
+					mIsReady = !mIsReady;
+					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+					PlayerReadyClientMessage ready_msg = (PlayerReadyClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY);
+					ready_msg.set(mPlayerId, mIsReady);
+					Button ready_btn = (Button) LobbyActivity.this.findViewById(R.id.ReadyBtn);
+					if(mIsReady)
+					{
+						if(mPlayerId!=0)
+							ready_btn.setText("Unready");
+					}
+					else
+					{
+						if(mPlayerId!=0)
+							ready_btn.setText("Ready");
+					}
+					mConnector.sendClientMessage(ready_msg);
 				messagePool.recycleMessage(ready_msg);
 				}else{
-					WiFiLobbyServer lserver = WiFiLobbyServer.getSingletonObject();
-					IMultiplayerServer server = WiFiServer.getSingletonObject();
-					server.setHostsAddreses(lserver.getClientList());
-					server.initServer();
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if(LobbyActivity.this.mConnector.getPlayerCount() != 0){
+						WiFiLobbyServer lserver = WiFiLobbyServer.getSingletonObject();
+						IMultiplayerServer server = WiFiServer.getSingletonObject();
+						server.setHostsAddreses(lserver.getClientList());
+						server.initServer();
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+						JoinServerMessage ready_msg = (JoinServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN);
+						try {
+							lserver.sendBroadcastServerMessage(ready_msg);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						messagePool.recycleMessage(ready_msg);
 					}
-					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
-					JoinServerMessage ready_msg = (JoinServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN);
-					try {
-						lserver.sendBroadcastServerMessage(ready_msg);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					messagePool.recycleMessage(ready_msg);
 				}
 			}
 		});
@@ -285,6 +289,17 @@ public class LobbyActivity extends Activity {
 			}
 			
 		});
+		
+		Bundle bundle = getIntent().getExtras();
+		if(bundle.getBoolean("isWiFi")){
+			mConnector = new WiFiLobbyConnector(bundle.getString("ip"));
+			mConnector.setActivity(LobbyActivity.this);
+			mConnector.initClient();
+		}else{
+			mConnector = new BluetoothLobbyConnector(bundle.getString("ip"));
+			mConnector.setActivity(LobbyActivity.this);
+			mConnector.initClient();
+		}
 	}
 	
 	public void setPlayerReady(final int playerId, final boolean isReady)
@@ -498,6 +513,18 @@ public class LobbyActivity extends Activity {
 			}
 			server.terminate();
 		}
+		
+		if(BluetoothLobbyServer.isInitialized()) {
+			BluetoothLobbyServer server = BluetoothLobbyServer.getSingletonObject();
+
+			try {
+				server.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
+			server.terminate();
+		}
+		
 
 		if(LobbyActivity.this.mConnector != null) {
 			LobbyActivity.this.mConnector.terminate();
