@@ -1,10 +1,14 @@
 package pt.cagojati.bombahman;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.opengl.vbo.LowMemoryVertexBufferObject;
+import org.andengine.util.debug.Debug;
+
+import com.badlogic.gdx.physics.box2d.Body;
 
 import pt.cagojati.bombahman.multiplayer.ILobbyConnector;
 import pt.cagojati.bombahman.multiplayer.ILobbyServer;
@@ -14,8 +18,10 @@ import pt.cagojati.bombahman.multiplayer.WiFiLobbyConnector;
 import pt.cagojati.bombahman.multiplayer.WiFiLobbyServer;
 import pt.cagojati.bombahman.multiplayer.WiFiServer;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerClientMessage;
+import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentMapServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentTimeServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
@@ -56,6 +62,8 @@ public class LobbyActivity extends Activity {
 	private static String[] mapNames = {"map", "map2", "map3", "map4"};
 	private static int[] maps = {R.drawable.map, R.drawable.map2, R.drawable.map3, R.drawable.map4};
 	private static int currentMap =0;
+	private int currentTime = 0;
+	private boolean currentPowerups = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +108,7 @@ public class LobbyActivity extends Activity {
 			        	//get time and send it
 			        	int timeInSeconds=0;
 			        	timeInSeconds = time_minutes.mCurrent*60 + time_seconds.mCurrent;
+			        	LobbyActivity.this.setCurrentTime(timeInSeconds);
 			        	MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 						CurrentTimeServerMessage currentTime_msg = (CurrentTimeServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_CURRENT_TIME);
 						currentTime_msg.setCurrentTime(timeInSeconds);
@@ -153,6 +162,7 @@ public class LobbyActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
+				if(mPlayerId!=0){
 				mIsReady = !mIsReady;
 				MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 				PlayerReadyClientMessage ready_msg = (PlayerReadyClientMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_CLIENT_PLAYER_READY);
@@ -170,6 +180,27 @@ public class LobbyActivity extends Activity {
 				}
 				mConnector.sendClientMessage(ready_msg);
 				messagePool.recycleMessage(ready_msg);
+				}else{
+					WiFiLobbyServer lserver = WiFiLobbyServer.getSingletonObject();
+					IMultiplayerServer server = WiFiServer.getSingletonObject();
+					server.setHostsAddreses(lserver.getClientList());
+					server.initServer();
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+					JoinServerMessage ready_msg = (JoinServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN);
+					try {
+						lserver.sendBroadcastServerMessage(ready_msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					messagePool.recycleMessage(ready_msg);
+				}
 			}
 		});
 		
@@ -239,6 +270,7 @@ public class LobbyActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(mPlayerId==0){
+					LobbyActivity.this.setCurrentPowerups(powerups.isChecked());
 					MessagePool<IMessage> messagePool = mConnector.getMessagePool();
 					SetPowerupsServerMessage setPowerups_msg = (SetPowerupsServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_SET_POWERUPS);
 					setPowerups_msg.setPowerups(powerups.isChecked());
@@ -336,7 +368,24 @@ public class LobbyActivity extends Activity {
 					ready_btn.setText("Start");
 				}
 			});
-			
+		}
+		else
+		{
+			runOnUiThread(new Runnable() {
+							
+				@Override
+				public void run() {
+					//disable options
+					Button previousMap_btn = (Button) LobbyActivity.this.findViewById(R.id.PreviousMap_Btn);
+					previousMap_btn.setEnabled(false);
+					Button nextMap_btn = (Button) LobbyActivity.this.findViewById(R.id.NextMap_Btn);
+					nextMap_btn.setEnabled(false);
+					Button setTime_btn = (Button) LobbyActivity.this.findViewById(R.id.SetTime_Btn);
+					setTime_btn.setEnabled(false);
+					CheckBox powerups_check = (CheckBox) LobbyActivity.this.findViewById(R.id.Powerups);
+					powerups_check.setEnabled(false);
+				}
+			});
 		}
 	}
 
@@ -401,7 +450,76 @@ public class LobbyActivity extends Activity {
 				
 			}
 		});
+	}
+
+	public void removePlayer(final int playerId) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ImageView img = null;
+				TextView txt = null;
+				switch(playerId)
+				{
+					case 0:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer1);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player1Name);
+						break;
+					case 1:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer2);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player2Name);
+						break;
+					case 2:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer3);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player3Name);
+						break;
+					case 3:
+						img = (ImageView) LobbyActivity.this.findViewById(R.id.ImgPlayer4);
+						txt = (TextView) LobbyActivity.this.findViewById(R.id.Player4Name);
+						break;	
+				}
+				img.setImageDrawable(getResources().getDrawable(R.drawable.playerunknown));
+				txt.setTextColor(Color.BLACK);
+			}
+		});
 		
+	}
+	
+	@Override
+	protected void onDestroy() {
+
+		if(WiFiLobbyServer.isInitialized()) {
+			WiFiLobbyServer server = WiFiLobbyServer.getSingletonObject();
+
+			try {
+				server.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
+			server.terminate();
+		}
+
+		if(LobbyActivity.this.mConnector != null) {
+			LobbyActivity.this.mConnector.terminate();
+		}
+
+		super.onDestroy();
+	}
+
+	public boolean isCurrentPowerups() {
+		return currentPowerups;
+	}
+
+	public void setCurrentPowerups(boolean currentPowerups) {
+		this.currentPowerups = currentPowerups;
+	}
+
+	public int getCurrentTime() {
+		return currentTime;
+	}
+	
+	public String getCurrentMapName(){
+		return LobbyActivity.mapNames[currentMap];
 	}
 
 }

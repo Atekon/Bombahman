@@ -1,7 +1,9 @@
 package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -33,6 +35,7 @@ import pt.cagojati.bombahman.multiplayer.messages.MovePlayerClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.RemovePlayerServerMessage;
 import android.util.Log;
 
 public class WiFiLobbyServer implements ILobbyServer {
@@ -44,9 +47,11 @@ public class WiFiLobbyServer implements ILobbyServer {
 	private static WiFiLobbyServer instance = null;
 	private int mPlayerCount = 0;
 	private boolean[] mPlayersReady = {false, false, false, false};
+	private ArrayList<InetAddress> clientList;
 
 	private WiFiLobbyServer() {
 		MessageFlags.initMessagePool(mMessagePool);
+		clientList = new ArrayList<InetAddress>();
 	}
 	
 	public static synchronized WiFiLobbyServer getSingletonObject() {
@@ -109,10 +114,10 @@ public class WiFiLobbyServer implements ILobbyServer {
 	
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onStarted(final ClientConnector<SocketConnection> pConnector) {	
+		public void onStarted(final ClientConnector<SocketConnection> pConnector) {
+			clientList.add(pConnector.getConnection().getSocket().getInetAddress());
 			try {
 				AddPlayerServerMessage addPlayerServerMessage = (AddPlayerServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_ADD_PLAYER);
-				addPlayerServerMessage.setIsPlayer(false);
 				WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(addPlayerServerMessage);
 				WiFiLobbyServer.this.mMessagePool.recycleMessage(addPlayerServerMessage);
 			} catch (IOException e) {
@@ -137,6 +142,20 @@ public class WiFiLobbyServer implements ILobbyServer {
 		@Override
 		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
 			mPlayerCount--;
+			int clientExited = clientList.indexOf(pConnector.getConnection().getSocket().getInetAddress());
+
+			try {
+				clientList.remove(pConnector.getConnection().getSocket().getInetAddress());
+				RemovePlayerServerMessage removePlayer_msg = (RemovePlayerServerMessage) WiFiLobbyServer.this.mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_REMOVE_PLAYER);
+				removePlayer_msg.setPlayerId(clientExited);
+				WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(removePlayer_msg);
+				WiFiLobbyServer.this.mMessagePool.recycleMessage(removePlayer_msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		}
 	}
 	
@@ -172,6 +191,16 @@ public class WiFiLobbyServer implements ILobbyServer {
 	@Override
 	public MessagePool<IMessage> getMessagePool() {
 		return this.mMessagePool;
+	}
+	
+	public InetAddress[] getClientList()
+	{
+		InetAddress[] arr = new InetAddress[clientList.size()];
+		for(int i = 0; i<clientList.size();i++)
+		{
+			arr[i] = clientList.get(i);
+		}
+		return arr;
 	}
 	
 }

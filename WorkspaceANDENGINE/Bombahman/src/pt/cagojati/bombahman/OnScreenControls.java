@@ -57,7 +57,7 @@ public class OnScreenControls {
 	
 	public void createAnalogControls(float posX, float posY, Camera camera, final Player player,Scene scene, VertexBufferObjectManager vertexBufferManager)
 	{
-		this.mAnalogOnScreenControl = new AnalogOnScreenControl(posX, posY, camera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, 200, vertexBufferManager, new IAnalogOnScreenControlListener() {
+		this.mAnalogOnScreenControl = new AnalogOnScreenControl(posX+10, posY, camera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, 200, vertexBufferManager, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				player.move(pValueX*3, pValueY*3);

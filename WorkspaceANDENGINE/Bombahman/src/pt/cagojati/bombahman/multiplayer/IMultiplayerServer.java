@@ -1,6 +1,7 @@
 package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
@@ -20,6 +21,7 @@ public interface IMultiplayerServer {
 	public void terminate();
 	
 	public void sendBroadcastServerMessage(IServerMessage msg) throws IOException;
+	public void setHostsAddreses(InetAddress[] hostsAddresses);
 
 	public MessagePool<IMessage> getMessagePool();
 }

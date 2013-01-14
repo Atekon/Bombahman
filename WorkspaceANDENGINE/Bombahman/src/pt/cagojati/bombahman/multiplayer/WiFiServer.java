@@ -75,6 +75,7 @@ public class WiFiServer implements IMultiplayerServer {
 	public void setHostsAddreses(InetAddress[] hostsAddresses)
 	{
 		this.hostsAdresses = hostsAddresses;
+		setMaxPlayers(hostsAddresses.length);
 		clientHasJoined = new boolean[hostsAddresses.length];
 		for(int i =0; i< hostsAddresses.length;i++)
 		{
@@ -163,7 +164,8 @@ public class WiFiServer implements IMultiplayerServer {
 			int pos = -1;
 			for(int i =0; i<mMaxPlayers;i++)
 			{
-				if(address == hostsAdresses[i])
+				InetAddress hostAddress = hostsAdresses[i];
+				if(address.toString().equals(hostAddress.toString()))
 				{
 					pos = i;
 					clientHasJoined[pos] = true;

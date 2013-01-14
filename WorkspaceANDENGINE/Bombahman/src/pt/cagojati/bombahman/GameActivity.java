@@ -391,6 +391,7 @@ public class GameActivity extends SimpleBaseGameActivity{
 	}
 
 	public void setCurrentPlayerServerMessage(int playerId) {
+		addPlayer(playerId);
 		GameActivity.mCurrentPlayer = playerId;
 		this.mControls.createAnalogControls(0, CAMERA_HEIGHT - this.mControls.getJoystickHeight()*1.5f, this.mEngine.getCamera(), GameActivity.mPlayers[mCurrentPlayer], GameActivity.mScene, GameActivity.mVertexBufferObjectManager);
 		DeadReckoningClient.setPlayer(GameActivity.getPlayer(GameActivity.mCurrentPlayer));

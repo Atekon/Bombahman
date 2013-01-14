@@ -1,5 +1,7 @@
 package pt.cagojati.bombahman.multiplayer;
 
+import java.net.InetAddress;
+
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.andengine.extension.multiplayer.protocol.server.Server;
@@ -35,6 +37,12 @@ public class BluetoothServer implements IMultiplayerServer {
 	public MessagePool<IMessage> getMessagePool() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setHostsAddreses(InetAddress[] hostsAddresses) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -14,23 +14,21 @@ import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.util.debug.Debug;
 
-import pt.cagojati.bombahman.Bomb;
 import pt.cagojati.bombahman.GameActivity;
 import pt.cagojati.bombahman.LobbyActivity;
-import pt.cagojati.bombahman.Player;
-import pt.cagojati.bombahman.multiplayer.messages.AddBombServerMessage;
+import pt.cagojati.bombahman.MainActivity;
 import pt.cagojati.bombahman.multiplayer.messages.AddPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.ConnectionCloseServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentMapServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.CurrentTimeServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.ExplodeBombServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.JoinServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.JoinedLobbyServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
-import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
-import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.RemovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.SetPowerupsServerMessage;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 public class WiFiLobbyConnector implements ILobbyConnector  {
@@ -122,6 +120,30 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 							final SetPowerupsServerMessage powerupsServerMessage = (SetPowerupsServerMessage)pServerMessage;
 							mLobbyActivity.setPowerups(powerupsServerMessage.hasPowerups());
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_REMOVE_PLAYER, RemovePlayerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							final RemovePlayerServerMessage removePlayerServerMessage = (RemovePlayerServerMessage)pServerMessage;
+							mLobbyActivity.removePlayer(removePlayerServerMessage.getPlayerId());
+							mPlayerCount--;
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN, JoinServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						@Override
+						public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+							Intent intent = new Intent(mLobbyActivity, GameActivity.class);
+							Bundle bundle = new Bundle();
+				            bundle.putBoolean("isWiFi", true);
+				            bundle.putString("ip", mServerIP);
+				            bundle.putInt("time", mLobbyActivity.getCurrentTime());
+				    		bundle.putBoolean("powerupsEnabled", mLobbyActivity.isCurrentPowerups());
+				    		bundle.putString("map", mLobbyActivity.getCurrentMapName());
+				            intent.putExtras(bundle);
+							mLobbyActivity.startActivity(intent);
 						}
 					});
 			
