@@ -34,6 +34,7 @@ import pt.cagojati.bombahman.multiplayer.messages.JoinedServerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.KillPlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.StartReadyTimerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.StartSuddenDeathServerMessage;
 import android.util.Log;
 
@@ -163,6 +164,15 @@ public class WiFiConnector implements IMultiplayerConnector  {
 					//removeLoading
 				}
 			});
+			
+			
+			this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_READY_TIMER, StartReadyTimerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				
+				@Override
+				public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+					new Clock(mGameActivity).startCountdown();
+				}
+			});
 	
 			this.mServerConnector.getConnection().start();
 		}catch (final Throwable t) {
@@ -180,7 +190,7 @@ public class WiFiConnector implements IMultiplayerConnector  {
 		@Override
 		public void onTerminated(final ServerConnector<SocketConnection> pConnector) {
 //			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
-//			MultiplayerExample.this.finish();
+			mGameActivity.finish();
 		}
 	}
 

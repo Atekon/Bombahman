@@ -2,6 +2,8 @@ package pt.cagojati.bombahman.multiplayer;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
@@ -27,9 +29,12 @@ import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.RemovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.SetPowerupsServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.StartReadyTimerServerMessage;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 public class WiFiLobbyConnector implements ILobbyConnector  {
 	private static final int SERVER_PORT = 4444;
@@ -139,12 +144,20 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 							Bundle bundle = new Bundle();
 				            bundle.putBoolean("isWiFi", true);
 				            bundle.putString("ip", mServerIP);
-				            bundle.putInt("time", mLobbyActivity.getCurrentTime());
-				    		bundle.putBoolean("powerupsEnabled", mLobbyActivity.isCurrentPowerups());
-				    		bundle.putString("map", mLobbyActivity.getCurrentMapName());
+				            bundle.putInt("time", LobbyActivity.getCurrentTime());
+				    		bundle.putBoolean("powerupsEnabled", LobbyActivity.isCurrentPowerups());
+				    		bundle.putString("map", LobbyActivity.getCurrentMapName());
 				            intent.putExtras(bundle);
 							mLobbyActivity.startActivity(intent);
 							mLobbyActivity.finish();
+						}
+					});
+					
+					WiFiLobbyConnector.this.mServerConnector.registerServerMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_READY_TIMER, StartReadyTimerServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+						
+						@Override
+						public void onHandleMessage(ServerConnector<SocketConnection> pServerConnector,IServerMessage pServerMessage) throws IOException {
+							mLobbyActivity.startTimer();
 						}
 					});
 			
@@ -168,7 +181,7 @@ public class WiFiLobbyConnector implements ILobbyConnector  {
 		@Override
 		public void onTerminated(final ServerConnector<SocketConnection> pConnector) {
 //			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
-//			MultiplayerExample.this.finish();
+			mLobbyActivity.finish();
 		}
 	}
 

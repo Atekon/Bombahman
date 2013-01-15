@@ -6,6 +6,7 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 public class MessageFlags {
 	
 	public static final short FLAG_MESSAGE_SERVER_CONNECTION_CLOSE = Short.MIN_VALUE;
+	public static final short FLAG_MESSAGE_SERVER_START_READY_TIMER = -7;
 	public static final short FLAG_MESSAGE_SERVER_REMOVE_PLAYER = -6;
 	public static final short FLAG_MESSAGE_SERVER_SET_POWERUPS = -5;
 	public static final short FLAG_MESSAGE_SERVER_CURRENT_TIME = -4;
@@ -30,6 +31,7 @@ public class MessageFlags {
 
 			
 	public static void initMessagePool(MessagePool<IMessage> messagePool) {
+		messagePool.registerMessage(FLAG_MESSAGE_SERVER_START_READY_TIMER, StartReadyTimerServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_SET_POWERUPS, SetPowerupsServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_CURRENT_TIME, CurrentTimeServerMessage.class);
 		messagePool.registerMessage(FLAG_MESSAGE_SERVER_CURRENT_MAP, CurrentMapServerMessage.class);

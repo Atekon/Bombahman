@@ -37,6 +37,7 @@ import pt.cagojati.bombahman.multiplayer.messages.MovePlayerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyClientMessage;
 import pt.cagojati.bombahman.multiplayer.messages.PlayerReadyServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.RemovePlayerServerMessage;
+import pt.cagojati.bombahman.multiplayer.messages.StartReadyTimerServerMessage;
 import android.util.Log;
 
 public class WiFiLobbyServer implements ILobbyServer {
@@ -96,6 +97,19 @@ public class WiFiLobbyServer implements ILobbyServer {
 						WiFiLobbyServer.this.mSocketServer.sendBroadcastServerMessage(playerReadyServerMessage);
 						
 						WiFiLobbyServer.this.mMessagePool.recycleMessage(playerReadyServerMessage);
+						
+						int count =0;
+						for(int i =0; i<mPlayersReady.length; i++){
+							if(mPlayersReady[i]){
+								count++;
+							}
+						}
+						if(count>=2)
+						{
+							StartReadyTimerServerMessage message = (StartReadyTimerServerMessage) mMessagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_READY_TIMER);
+							mSocketServer.sendBroadcastServerMessage(message);
+							mMessagePool.recycleMessage(message);
+						}
 					}
 				});
 				

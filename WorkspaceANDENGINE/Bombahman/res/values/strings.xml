@@ -13,5 +13,7 @@
     <string name="victory">YOU WIN!!</string>
     <string name="defeat">You Lost...</string>
     <string name="playerWon">Player X won</string>
+    <string name="credits">Game Developed by:\nProgrammers/Designers\n1080628 - Carlos Pinto\n1080667 - Gonçalo Matos\n1080674 - Jacinto Rodrigues\nDesigner\n1080761 - Tiago Ferreira</string>
+    <string name="help">Objective:\nBefore the game begins, everyone is your friend...Once the game begins however, you must KILL the other players;\nUse the joystick to move the player and press the bomb button to drop bombs;\nCatching a Fire Powerup will increase your power;\nCatching a Bomb Powerup will let you drop additional bombs;\nHave fun!</string>
 
 </resources>

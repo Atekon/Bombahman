@@ -10,15 +10,23 @@ import org.andengine.extension.tmx.TMXTileProperty;
 
 import pt.cagojati.bombahman.multiplayer.IMultiplayerServer;
 import pt.cagojati.bombahman.multiplayer.messages.MessageFlags;
+import pt.cagojati.bombahman.multiplayer.messages.StartReadyTimerServerMessage;
 import pt.cagojati.bombahman.multiplayer.messages.StartSuddenDeathServerMessage;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class Clock {
 	
 	private int mTime;
 	private float mDeltaTime = 0.5f;
 	private GameActivity mGameActivity;
+	private int countdown = 5;
+	
+	public Clock(GameActivity mGameActivity)
+	{
+		this.mGameActivity = mGameActivity;
+	}
 	
 	public Clock(int time, GameActivity mGameActivity)
 	{
@@ -36,11 +44,26 @@ public class Clock {
 
 	public void startTimer()
 	{
+		GameActivity.getScene().registerUpdateHandler(new TimerHandler(mTime-10, new ITimerCallback() {
+			
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				IMultiplayerServer server = GameActivity.getServer();
+				StartReadyTimerServerMessage msg = (StartReadyTimerServerMessage) server.getMessagePool().obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_READY_TIMER);
+				try {
+					server.sendBroadcastServerMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				server.getMessagePool().recycleMessage(msg);
+//				dropWalls();
+			}
+		}));
 		GameActivity.getScene().registerUpdateHandler(new TimerHandler(mTime, new ITimerCallback() {
 			
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				IMultiplayerServer server = mGameActivity.getServer();
+				IMultiplayerServer server = GameActivity.getServer();
 				StartSuddenDeathServerMessage msg = (StartSuddenDeathServerMessage) server.getMessagePool().obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_START_SUDDEN_DEATH);
 				try {
 					server.sendBroadcastServerMessage(msg);
@@ -98,6 +121,27 @@ public class Clock {
 						}
 					}
 				}
+			}
+		}));
+	}
+
+	public void startCountdown() {
+		GameActivity.getScene().registerUpdateHandler(new TimerHandler(2, true, new ITimerCallback() {
+			
+			@Override
+			public void onTimePassed(final TimerHandler pTimerHandler) {
+				mGameActivity.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(mGameActivity, ""+countdown, Toast.LENGTH_SHORT).show();
+						countdown--;
+						if(countdown == 0)
+						{
+							pTimerHandler.setAutoReset(false);
+						}
+					}
+				});
 			}
 		}));
 	}

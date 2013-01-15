@@ -245,6 +245,11 @@ public class GameActivity extends SimpleBaseGameActivity{
 //						}
 //						msgPool.recycleMessage(msg);
 //					}
+				}else if(contact.getFixtureB().isSensor() == true && (contact.getFixtureB().getBody().getUserData().getClass() == FirePowerup.class || contact.getFixtureB().getBody().getUserData().getClass() == BombPowerup.class) && contact.getFixtureA().getBody().getUserData().getClass() == Player.class){
+					IPowerUp powerUp = (IPowerUp) contact.getFixtureB().getBody().getUserData();
+					Player player = (Player) contact.getFixtureA().getBody().getUserData();
+					powerUp.destroy();
+					powerUp.apply(player);		
 				}else if(contact.getFixtureB().getBody().getUserData().getClass()==Explosion.class && contact.getFixtureA().getBody().getUserData().getClass()==Bomb.class){
 					Bomb bomb = (Bomb) contact.getFixtureA().getBody().getUserData();
 					bomb.explode();

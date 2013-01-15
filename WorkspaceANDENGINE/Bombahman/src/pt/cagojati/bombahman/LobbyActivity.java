@@ -2,6 +2,8 @@ package pt.cagojati.bombahman;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
@@ -56,6 +58,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LobbyActivity extends Activity {
 
@@ -63,13 +66,14 @@ public class LobbyActivity extends Activity {
 	private static int mPlayerId;
 	private static boolean mIsReady = false;
 	BluetoothAdapter mBluetoothAdapter;
-
+	private int timerSeconds = 5;
+	private boolean flagTimer = false;
 	
 	//Just for INDES
 	private static String[] mapNames = {"map", "map2", "map3", "map4"};
 	private static int[] maps = {R.drawable.map, R.drawable.map2, R.drawable.map3, R.drawable.map4};
 	private static int currentMap =0;
-	private static int currentTime = 0;
+	private static int currentTime = 60;
 	private static boolean currentPowerups = false;
 	
 	@Override
@@ -83,13 +87,17 @@ public class LobbyActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				int minutes = (int) Math.floor(LobbyActivity.currentTime/60);
+				int seconds = LobbyActivity.currentTime-minutes*60;
 				
 				//create horizontal linearLayout with 2 number pickers
 				LinearLayout timeLayout = new LinearLayout(LobbyActivity.this);
 				timeLayout.setOrientation(LinearLayout.HORIZONTAL);
 				timeLayout.setGravity(Gravity.CENTER);
 				final NumberPicker time_minutes = new NumberPicker(LobbyActivity.this);
-				time_minutes.setRange(1, 3);
+				time_minutes.setRange(1, 4);
+				time_minutes.changeCurrent(minutes);
+						
 				//disable keyboard in numberpicker
 				time_minutes.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 				time_minutes.setLayoutParams(new NumberPicker.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
@@ -97,9 +105,11 @@ public class LobbyActivity extends Activity {
 				time_seconds.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 				time_seconds.setLayoutParams(new NumberPicker.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
 				time_seconds.setRange(0, 59);
+				time_seconds.changeCurrent(seconds);
+				
 				timeLayout.addView(time_minutes);
 				timeLayout.addView(time_seconds);
-				
+
 				//create and show layout
 				new AlertDialog.Builder(LobbyActivity.this)
 			    .setTitle("Set Game Time")
@@ -181,29 +191,10 @@ public class LobbyActivity extends Activity {
 							ready_btn.setText("Ready");
 					}
 					mConnector.sendClientMessage(ready_msg);
-				messagePool.recycleMessage(ready_msg);
+					messagePool.recycleMessage(ready_msg);
 				}else{
-					if(LobbyActivity.this.mConnector.getPlayerCount() != 0){
-						WiFiLobbyServer lserver = WiFiLobbyServer.getSingletonObject();
-						IMultiplayerServer server = WiFiServer.getSingletonObject();
-						server.setHostsAddreses(lserver.getClientList());
-						server.initServer();
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						MessagePool<IMessage> messagePool = mConnector.getMessagePool();
-						JoinServerMessage ready_msg = (JoinServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN);
-						try {
-							lserver.sendBroadcastServerMessage(ready_msg);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						messagePool.recycleMessage(ready_msg);
-					}
+					if(flagTimer!= true)
+						startGame();
 				}
 			}
 		});
@@ -299,6 +290,31 @@ public class LobbyActivity extends Activity {
 			mConnector = new BluetoothLobbyConnector(bundle.getString("ip"));
 			mConnector.setActivity(LobbyActivity.this);
 			mConnector.initClient();
+		}
+	}
+	
+	public void startGame()
+	{
+		if(LobbyActivity.this.mConnector.getPlayerCount() != 0){
+			WiFiLobbyServer lserver = WiFiLobbyServer.getSingletonObject();
+			IMultiplayerServer server = WiFiServer.getSingletonObject();
+			server.setHostsAddreses(lserver.getClientList());
+			server.initServer();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			MessagePool<IMessage> messagePool = mConnector.getMessagePool();
+			JoinServerMessage ready_msg = (JoinServerMessage) messagePool.obtainMessage(MessageFlags.FLAG_MESSAGE_SERVER_JOIN);
+			try {
+				lserver.sendBroadcastServerMessage(ready_msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			messagePool.recycleMessage(ready_msg);
 		}
 	}
 	
@@ -551,5 +567,46 @@ public class LobbyActivity extends Activity {
 	public static int getCurrentMap(){
 		return LobbyActivity.currentMap;
 	}
+	
+	public static int getPlayerId()
+	{
+		return mPlayerId;
+	}
 
+	public void startTimer()
+	{
+		flagTimer = true;
+		if(LobbyActivity.getPlayerId()==0)
+		{
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				
+				@Override
+				public void run() {
+					LobbyActivity.this.startGame();
+				}
+			}, timerSeconds*2*1000);
+		}
+		final Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				LobbyActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {	
+						Toast toast = Toast.makeText(LobbyActivity.this,"" + timerSeconds , Toast.LENGTH_SHORT);
+						toast.show();
+						timerSeconds--;
+						if(timerSeconds <= 0)
+						{
+							timer.cancel();
+							toast.cancel();
+						}
+					}
+				});
+			}
+		}, 2000, 2000);
+	}
 }
